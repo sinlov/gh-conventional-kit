@@ -7,10 +7,7 @@ import (
 
 func IsPathUnderGitManagement(path string) bool {
 	_, err := git.PlainOpen(path)
-	if err != nil {
-		return false
-	}
-	return true
+	return err == nil
 }
 
 func RepositoryWithPath(path string) (*git.Repository, error) {
