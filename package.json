@@ -1,0 +1,28 @@
+{
+  "name": "gh-conventional-kit",
+  "version": "0.1.2",
+  "description": "template of golang cli tools",
+  "directories": {
+    "doc": "doc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sinlov/gh-conventional-kit.git"
+  },
+  "keywords": [
+    "go",
+    "make",
+    "docker",
+    "action"
+  ],
+  "author": {
+    "name": "sinlov",
+    "email": "sinlovgmppt@gmail.com",
+    "url": "https://github.com/sinlov/gh-conventional-kit"
+  },
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/sinlov/gh-conventional-kit/issues"
+  },
+  "homepage": "https://github.com/sinlov/gh-conventional-kit#readme"
+}
