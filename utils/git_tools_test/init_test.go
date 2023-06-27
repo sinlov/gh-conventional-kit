@@ -1,4 +1,4 @@
-package command
+package git_tools_test
 
 import (
 	"bytes"
@@ -31,6 +31,8 @@ var (
 	envCiKeys []string
 
 	strData []string
+
+	projectRootPath string
 )
 
 func init() {
@@ -41,6 +43,11 @@ func init() {
 	for i := 0; i < 200; i++ {
 		strData = append(strData, randomStr(300))
 	}
+	currentFolderPath, err := getCurrentFolderPath()
+	if err == nil {
+		projectRootPath = filepath.Dir(filepath.Dir(currentFolderPath))
+	}
+
 }
 
 // test case file tools start

@@ -32,11 +32,11 @@ Please read [Contributor Guide](.github/CONTRIBUTING_DOC/CONTRIBUTING.md) for mo
     - `github.com/sinlov/gh-conventional-kit` to your package name
     - `sinlov` to your owner name
     - `gh-conventional-kit` to your project name
-    - `go 1.18`, `^1.18`, `1.18.10` to new go version for dev
 
 ## evn
 
 - minimum go version: go 1.18
+- change `go 1.18`, `^1.18`, `1.18.10` to new go version
 
 ### libs
 
@@ -44,7 +44,8 @@ Please read [Contributor Guide](.github/CONTRIBUTING_DOC/CONTRIBUTING.md) for mo
 |:------------------------------------|:--------|
 | https://github.com/stretchr/testify | v1.8.4  |
 | https://github.com/urfave/cli/      | v2.23.7 |
-| https://github.com/bar-counter/slog | v1.3.0  |
+| https://github.com/bar-counter/slog | v1.4.0  |
+| https://github.com/go-git/go-git    | v5.7.0  |
 
 # dev
 
@@ -53,22 +54,22 @@ Please read [Contributor Guide](.github/CONTRIBUTING_DOC/CONTRIBUTING.md) for mo
 in go mod project
 
 ```bash
-# warning use privte git host must set
+# warning use privte git_tools host must set
 # global set for once
-# add private git host like github.com to evn GOPRIVATE
+# add private git_tools host like github.com to evn GOPRIVATE
 $ go env -w GOPRIVATE='github.com'
 # use ssh proxy
 # set ssh-key to use ssh as http
-$ git config --global url."git@github.com:".insteadOf "http://github.com/"
+$ git_tools config --global url."git@github.com:".insteadOf "http://github.com/"
 # or use PRIVATE-TOKEN
 # set PRIVATE-TOKEN as gitlab or gitea
-$ git config --global http.extraheader "PRIVATE-TOKEN: {PRIVATE-TOKEN}"
+$ git_tools config --global http.extraheader "PRIVATE-TOKEN: {PRIVATE-TOKEN}"
 # set this rep to download ssh as https use PRIVATE-TOKEN
-$ git config --global url."ssh://github.com/".insteadOf "https://github.com/"
+$ git_tools config --global url."ssh://github.com/".insteadOf "https://github.com/"
 
 # before above global settings
 # test version info
-$ git ls-remote -q http://github.com/sinlov/gh-conventional-kit.git
+$ git_tools ls-remote -q http://github.com/sinlov/gh-conventional-kit.git
 
 # test depends see full version
 $ go list -mod readonly -v -m -versions github.com/sinlov/gh-conventional-kit

@@ -6,7 +6,7 @@ import (
 	_ "embed"
 	"fmt"
 	"github.com/sinlov/gh-conventional-kit/command"
-	"github.com/sinlov/gh-conventional-kit/command/subcommand_new"
+	"github.com/sinlov/gh-conventional-kit/command/subcommand_badge"
 	"github.com/sinlov/gh-conventional-kit/utils/pkgJson"
 	"github.com/sinlov/gh-conventional-kit/utils/urfave_cli"
 	"github.com/urfave/cli/v2"
@@ -42,7 +42,7 @@ func main() {
 	app.After = command.GlobalAfterAction
 
 	var appCommands []*cli.Command
-	appCommands = urfave_cli.UrfaveCliAppendCliCommand(appCommands, subcommand_new.Command())
+	appCommands = urfave_cli.UrfaveCliAppendCliCommand(appCommands, subcommand_badge.Command())
 
 	app.Commands = appCommands
 
