@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/sinlov/gh-conventional-kit/command"
 	"github.com/sinlov/gh-conventional-kit/command/subcommand_badge"
+	"github.com/sinlov/gh-conventional-kit/command/subcommand_markdown"
 	"github.com/sinlov/gh-conventional-kit/utils/pkgJson"
 	"github.com/sinlov/gh-conventional-kit/utils/urfave_cli"
 	"github.com/urfave/cli/v2"
@@ -19,6 +20,7 @@ var packageJson string
 func main() {
 	pkgJson.InitPkgJsonContent(packageJson)
 	app := cli.NewApp()
+	app.EnableBashCompletion = true
 	app.Version = pkgJson.GetPackageJsonVersionGoStyle(false)
 	app.Name = pkgJson.GetPackageJsonName()
 	if pkgJson.GetPackageJsonHomepage() != "" {
@@ -43,6 +45,7 @@ func main() {
 
 	var appCommands []*cli.Command
 	appCommands = urfave_cli.UrfaveCliAppendCliCommand(appCommands, subcommand_badge.Command())
+	appCommands = urfave_cli.UrfaveCliAppendCliCommand(appCommands, subcommand_markdown.Command())
 
 	app.Commands = appCommands
 

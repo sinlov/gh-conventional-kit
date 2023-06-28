@@ -20,6 +20,7 @@ type (
 		Name    string
 		Version string
 		Verbose bool
+		DryRun  bool
 		RootCfg GlobalConfig
 	}
 )
@@ -96,6 +97,7 @@ func withGlobalFlag(c *cli.Context, cliVersion, cliName string) *GlobalCommand {
 		Name:    cliName,
 		Version: cliVersion,
 		Verbose: isVerbose,
+		DryRun:  c.Bool("dry-run"),
 		RootCfg: config,
 	}
 	return &p

@@ -17,6 +17,11 @@ func GlobalFlag() []cli.Flag {
 			Value:   false,
 			EnvVars: []string{constant.EnvKeyCliVerbose},
 		},
+		&cli.BoolFlag{
+			Name:  "dry-run",
+			Usage: "See the commands that running standard-version would run",
+			Value: false,
+		},
 	}
 }
 

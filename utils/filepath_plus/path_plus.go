@@ -67,3 +67,22 @@ func Mkdir(path string) error {
 	}
 	return nil
 }
+
+// ReadFileAsByte
+//
+//	read file as byte array
+func ReadFileAsByte(path string) ([]byte, error) {
+	exists, err := PathExists(path)
+	if err != nil {
+		return nil, err
+	}
+	if !exists {
+		return nil, fmt.Errorf("path not exist %v", path)
+	}
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return nil, fmt.Errorf("path: %s read err: %v", path, err)
+	}
+
+	return data, nil
+}
