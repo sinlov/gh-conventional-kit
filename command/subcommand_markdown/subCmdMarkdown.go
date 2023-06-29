@@ -63,7 +63,7 @@ func (n *MarkdownCommand) Exec() error {
 	if n.BadgeConfig.NpmPackage != "" {
 		fmt.Println("\nnpm badges:")
 		fmt.Println(npm_badges.VersionLatestMarkdown(n.BadgeConfig.NpmPackage))
-		fmt.Println(npm_badges.NodeLtsVersion(n.BadgeConfig.NpmPackage))
+		fmt.Println(npm_badges.NodeLtsVersionMarkdown(n.BadgeConfig.NpmPackage))
 		fmt.Println(npm_badges.LicenseMarkdown(n.BadgeConfig.NpmPackage))
 		fmt.Println(npm_badges.DownloadLatestMonthMarkdown(n.BadgeConfig.NpmPackage))
 		fmt.Println(npm_badges.CollaboratorsMarkdown(n.BadgeConfig.NpmPackage))
