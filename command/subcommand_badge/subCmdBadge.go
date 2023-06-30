@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"github.com/bar-counter/slog"
 	"github.com/sinlov/gh-conventional-kit/command"
-	"github.com/sinlov/gh-conventional-kit/utils/filepath_plus"
+	"github.com/sinlov/gh-conventional-kit/command/common_subcommand"
+	"github.com/sinlov/gh-conventional-kit/constant"
+	"github.com/sinlov/gh-conventional-kit/utils/git_tools"
 	"github.com/sinlov/gh-conventional-kit/utils/urfave_cli"
 	"github.com/urfave/cli/v2"
 	"os"
@@ -16,14 +18,41 @@ var commandEntry *BadgeCommand
 
 type BadgeCommand struct {
 	isDebug     bool
-	TargetFile  string
 	GitRootPath string
+	Remote      string
+
+	NoMarkdown  bool
+	BadgeConfig *constant.BadgeConfig
 }
 
 func (n *BadgeCommand) Exec() error {
+	fistRemoteInfo, err := git_tools.RepositoryFistRemoteInfo(n.GitRootPath, n.Remote)
+	if err != nil {
+		return err
+	}
+	branchByPath, err := git_tools.RepositoryNowBranchByPath(n.GitRootPath)
+	if err != nil {
+		return err
+	}
+	if n.NoMarkdown {
+		err = common_subcommand.PrintBadgeByConfig(
+			n.BadgeConfig,
+			fistRemoteInfo.User,
+			fistRemoteInfo.Repo,
+			branchByPath,
+		)
+		if err != nil {
+			return err
+		}
+		return nil
+	}
 
-	if n.TargetFile == "" {
-		return fmt.Errorf("target file is empty")
+	err = common_subcommand.PrintBadgeByConfigWithMarkdown(
+		n.BadgeConfig,
+		fistRemoteInfo.User, fistRemoteInfo.Repo, branchByPath,
+	)
+	if err != nil {
+		return err
 	}
 	return nil
 }
@@ -31,14 +60,18 @@ func (n *BadgeCommand) Exec() error {
 func flag() []cli.Flag {
 	return []cli.Flag{
 		&cli.StringFlag{
-			Name:  "target",
-			Usage: "set add badge target, defaults is: README.md",
-			Value: "README.md",
-		},
-		&cli.StringFlag{
 			Name:  "gitRootFolder",
 			Usage: "set add badge target git root folder, defaults is git_tools root path, value ''",
 			Value: "",
+		},
+		&cli.BoolFlag{
+			Name:  "no-markdown",
+			Usage: "no add markdown badge",
+		},
+		&cli.StringFlag{
+			Name:  "remote",
+			Usage: "set git remote name, defaults is origin",
+			Value: "origin",
 		},
 	}
 }
@@ -54,18 +87,18 @@ func withEntry(c *cli.Context) (*BadgeCommand, error) {
 		}
 		gitRootFolder = dir
 	}
+	_, err := git_tools.IsPathGitManagementRoot(gitRootFolder)
+	if err != nil {
+		return nil, err
+	}
 
-	targetPath := c.String("target")
-	if !filepath_plus.PathExistsFast(targetPath) {
-		return nil, fmt.Errorf("target file not exists: %s", targetPath)
-	}
-	if filepath_plus.PathIsDir(targetPath) {
-		return nil, fmt.Errorf("target file is dir: %s", targetPath)
-	}
 	return &BadgeCommand{
 		isDebug:     globalEntry.Verbose,
-		TargetFile:  targetPath,
 		GitRootPath: gitRootFolder,
+		Remote:      c.String("remote"),
+
+		NoMarkdown:  c.Bool("no-markdown"),
+		BadgeConfig: constant.BindBadgeConfig(c),
 	}, nil
 }
 
@@ -84,9 +117,9 @@ func Command() []*cli.Command {
 	return []*cli.Command{
 		{
 			Name:   commandName,
-			Usage:  "add badge at github project",
+			Usage:  "add badge at github project, use this command must in git workspace root folder, or set --gitRootFolder",
 			Action: action,
-			Flags:  flag(),
+			Flags:  urfave_cli.UrfaveCliAppendCliFlag(flag(), constant.BadgeFlags()),
 		},
 	}
 }

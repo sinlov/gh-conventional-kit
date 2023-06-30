@@ -1,19 +1,12 @@
 package subcommand_markdown
 
 import (
-	"fmt"
 	"github.com/bar-counter/slog"
 	"github.com/sinlov/gh-conventional-kit/command"
+	"github.com/sinlov/gh-conventional-kit/command/common_subcommand"
 	"github.com/sinlov/gh-conventional-kit/constant"
 	"github.com/sinlov/gh-conventional-kit/utils/urfave_cli"
 	"github.com/urfave/cli/v2"
-
-	"github.com/sinlov-go/badges/codecov_badges"
-	"github.com/sinlov-go/badges/golang_badges"
-	"github.com/sinlov-go/badges/node_badges"
-	"github.com/sinlov-go/badges/npm_badges"
-	"github.com/sinlov-go/badges/rust_badges"
-	"github.com/sinlov-go/badges/shields_badges"
 )
 
 const commandName = "markdown"
@@ -33,70 +26,11 @@ type MarkdownCommand struct {
 
 func (n *MarkdownCommand) Exec() error {
 
-	if n.BadgeConfig.GolangBadges {
-		if n.UserName == "" || n.RepoName == "" {
-			return fmt.Errorf("need set --user and --repo")
-		}
-		fmt.Println("\nGolang badges:")
-		fmt.Println(golang_badges.GithubGoModVersionMarkdown(n.UserName, n.RepoName))
-		fmt.Println(golang_badges.GithubGoDocMarkdown(n.UserName, n.RepoName))
-		fmt.Println(golang_badges.GithubGoReportCardMarkdown(n.UserName, n.RepoName))
+	badgeConfig := n.BadgeConfig
+	err := common_subcommand.PrintBadgeByConfigWithMarkdown(badgeConfig, n.UserName, n.RepoName, n.Branch)
+	if err != nil {
+		return err
 	}
-
-	if n.BadgeConfig.RustBadges {
-		if n.UserName == "" || n.RepoName == "" {
-			return fmt.Errorf("need set --user and --repo")
-		}
-		fmt.Println("\nRust badges:")
-		if n.BadgeConfig.RustVersion != "" {
-			fmt.Println(fmt.Sprintf("[![rust version](%s)](https://github.com/%s/%s)",
-				shields_badges.StaticBadgeOrange("rust", n.BadgeConfig.RustVersion),
-				n.UserName, n.RepoName,
-			))
-		}
-		fmt.Println(rust_badges.DocsRsMarkdown(n.RepoName))
-		fmt.Println(rust_badges.CratesVersionMarkdown(n.RepoName))
-		fmt.Println(rust_badges.CratesDownloadLatestMarkdown(n.RepoName))
-		fmt.Println(rust_badges.CratesLicenseMarkdown(n.RepoName))
-		fmt.Println(rust_badges.DepsRsCrateLatestMarkdown(n.RepoName))
-	}
-
-	if n.BadgeConfig.NodeBadges {
-		fmt.Println("\nnode badges:")
-		fmt.Println(node_badges.GitHubPackageJsonVersionMarkdown(n.UserName, n.RepoName))
-	}
-
-	if n.BadgeConfig.NpmPackage != "" {
-		fmt.Println("\nnpm badges:")
-		fmt.Println(npm_badges.VersionLatestMarkdown(n.BadgeConfig.NpmPackage))
-		fmt.Println(npm_badges.NodeLtsVersionMarkdown(n.BadgeConfig.NpmPackage))
-		fmt.Println(npm_badges.LicenseMarkdown(n.BadgeConfig.NpmPackage))
-		fmt.Println(npm_badges.DownloadLatestMonthMarkdown(n.BadgeConfig.NpmPackage))
-		fmt.Println(npm_badges.CollaboratorsMarkdown(n.BadgeConfig.NpmPackage))
-	}
-
-	if n.BadgeConfig.DockerUser != "" {
-		if n.BadgeConfig.DockerRepo == "" {
-			return fmt.Errorf("need set --docker-repo")
-		}
-		fmt.Println("\nDocker badges:")
-		fmt.Println(shields_badges.DockerHubImageVersionSemverMarkdown(n.BadgeConfig.DockerUser, n.BadgeConfig.DockerRepo))
-		fmt.Println(shields_badges.DockerHubImageSizeMarkdown(n.BadgeConfig.DockerUser, n.BadgeConfig.DockerRepo))
-		fmt.Println(shields_badges.DockerHubImagePullMarkdown(n.BadgeConfig.DockerUser, n.BadgeConfig.DockerRepo))
-	}
-
-	if !n.BadgeConfig.NoCommonBadges {
-		if n.UserName == "" || n.RepoName == "" {
-			return fmt.Errorf("need set --user and --repo")
-		}
-
-		fmt.Println("\nCommon badges:")
-		fmt.Println(shields_badges.GithubLicenseMarkdown(n.UserName, n.RepoName))
-		fmt.Println(codecov_badges.GithubMarkdown(n.UserName, n.RepoName, n.Branch))
-		fmt.Println(shields_badges.GithubLatestSemVerTagMarkdown(n.UserName, n.RepoName))
-		fmt.Println(shields_badges.GithubReleaseMarkdown(n.UserName, n.RepoName))
-	}
-
 	return nil
 }
 

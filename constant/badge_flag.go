@@ -16,9 +16,9 @@ type BadgeConfig struct {
 func BadgeFlags() []cli.Flag {
 	return []cli.Flag{
 		&cli.BoolFlag{
-			Name:  "no-common",
+			Name:  "no-common_subcommand",
 			Value: false,
-			Usage: "no badges common for this repo",
+			Usage: "no badges common_subcommand for this repo",
 		},
 
 		&cli.BoolFlag{
@@ -62,7 +62,7 @@ func BadgeFlags() []cli.Flag {
 
 func BindBadgeConfig(c *cli.Context) *BadgeConfig {
 	return &BadgeConfig{
-		NoCommonBadges: c.Bool("no-common"),
+		NoCommonBadges: c.Bool("no-common_subcommand"),
 		GolangBadges:   c.Bool("golang"),
 		RustBadges:     c.Bool("rust"),
 		NodeBadges:     c.Bool("node"),

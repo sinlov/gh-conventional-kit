@@ -22,6 +22,11 @@ func TestRepositoryFistRemote(t *testing.T) {
 	// do RepositoryFistRemoteInfo
 
 	// verify RepositoryFistRemoteInfo
+	_, err = git_tools.RepositoryFistRemoteInfo(projectRootPath, "")
+	if err == nil {
+		t.Fatal("RepositoryFistRemoteInfo with empty remote should not be nil")
+	}
+	assert.Equal(t, "RepositoryFistRemoteInfo remote is empty", err.Error())
 }
 
 func TestRepositoryConfigPath(t *testing.T) {
@@ -52,4 +57,62 @@ func TestIsPathUnderGitManagement(t *testing.T) {
 
 	topDir := filepath.Dir(projectRootPath)
 	assert.False(t, git_tools.IsPathUnderGitManagement(topDir))
+}
+
+func TestIsPathGitManagementRoot(t *testing.T) {
+	t.Logf("~> mock IsPathGitManagementRoot")
+	// mock IsPathGitManagementRoot
+
+	t.Logf("~> do IsPathGitManagementRoot")
+	// do IsPathGitManagementRoot
+	isRoot, err := git_tools.IsPathGitManagementRoot(projectRootPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	assert.True(t, isRoot)
+
+	dirRoot, err := git_tools.IsPathGitManagementRoot(filepath.Dir(projectRootPath))
+	if err == nil {
+		t.Fatal("should not be nil")
+	}
+	t.Logf("dirRoot IsPathGitManagementRoot err: %v", err)
+	assert.False(t, dirRoot)
+	docRoot, err := git_tools.IsPathGitManagementRoot(filepath.Join(projectRootPath, "doc"))
+	if err == nil {
+		t.Fatal("should not be nil")
+	}
+	t.Logf("docRoot IsPathGitManagementRoot err: %v", err)
+	assert.False(t, docRoot)
+
+	// verify IsPathGitManagementRoot
+}
+
+func TestRepositoryHeadByPath(t *testing.T) {
+	t.Logf("~> mock RepositoryHeadByPath")
+	// mock RepositoryHeadByPath
+	headByPath, err := git_tools.RepositoryHeadByPath(projectRootPath)
+
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Logf("headByPath: %v", headByPath)
+
+	_, err = git_tools.RepositoryHeadByPath(filepath.Dir(projectRootPath))
+	if err == nil {
+		t.Fatal("should not be nil")
+	}
+}
+
+func TestRepositoryNowBranchByPath(t *testing.T) {
+	t.Logf("~> mock RepositoryNowBranchByPath")
+	// mock RepositoryNowBranchByPath
+	branchByPath, err := git_tools.RepositoryNowBranchByPath(projectRootPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Logf("branchByPath: %s", branchByPath)
+	_, err = git_tools.RepositoryNowBranchByPath(filepath.Dir(projectRootPath))
+	if err == nil {
+		t.Fatal("should not be nil")
+	}
 }
