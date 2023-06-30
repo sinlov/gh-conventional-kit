@@ -28,6 +28,13 @@ Please read [Contributor Guide](.github/CONTRIBUTING_DOC/CONTRIBUTING.md) for mo
 
 ## usage
 
+```bash
+# install at $(GO_PATH)/bin
+$ go install github.com/sinlov/gh-conventional-kit@latest
+# install version v1.0.0
+$ go install github.com/sinlov/gh-conventional-kit@v1.0.0
+```
+
 - use this template, replace list below
     - `github.com/sinlov/gh-conventional-kit` to your package name
     - `sinlov` to your owner name
@@ -47,7 +54,7 @@ Please read [Contributor Guide](.github/CONTRIBUTING_DOC/CONTRIBUTING.md) for mo
 | https://github.com/bar-counter/slog | v1.4.0  |
 | https://github.com/go-git/go-git    | v5.7.0  |
 | https://github.com/whilp/git-urls   | v1.0.0  |
-| https://github.com/sinlov-go/badges | v1.1.0  |
+| https://github.com/sinlov-go/badges | v1.3.0  |
 
 # dev
 

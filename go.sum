@@ -58,8 +58,8 @@ github.com/russross/blackfriday/v2 v2.1.0 h1:JIOH55/0cWyOuilr9/qlrm0BSXldqnqwMsf
 github.com/russross/blackfriday/v2 v2.1.0/go.mod h1:+Rmxgy9KzJVeS9/2gXHxylqXiyQDYRxCVz55jmeOWTM=
 github.com/sergi/go-diff v1.1.0 h1:we8PVUC3FE2uYfodKH/nBHMSetSfHDR6scGdBi+erh0=
 github.com/sergi/go-diff v1.1.0/go.mod h1:STckp+ISIX8hZLjrqAeVduY0gWCT9IjLuqbuNXdaHfM=
-github.com/sinlov-go/badges v1.1.0 h1:JiCbhnE6we+7xaUUb955Yyp7i7U/ThRm+ZV6Sp/XrFs=
-github.com/sinlov-go/badges v1.1.0/go.mod h1:9uekcqCz6sEQUOqvzqf4XulzKNVkB/1p9Kmq3YppR7g=
+github.com/sinlov-go/badges v1.3.0 h1:SF/jGJqXT2RT3DbWBc5QO+rbOQssqydLLRnHanqfUaY=
+github.com/sinlov-go/badges v1.3.0/go.mod h1:9uekcqCz6sEQUOqvzqf4XulzKNVkB/1p9Kmq3YppR7g=
 github.com/sirupsen/logrus v1.7.0/go.mod h1:yWOB1SBYBC5VeMP7gHvWumXLIWorT60ONWic61uBYv0=
 github.com/skeema/knownhosts v1.1.1 h1:MTk78x9FPgDFVFkDLTrsnnfCJl7g1C/nnKvePgrIngE=
 github.com/skeema/knownhosts v1.1.1/go.mod h1:g4fPeYpque7P0xefxtGzV81ihjC8sX2IqpAoNkjxbMo=

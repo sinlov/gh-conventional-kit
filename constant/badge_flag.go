@@ -7,6 +7,7 @@ type BadgeConfig struct {
 	GolangBadges   bool
 	RustBadges     bool
 	RustVersion    string
+	NodeBadges     bool
 	NpmPackage     string
 	DockerUser     string
 	DockerRepo     string
@@ -34,6 +35,11 @@ func BadgeFlags() []cli.Flag {
 			Usage: "rust version badges for this repo",
 		},
 
+		&cli.BoolFlag{
+			Name:  "node",
+			Usage: "node badges for this repo, default blank is invalid",
+		},
+
 		&cli.StringFlag{
 			Name:  "npm",
 			Usage: "npm badges for this repo, default blank is invalid",
@@ -59,6 +65,7 @@ func BindBadgeConfig(c *cli.Context) *BadgeConfig {
 		NoCommonBadges: c.Bool("no-common"),
 		GolangBadges:   c.Bool("golang"),
 		RustBadges:     c.Bool("rust"),
+		NodeBadges:     c.Bool("node"),
 		RustVersion:    c.String("rust-version"),
 		NpmPackage:     c.String("npm"),
 		DockerUser:     c.String("docker-user"),

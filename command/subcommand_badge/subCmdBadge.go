@@ -40,14 +40,6 @@ func flag() []cli.Flag {
 			Usage: "set add badge target git root folder, defaults is git_tools root path, value ''",
 			Value: "",
 		},
-		&cli.BoolFlag{
-			Name:  "docker",
-			Usage: "set add badge about docker, defaults is: false",
-		},
-		&cli.BoolFlag{
-			Name:  "golang",
-			Usage: "set add badge target is golang project, defaults is: false",
-		},
 	}
 }
 

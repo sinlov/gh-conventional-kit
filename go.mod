@@ -5,7 +5,7 @@ go 1.18
 require (
 	github.com/bar-counter/slog v1.4.0
 	github.com/go-git/go-git/v5 v5.7.0
-	github.com/sinlov-go/badges v1.1.0
+	github.com/sinlov-go/badges v1.3.0
 	github.com/stretchr/testify v1.8.4
 	github.com/urfave/cli/v2 v2.23.7
 	github.com/whilp/git-urls v1.0.0

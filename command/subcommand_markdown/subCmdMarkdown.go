@@ -10,6 +10,7 @@ import (
 
 	"github.com/sinlov-go/badges/codecov_badges"
 	"github.com/sinlov-go/badges/golang_badges"
+	"github.com/sinlov-go/badges/node_badges"
 	"github.com/sinlov-go/badges/npm_badges"
 	"github.com/sinlov-go/badges/rust_badges"
 	"github.com/sinlov-go/badges/shields_badges"
@@ -58,6 +59,11 @@ func (n *MarkdownCommand) Exec() error {
 		fmt.Println(rust_badges.CratesDownloadLatestMarkdown(n.RepoName))
 		fmt.Println(rust_badges.CratesLicenseMarkdown(n.RepoName))
 		fmt.Println(rust_badges.DepsRsCrateLatestMarkdown(n.RepoName))
+	}
+
+	if n.BadgeConfig.NodeBadges {
+		fmt.Println("\nnode badges:")
+		fmt.Println(node_badges.GitHubPackageJsonVersionMarkdown(n.UserName, n.RepoName))
 	}
 
 	if n.BadgeConfig.NpmPackage != "" {
