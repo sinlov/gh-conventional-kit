@@ -97,7 +97,7 @@ func ReadFileAsByte(path string) ([]byte, error) {
 //	write bytes to file
 //	path most use Abs Path
 //	data []byte
-//	fileMod os.FileMode(0666) or os.FileMode(0644)
+//	fileMod os.FileMode(0766) os.FileMode(0666) os.FileMode(0644)
 //	coverage true will coverage old
 func WriteFileByByte(path string, data []byte, fileMod fs.FileMode, coverage bool) error {
 	if !coverage {

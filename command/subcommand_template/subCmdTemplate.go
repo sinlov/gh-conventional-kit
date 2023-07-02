@@ -46,10 +46,11 @@ func (n *TemplateCommand) Exec() error {
 		return err
 	}
 
-	readmeAppendConventional, err := gh_conventional_kit.TemplateConventionalReadme(template_file.ConventionalReadme{
-		UserName: n.LocalGitRemoteInfo.User,
-		RepoName: n.LocalGitRemoteInfo.Repo,
-	})
+	conventionalConfig := template_file.ConventionalConfig{
+		GitOwnerName: n.LocalGitRemoteInfo.User,
+		GitRepoName:  n.LocalGitRemoteInfo.Repo,
+	}
+	readmeAppendConventional, err := gh_conventional_kit.TemplateConventionalReadme(conventionalConfig)
 	if err != nil {
 		return err
 	}
@@ -60,12 +61,23 @@ func (n *TemplateCommand) Exec() error {
 		color.Grayf("%s\n", readmeAppendHead)
 		return nil
 	}
+	err = gh_conventional_kit.TemplateGitRootWalk(conventionalConfig, n.GitRootPath)
+	if err != nil {
+		return err
+	}
 
+	err = gh_conventional_kit.TemplateGithubDotWalk(conventionalConfig, n.TargetFolder)
+	if err != nil {
+		return err
+	}
+
+	slog.Infof("-> finish at template at: %s", n.TargetFolder)
 	err = filepath_plus.AppendFileHead(n.TargetFile, []byte(readmeAppendHead))
 	if err != nil {
 		return err
 	}
 
+	slog.Infof("-> finish add template at: %s", n.TargetFile)
 	return nil
 }
 

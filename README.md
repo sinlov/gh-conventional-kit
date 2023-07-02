@@ -145,6 +145,10 @@ $ make helpDocker
 ├── Dockerfile.s6                  # local docker build
 ├── Makefile                       # make entry
 ├── README.md
+├── build                          # build output
+├── cmd                            # command line main package
+│         ├── main.go                 # command line entry
+│         └── main_test.go            # integrated test entry
 ├── command                        # command line package
 │         ├── TestMain.go             # common entry in unit test package
 │         ├── flag.go                 # global flag
@@ -159,9 +163,8 @@ $ make helpDocker
 │         └── cmd.md
 ├── go.mod
 ├── go.sum
-├── main.go                        # command line entry
-├── main_test.go                   # integrated test entry
 ├── package.json                   # command line profile information
+├── resource.go                    # embed resource 
 ├── utils                          # toolkit package
 │         ├── env_kit                 # environment variables toolkit
 │         ├── log                     # log toolkit
@@ -169,7 +172,6 @@ $ make helpDocker
 │         └── urfave_cli              # urfave/cli toolkit
 ├── vendor
 └── z-MakefileUtils                # make toolkit
-
 ```
 
 ### log

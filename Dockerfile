@@ -8,7 +8,7 @@ FROM golang:1.18.10-buster as builder
 ARG GO_ENV_PACKAGE_NAME=github.com/sinlov/gh-conventional-kit
 ARG GO_ENV_ROOT_BUILD_BIN_NAME=gh-conventional-kit
 ARG GO_ENV_ROOT_BUILD_BIN_PATH=build/${GO_ENV_ROOT_BUILD_BIN_NAME}
-ARG GO_ENV_ROOT_BUILD_ENTRANCE=main.go
+ARG GO_ENV_ROOT_BUILD_ENTRANCE=cmd/main.go
 
 ARG GO_PATH_SOURCE_DIR=/go/src/
 WORKDIR ${GO_PATH_SOURCE_DIR}
