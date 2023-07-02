@@ -67,6 +67,7 @@ func (n *TemplateCommand) Exec() error {
 			if ok {
 				sb.WriteString("\n")
 				sb.WriteString(languageConventional[l])
+				sb.WriteString("\n")
 			} else {
 				return fmt.Errorf("tempalte not support language: %s", l)
 			}
