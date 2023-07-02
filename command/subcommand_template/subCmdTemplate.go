@@ -42,6 +42,9 @@ func (n *TemplateCommand) Exec() error {
 		n.LocalGitRemoteInfo.Repo,
 		n.LocalGitBranch,
 	)
+	if err != nil {
+		return err
+	}
 
 	readmeAppendConventional, err := gh_conventional_kit.TemplateConventionalReadme(template_file.ConventionalReadme{
 		UserName: n.LocalGitRemoteInfo.User,

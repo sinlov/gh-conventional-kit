@@ -6,7 +6,7 @@ import (
 )
 
 func AppendFileHead(path string, content []byte) error {
-	if content == nil || len(content) == 0 {
+	if len(content) == 0 {
 		return fmt.Errorf("AppendFileHead content is empty")
 	}
 	fileAsByte, err := ReadFileAsByte(path)
@@ -18,7 +18,7 @@ func AppendFileHead(path string, content []byte) error {
 }
 
 func AppendFileTail(path string, content []byte) error {
-	if content == nil || len(content) == 0 {
+	if len(content) == 0 {
 		return fmt.Errorf("AppendFileTail content is empty")
 	}
 	fileAsByte, err := ReadFileAsByte(path)
