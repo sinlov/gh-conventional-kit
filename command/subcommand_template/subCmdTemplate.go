@@ -15,6 +15,7 @@ import (
 	"github.com/urfave/cli/v2"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 const commandName = "template"
@@ -30,6 +31,7 @@ type TemplateCommand struct {
 
 	TargetFile   string
 	TargetFolder string
+	LanguageSet  []string
 	NoVersionRc  bool
 	BadgeConfig  *constant.BadgeConfig
 }
@@ -54,25 +56,52 @@ func (n *TemplateCommand) Exec() error {
 	if err != nil {
 		return err
 	}
-	readmeAppendHead = readmeAppendHead + "\n" + readmeAppendConventional
+	var sb strings.Builder
+	sb.WriteString(readmeAppendHead)
+	sb.WriteString("\n")
+	sb.WriteString(readmeAppendConventional)
+	if len(n.LanguageSet) > 0 {
+		languageConventional := gh_conventional_kit.LanguageConventional()
+		for _, l := range n.LanguageSet {
+			_, ok := languageConventional[l]
+			if ok {
+				sb.WriteString("\n")
+				sb.WriteString(languageConventional[l])
+			} else {
+				return fmt.Errorf("tempalte not support language: %s", l)
+			}
+		}
+	}
+	sb.WriteString("\n\n")
 
 	if command.CmdGlobalEntry().DryRun {
 		color.Greenf("template append head at path: %s \n", n.TargetFile)
-		color.Grayf("%s\n", readmeAppendHead)
+		color.Grayf("%s\n", sb.String())
 		return nil
 	}
+
 	err = gh_conventional_kit.TemplateGitRootWalk(conventionalConfig, n.GitRootPath)
 	if err != nil {
 		return err
 	}
 
-	err = gh_conventional_kit.TemplateGithubDotWalk(conventionalConfig, n.TargetFolder)
-	if err != nil {
-		return err
+	if len(n.LanguageSet) > 0 {
+		conventionalTemplate := gh_conventional_kit.LanguageConventionalTemplate()
+		for _, l := range n.LanguageSet {
+			_, ok := conventionalTemplate[l]
+			if ok {
+				fun := conventionalTemplate[l]
+				err = fun(conventionalConfig, n.TargetFolder)
+				if err != nil {
+					return err
+				}
+				slog.Debugf("-> finish add template at language: %s", l)
+			}
+		}
 	}
 
 	slog.Infof("-> finish at template at: %s", n.TargetFolder)
-	err = filepath_plus.AppendFileHead(n.TargetFile, []byte(readmeAppendHead))
+	err = filepath_plus.AppendFileHead(n.TargetFile, []byte(sb.String()))
 	if err != nil {
 		return err
 	}
@@ -106,6 +135,11 @@ func flag() []cli.Flag {
 		&cli.BoolFlag{
 			Name:  "noVersionRc",
 			Usage: "set no .versionrc, defaults is: false",
+		},
+		&cli.StringSliceFlag{
+			Name:  "language",
+			Usage: "set language, support : en-US,zh-CN",
+			Value: cli.NewStringSlice("en-US"),
 		},
 	}
 }
@@ -150,6 +184,7 @@ func withEntry(c *cli.Context) (*TemplateCommand, error) {
 		TargetFile:   targetFile,
 		TargetFolder: targetFolder,
 		NoVersionRc:  c.Bool("noVersionRc"),
+		LanguageSet:  c.StringSlice("language"),
 		BadgeConfig:  constant.BindBadgeConfig(c),
 	}, nil
 }

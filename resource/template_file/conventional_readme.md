@@ -4,6 +4,3 @@
 [![GitHub contributors](https://img.shields.io/github/contributors/{{ GitOwnerName }}/{{ GitRepoName }})](https://github.com/{{ GitOwnerName }}/{{ GitRepoName }}/graphs/contributors)
 
 We welcome community contributions to this project.
-
-Please read [Contributor Guide](.github/CONTRIBUTING_DOC/CONTRIBUTING.md) for more information on how to get started.
-
