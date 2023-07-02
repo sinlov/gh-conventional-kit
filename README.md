@@ -30,9 +30,9 @@ Please read [Contributor Guide](.github/CONTRIBUTING_DOC/CONTRIBUTING.md) for mo
 
 ```bash
 # install at $(GO_PATH)/bin
-$ go install github.com/sinlov/gh-conventional-kit@latest
+$ go install -v github.com/sinlov/gh-conventional-kit/cmd@latest
 # install version v1.0.0
-$ go install github.com/sinlov/gh-conventional-kit@v1.0.0
+$ go install -v github.com/sinlov/gh-conventional-kit/cmd@v1.0.0
 ```
 
 - use this template, replace list below
@@ -47,14 +47,16 @@ $ go install github.com/sinlov/gh-conventional-kit@v1.0.0
 
 ### libs
 
-| lib                                 | version |
-|:------------------------------------|:--------|
-| https://github.com/stretchr/testify | v1.8.4  |
-| https://github.com/urfave/cli/      | v2.23.7 |
-| https://github.com/bar-counter/slog | v1.4.0  |
-| https://github.com/go-git/go-git    | v5.7.0  |
-| https://github.com/whilp/git-urls   | v1.0.0  |
-| https://github.com/sinlov-go/badges | v1.3.0  |
+| lib                                 | version             |
+|:------------------------------------|:--------------------|
+| https://github.com/stretchr/testify | v1.8.4              |
+| https://github.com/urfave/cli/      | v2.23.7             |
+| https://github.com/gookit/color     | v1.5.3              |
+| https://github.com/bar-counter/slog | v1.4.0              |
+| https://github.com/go-git/go-git    | v5.7.0              |
+| https://github.com/whilp/git-urls   | v1.0.0              |
+| https://github.com/sinlov-go/badges | v1.3.0              |
+| https://github.com/aymerick/raymond | v2.0.2+incompatible |
 
 # dev
 
@@ -63,7 +65,7 @@ $ go install github.com/sinlov/gh-conventional-kit@v1.0.0
 in go mod project
 
 ```bash
-# warning use privte git_tools host must set
+# warning use private git_tools host must set
 # global set for once
 # add private git_tools host like github.com to evn GOPRIVATE
 $ go env -w GOPRIVATE='github.com'

@@ -3,22 +3,21 @@
 package main
 
 import (
-	_ "embed"
 	"fmt"
+	"github.com/gookit/color"
+	"github.com/sinlov/gh-conventional-kit"
 	"github.com/sinlov/gh-conventional-kit/command"
 	"github.com/sinlov/gh-conventional-kit/command/subcommand_badge"
 	"github.com/sinlov/gh-conventional-kit/command/subcommand_markdown"
+	"github.com/sinlov/gh-conventional-kit/command/subcommand_template"
 	"github.com/sinlov/gh-conventional-kit/utils/pkgJson"
 	"github.com/sinlov/gh-conventional-kit/utils/urfave_cli"
 	"github.com/urfave/cli/v2"
 	os "os"
 )
 
-//go:embed package.json
-var packageJson string
-
 func main() {
-	pkgJson.InitPkgJsonContent(packageJson)
+	pkgJson.InitPkgJsonContent(gh_conventional_kit.PackageJson)
 	app := cli.NewApp()
 	app.EnableBashCompletion = true
 	app.Version = pkgJson.GetPackageJsonVersionGoStyle(false)
@@ -46,15 +45,16 @@ func main() {
 	var appCommands []*cli.Command
 	appCommands = urfave_cli.UrfaveCliAppendCliCommand(appCommands, subcommand_badge.Command())
 	appCommands = urfave_cli.UrfaveCliAppendCliCommand(appCommands, subcommand_markdown.Command())
+	appCommands = urfave_cli.UrfaveCliAppendCliCommand(appCommands, subcommand_template.Command())
 
 	app.Commands = appCommands
 
 	args := os.Args
 	if len(args) < 2 {
-		fmt.Printf("please see help as: %s --help\n", app.Name)
+		fmt.Printf("%s %s --help\n", color.Yellow.Render("please see help as:"), app.Name)
 		os.Exit(2)
 	}
 	if err := app.Run(args); nil != err {
-		fmt.Printf("run err: %v\n", err)
+		color.Redf("cli err at %v\n", err)
 	}
 }

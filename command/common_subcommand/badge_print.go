@@ -9,7 +9,100 @@ import (
 	"github.com/sinlov-go/badges/rust_badges"
 	"github.com/sinlov-go/badges/shields_badges"
 	"github.com/sinlov/gh-conventional-kit/constant"
+	"strings"
 )
+
+func BadgeByConfigWithMarkdown(
+	badgeConfig *constant.BadgeConfig,
+	userName, repoName string,
+	branch string,
+) (string, error) {
+	var sb strings.Builder
+	sb.Grow(0)
+
+	if badgeConfig.GolangBadges {
+		if userName == "" || repoName == "" {
+			return sb.String(), fmt.Errorf("need set --user and --repo")
+		}
+		sb.WriteString(golang_badges.GithubGoModVersionMarkdown(userName, repoName))
+		sb.WriteString("\n")
+		sb.WriteString(golang_badges.GithubGoDocMarkdown(userName, repoName))
+		sb.WriteString("\n")
+		sb.WriteString(golang_badges.GithubGoReportCardMarkdown(userName, repoName))
+		sb.WriteString("\n")
+	}
+
+	if badgeConfig.RustBadges {
+		if userName == "" || repoName == "" {
+			return sb.String(), fmt.Errorf("need set --user and --repo")
+		}
+		if badgeConfig.RustVersion != "" {
+			staticBadgeOrange := shields_badges.StaticBadgeOrange("rust", badgeConfig.RustVersion)
+			sb.WriteString(fmt.Sprintf("[![rust version](%s)](https://github.com/%s/%s)\n", staticBadgeOrange, userName, repoName))
+			sb.WriteString("\n")
+		}
+		sb.WriteString(rust_badges.DocsRsMarkdown(repoName))
+		sb.WriteString("\n")
+		sb.WriteString(rust_badges.CratesVersionMarkdown(repoName))
+		sb.WriteString("\n")
+		sb.WriteString(rust_badges.CratesDownloadLatestMarkdown(repoName))
+		sb.WriteString("\n")
+		sb.WriteString(rust_badges.CratesLicenseMarkdown(repoName))
+		sb.WriteString("\n")
+		sb.WriteString(rust_badges.DepsRsCrateLatestMarkdown(repoName))
+		sb.WriteString("\n")
+	}
+
+	if badgeConfig.NodeBadges {
+		if userName == "" || repoName == "" {
+			return sb.String(), fmt.Errorf("need set --user and --repo")
+		}
+		sb.WriteString(node_badges.GitHubPackageJsonVersionMarkdown(userName, repoName))
+		sb.WriteString("\n")
+	}
+	if badgeConfig.NpmPackage != "" {
+		sb.WriteString(npm_badges.VersionLatestMarkdown(badgeConfig.NpmPackage))
+		sb.WriteString("\n")
+		sb.WriteString(npm_badges.NodeLtsVersionMarkdown(badgeConfig.NpmPackage))
+		sb.WriteString("\n")
+		sb.WriteString(npm_badges.LicenseMarkdown(badgeConfig.NpmPackage))
+		sb.WriteString("\n")
+		sb.WriteString(npm_badges.DownloadLatestMonthMarkdown(badgeConfig.NpmPackage))
+		sb.WriteString("\n")
+		sb.WriteString(npm_badges.CollaboratorsMarkdown(badgeConfig.NpmPackage))
+		sb.WriteString("\n")
+	}
+	if badgeConfig.DockerUser != "" {
+		if userName == "" || repoName == "" {
+			return sb.String(), fmt.Errorf("need set --user and --repo")
+		}
+		sb.WriteString(shields_badges.DockerHubImageVersionSemverMarkdown(badgeConfig.DockerUser, badgeConfig.DockerRepo))
+		sb.WriteString("\n")
+		sb.WriteString(shields_badges.DockerHubImageSizeMarkdown(badgeConfig.DockerUser, badgeConfig.DockerRepo))
+		sb.WriteString("\n")
+		sb.WriteString(shields_badges.DockerHubImagePullMarkdown(badgeConfig.DockerUser, badgeConfig.DockerRepo))
+		sb.WriteString("\n")
+	}
+
+	if !badgeConfig.NoCommonBadges {
+		if userName == "" || repoName == "" {
+			return sb.String(), fmt.Errorf("need set --user and --repo")
+		}
+		sb.WriteString(shields_badges.GithubLicenseMarkdown(userName, repoName))
+		sb.WriteString("\n")
+
+		if branch != "" {
+			sb.WriteString(codecov_badges.GithubMarkdown(userName, repoName, branch))
+			sb.WriteString("\n")
+		}
+		sb.WriteString(shields_badges.GithubLatestSemVerTagMarkdown(userName, repoName))
+		sb.WriteString("\n")
+		sb.WriteString(shields_badges.GithubReleaseMarkdown(userName, repoName))
+		sb.WriteString("\n")
+	}
+
+	return sb.String(), nil
+}
 
 func PrintBadgeByConfigWithMarkdown(
 	badgeConfig *constant.BadgeConfig,
@@ -43,6 +136,9 @@ func PrintBadgeByConfigWithMarkdown(
 	}
 
 	if badgeConfig.NodeBadges {
+		if userName == "" || repoName == "" {
+			return fmt.Errorf("need set --user and --repo")
+		}
 		fmt.Println("\nnode badges:")
 		fmt.Println(node_badges.GitHubPackageJsonVersionMarkdown(userName, repoName))
 	}

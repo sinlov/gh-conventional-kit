@@ -24,7 +24,7 @@ func flag() []cli.Flag {
 	return []cli.Flag{
 		&cli.BoolFlag{
 			Name:  "lib",
-			Usage: "Use a library template",
+			Usage: "Use a library template_file",
 			Value: false,
 		},
 		&cli.StringFlag{

@@ -17,29 +17,23 @@ const commandName = "badge"
 var commandEntry *BadgeCommand
 
 type BadgeCommand struct {
-	isDebug     bool
-	GitRootPath string
-	Remote      string
+	isDebug            bool
+	GitRootPath        string
+	Remote             string
+	LocalGitRemoteInfo *git_tools.GitRemoteInfo
+	LocalGitBranch     string
 
 	NoMarkdown  bool
 	BadgeConfig *constant.BadgeConfig
 }
 
 func (n *BadgeCommand) Exec() error {
-	fistRemoteInfo, err := git_tools.RepositoryFistRemoteInfo(n.GitRootPath, n.Remote)
-	if err != nil {
-		return err
-	}
-	branchByPath, err := git_tools.RepositoryNowBranchByPath(n.GitRootPath)
-	if err != nil {
-		return err
-	}
 	if n.NoMarkdown {
-		err = common_subcommand.PrintBadgeByConfig(
+		err := common_subcommand.PrintBadgeByConfig(
 			n.BadgeConfig,
-			fistRemoteInfo.User,
-			fistRemoteInfo.Repo,
-			branchByPath,
+			n.LocalGitRemoteInfo.User,
+			n.LocalGitRemoteInfo.Repo,
+			n.LocalGitBranch,
 		)
 		if err != nil {
 			return err
@@ -47,9 +41,11 @@ func (n *BadgeCommand) Exec() error {
 		return nil
 	}
 
-	err = common_subcommand.PrintBadgeByConfigWithMarkdown(
+	err := common_subcommand.PrintBadgeByConfigWithMarkdown(
 		n.BadgeConfig,
-		fistRemoteInfo.User, fistRemoteInfo.Repo, branchByPath,
+		n.LocalGitRemoteInfo.User,
+		n.LocalGitRemoteInfo.Repo,
+		n.LocalGitBranch,
 	)
 	if err != nil {
 		return err
@@ -79,6 +75,7 @@ func flag() []cli.Flag {
 func withEntry(c *cli.Context) (*BadgeCommand, error) {
 	globalEntry := command.CmdGlobalEntry()
 
+	remote := c.String("remote")
 	gitRootFolder := c.String("gitRootFolder")
 	if gitRootFolder == "" {
 		dir, err := os.Getwd()
@@ -91,11 +88,21 @@ func withEntry(c *cli.Context) (*BadgeCommand, error) {
 	if err != nil {
 		return nil, err
 	}
+	fistRemoteInfo, err := git_tools.RepositoryFistRemoteInfo(gitRootFolder, remote)
+	if err != nil {
+		return nil, err
+	}
+	branchByPath, err := git_tools.RepositoryNowBranchByPath(gitRootFolder)
+	if err != nil {
+		return nil, err
+	}
 
 	return &BadgeCommand{
-		isDebug:     globalEntry.Verbose,
-		GitRootPath: gitRootFolder,
-		Remote:      c.String("remote"),
+		isDebug:            globalEntry.Verbose,
+		GitRootPath:        gitRootFolder,
+		Remote:             remote,
+		LocalGitRemoteInfo: fistRemoteInfo,
+		LocalGitBranch:     branchByPath,
 
 		NoMarkdown:  c.Bool("no-markdown"),
 		BadgeConfig: constant.BindBadgeConfig(c),

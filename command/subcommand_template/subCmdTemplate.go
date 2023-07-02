@@ -3,10 +3,18 @@ package subcommand_template
 import (
 	"fmt"
 	"github.com/bar-counter/slog"
+	"github.com/gookit/color"
+	"github.com/sinlov/gh-conventional-kit"
 	"github.com/sinlov/gh-conventional-kit/command"
+	"github.com/sinlov/gh-conventional-kit/command/common_subcommand"
+	"github.com/sinlov/gh-conventional-kit/constant"
+	"github.com/sinlov/gh-conventional-kit/resource/template_file"
+	"github.com/sinlov/gh-conventional-kit/utils/filepath_plus"
+	"github.com/sinlov/gh-conventional-kit/utils/git_tools"
 	"github.com/sinlov/gh-conventional-kit/utils/urfave_cli"
 	"github.com/urfave/cli/v2"
 	"os"
+	"path/filepath"
 )
 
 const commandName = "template"
@@ -14,11 +22,46 @@ const commandName = "template"
 var commandEntry *TemplateCommand
 
 type TemplateCommand struct {
-	isDebug     bool
-	GitRootPath string
+	isDebug            bool
+	GitRootPath        string
+	Remote             string
+	LocalGitRemoteInfo *git_tools.GitRemoteInfo
+	LocalGitBranch     string
+
+	TargetFile   string
+	TargetFolder string
+	NoVersionRc  bool
+	BadgeConfig  *constant.BadgeConfig
 }
 
 func (n *TemplateCommand) Exec() error {
+
+	readmeAppendHead, err := common_subcommand.BadgeByConfigWithMarkdown(
+		n.BadgeConfig,
+		n.LocalGitRemoteInfo.User,
+		n.LocalGitRemoteInfo.Repo,
+		n.LocalGitBranch,
+	)
+
+	readmeAppendConventional, err := gh_conventional_kit.TemplateConventionalReadme(template_file.ConventionalReadme{
+		UserName: n.LocalGitRemoteInfo.User,
+		RepoName: n.LocalGitRemoteInfo.Repo,
+	})
+	if err != nil {
+		return err
+	}
+	readmeAppendHead = readmeAppendHead + "\n" + readmeAppendConventional
+
+	if command.CmdGlobalEntry().DryRun {
+		color.Greenf("template append head at path: %s \n", n.TargetFile)
+		color.Grayf("%s\n", readmeAppendHead)
+		return nil
+	}
+
+	err = filepath_plus.AppendFileHead(n.TargetFile, []byte(readmeAppendHead))
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
@@ -27,8 +70,27 @@ func flag() []cli.Flag {
 	return []cli.Flag{
 		&cli.StringFlag{
 			Name:  "gitRootFolder",
-			Usage: "set add badge target git root folder, defaults is git_tools root path, value ''",
+			Usage: "set git root folder, defaults is git_tools root path, value ''",
 			Value: "",
+		},
+		&cli.StringFlag{
+			Name:  "remote",
+			Usage: "set git remote name, defaults is: origin",
+			Value: "origin",
+		},
+		&cli.StringFlag{
+			Name:  "targetFile",
+			Usage: "set conventional entrance file defaults is README.md",
+			Value: "README.md",
+		},
+		&cli.StringFlag{
+			Name:  "targetFolder",
+			Usage: "set conventional folder, defaults is: .github",
+			Value: ".github",
+		},
+		&cli.BoolFlag{
+			Name:  "noVersionRc",
+			Usage: "set no .versionrc, defaults is: false",
 		},
 	}
 }
@@ -36,6 +98,7 @@ func flag() []cli.Flag {
 func withEntry(c *cli.Context) (*TemplateCommand, error) {
 	globalEntry := command.CmdGlobalEntry()
 
+	remote := c.String("remote")
 	gitRootFolder := c.String("gitRootFolder")
 	if gitRootFolder == "" {
 		dir, err := os.Getwd()
@@ -44,9 +107,35 @@ func withEntry(c *cli.Context) (*TemplateCommand, error) {
 		}
 		gitRootFolder = dir
 	}
+	_, err := git_tools.IsPathGitManagementRoot(gitRootFolder)
+	if err != nil {
+		return nil, err
+	}
+	fistRemoteInfo, err := git_tools.RepositoryFistRemoteInfo(gitRootFolder, remote)
+	if err != nil {
+		return nil, err
+	}
+	branchByPath, err := git_tools.RepositoryNowBranchByPath(gitRootFolder)
+	if err != nil {
+		return nil, err
+	}
+
+	targetFile := c.String("targetFile")
+	targetFile = filepath.Join(gitRootFolder, targetFile)
+	targetFolder := c.String("targetFolder")
+	targetFolder = filepath.Join(gitRootFolder, targetFolder)
+
 	return &TemplateCommand{
-		isDebug:     globalEntry.Verbose,
-		GitRootPath: gitRootFolder,
+		isDebug:            globalEntry.Verbose,
+		GitRootPath:        gitRootFolder,
+		Remote:             remote,
+		LocalGitRemoteInfo: fistRemoteInfo,
+		LocalGitBranch:     branchByPath,
+
+		TargetFile:   targetFile,
+		TargetFolder: targetFolder,
+		NoVersionRc:  c.Bool("noVersionRc"),
+		BadgeConfig:  constant.BindBadgeConfig(c),
 	}, nil
 }
 
@@ -65,9 +154,9 @@ func Command() []*cli.Command {
 	return []*cli.Command{
 		{
 			Name:   commandName,
-			Usage:  "add conventional template at .github",
+			Usage:  "add conventional template at .github and try add badge at README.md (can change)",
 			Action: action,
-			Flags:  flag(),
+			Flags:  urfave_cli.UrfaveCliAppendCliFlag(flag(), constant.BadgeFlags()),
 		},
 	}
 }
