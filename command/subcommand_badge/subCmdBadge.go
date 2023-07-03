@@ -58,22 +58,38 @@ func (n *BadgeCommand) Exec() error {
 		}
 		return nil
 	}
-	readmeAppendHead, err := common_subcommand.BadgeByConfigWithMarkdown(
-		n.BadgeConfig,
-		n.LocalGitRemoteInfo.User,
-		n.LocalGitRemoteInfo.Repo,
-		n.LocalGitBranch,
-	)
-	if err != nil {
-		return err
+	targetAppendHeadBadge := ""
+	if n.NoMarkdown {
+		targetAppendHead, errBadge := common_subcommand.BadgeByConfig(
+			n.BadgeConfig,
+			n.LocalGitRemoteInfo.User,
+			n.LocalGitRemoteInfo.Repo,
+			n.LocalGitBranch,
+		)
+		if errBadge != nil {
+			return errBadge
+		}
+		targetAppendHeadBadge = targetAppendHead
+	} else {
+		targetAppendHead, errBadge := common_subcommand.BadgeByConfigWithMarkdown(
+			n.BadgeConfig,
+			n.LocalGitRemoteInfo.User,
+			n.LocalGitRemoteInfo.Repo,
+			n.LocalGitBranch,
+		)
+		if errBadge != nil {
+			return errBadge
+		}
+		targetAppendHeadBadge = targetAppendHead
 	}
+
 	var sb strings.Builder
-	sb.WriteString(readmeAppendHead)
+	sb.WriteString(targetAppendHeadBadge)
 	sb.WriteString("\n")
 
 	sb.WriteString("\n")
 
-	err = filepath_plus.AppendFileHead(n.TargetFile, []byte(sb.String()))
+	err := filepath_plus.AppendFileHead(n.TargetFile, []byte(sb.String()))
 	if err != nil {
 		return err
 	}
@@ -86,17 +102,17 @@ func flag() []cli.Flag {
 	return []cli.Flag{
 		&cli.StringFlag{
 			Name:  "gitRootFolder",
-			Usage: "set add badge target git root folder, defaults is git_tools root path, value ''",
+			Usage: "set add target git root folder, defaults is cli run path",
 			Value: "",
-		},
-		&cli.BoolFlag{
-			Name:  "no-markdown",
-			Usage: "no add markdown badge",
 		},
 		&cli.StringFlag{
 			Name:  "remote",
 			Usage: "set git remote name, defaults is origin",
 			Value: "origin",
+		},
+		&cli.BoolFlag{
+			Name:  "no-markdown",
+			Usage: "no add markdown badge",
 		},
 		&cli.StringFlag{
 			Name:  "targetFile",

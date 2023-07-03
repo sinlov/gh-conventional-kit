@@ -32,7 +32,6 @@ type TemplateCommand struct {
 	TargetFile   string
 	TargetFolder string
 	LanguageSet  []string
-	NoVersionRc  bool
 	BadgeConfig  *constant.BadgeConfig
 }
 
@@ -114,7 +113,7 @@ func flag() []cli.Flag {
 	return []cli.Flag{
 		&cli.StringFlag{
 			Name:  "gitRootFolder",
-			Usage: "set git root folder, defaults is git_tools root path, value ''",
+			Usage: "set add target git root folder, defaults is cli run path",
 			Value: "",
 		},
 		&cli.StringFlag{
@@ -131,10 +130,6 @@ func flag() []cli.Flag {
 			Name:  "targetFolder",
 			Usage: "set conventional folder, defaults is: .github",
 			Value: ".github",
-		},
-		&cli.BoolFlag{
-			Name:  "noVersionRc",
-			Usage: "set no .versionrc, defaults is: false",
 		},
 		&cli.StringSliceFlag{
 			Name:  "language",
@@ -183,7 +178,6 @@ func withEntry(c *cli.Context) (*TemplateCommand, error) {
 
 		TargetFile:   targetFile,
 		TargetFolder: targetFolder,
-		NoVersionRc:  c.Bool("noVersionRc"),
 		LanguageSet:  c.StringSlice("language"),
 		BadgeConfig:  constant.BindBadgeConfig(c),
 	}, nil
