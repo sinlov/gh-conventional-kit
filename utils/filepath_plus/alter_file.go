@@ -91,3 +91,26 @@ func CheckOrCreateFileWithString(path string, content string, fileMod fs.FileMod
 	}
 	return WriteFileByByte(path, []byte(content), fileMod, true)
 }
+
+// AlterFileWithStringFast
+//
+//	check or file with content, if file exist, will coverage
+//	crate folder of file with os.FileMode(0766)
+//	@param path string
+//	@param content string
+func AlterFileWithStringFast(path string, content string) error {
+	return AlterFileWithString(path, content, os.FileMode(0766))
+}
+
+// AlterFileWithString
+//
+//	check or file with content, if file exist, will coverage
+//	@param path string
+//	@param content string
+//	@param fileMod os.FileMode(0766) os.FileMode(0666) os.FileMode(0644)
+func AlterFileWithString(path string, content string, fileMod fs.FileMode) error {
+	if content == "" {
+		return fmt.Errorf("CheckOrCreateFileWithString content is empty")
+	}
+	return WriteFileByByte(path, []byte(content), fileMod, true)
+}

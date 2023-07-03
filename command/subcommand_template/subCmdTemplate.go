@@ -29,10 +29,11 @@ type TemplateCommand struct {
 	LocalGitRemoteInfo *git_tools.GitRemoteInfo
 	LocalGitBranch     string
 
-	TargetFile   string
-	TargetFolder string
-	LanguageSet  []string
-	BadgeConfig  *constant.BadgeConfig
+	TargetFile               string
+	TargetFolder             string
+	CoverageTargetFolderFile bool
+	LanguageSet              []string
+	BadgeConfig              *constant.BadgeConfig
 }
 
 func (n *TemplateCommand) Exec() error {
@@ -91,7 +92,7 @@ func (n *TemplateCommand) Exec() error {
 			_, ok := conventionalTemplate[l]
 			if ok {
 				fun := conventionalTemplate[l]
-				err = fun(conventionalConfig, n.TargetFolder)
+				err = fun(conventionalConfig, n.TargetFolder, n.CoverageTargetFolderFile)
 				if err != nil {
 					return err
 				}
@@ -130,6 +131,11 @@ func flag() []cli.Flag {
 			Name:  "targetFolder",
 			Usage: "set conventional folder, defaults is: .github",
 			Value: ".github",
+		},
+		&cli.BoolFlag{
+			Name:  "coverage-folder-file",
+			Usage: "coverage folder file under targetFolder, does not affect files that are not in the template",
+			Value: false,
 		},
 		&cli.StringSliceFlag{
 			Name:  "language",
@@ -176,10 +182,11 @@ func withEntry(c *cli.Context) (*TemplateCommand, error) {
 		LocalGitRemoteInfo: fistRemoteInfo,
 		LocalGitBranch:     branchByPath,
 
-		TargetFile:   targetFile,
-		TargetFolder: targetFolder,
-		LanguageSet:  c.StringSlice("language"),
-		BadgeConfig:  constant.BindBadgeConfig(c),
+		TargetFile:               targetFile,
+		TargetFolder:             targetFolder,
+		CoverageTargetFolderFile: c.Bool("coverage-folder-file"),
+		LanguageSet:              c.StringSlice("language"),
+		BadgeConfig:              constant.BindBadgeConfig(c),
 	}, nil
 }
 

@@ -57,7 +57,7 @@ func LanguageConventional() map[string]string {
 	return languageConventional
 }
 
-type TemplateFunc func(config template_file.ConventionalConfig, dir string) error
+type TemplateFunc func(config template_file.ConventionalConfig, dir string, coverage bool) error
 
 var languageConventionalTemplate map[string]TemplateFunc
 
@@ -97,7 +97,7 @@ var (
 	enUSQuestion string
 )
 
-func templateGithubDotWalkEnUs(config template_file.ConventionalConfig, targetRootDir string) error {
+func templateGithubDotWalkEnUs(config template_file.ConventionalConfig, targetRootDir string, coverage bool) error {
 	walkList := []template_file.ConventionalFile{
 		{
 			Name:         "pull_request_template.md",
@@ -151,11 +151,18 @@ func templateGithubDotWalkEnUs(config template_file.ConventionalConfig, targetRo
 	}
 	for _, cFile := range walkList {
 		tPath := filepath.Join(cFile.FullPaths...)
-		err := filepath_plus.CheckOrCreateFileWithStringFast(tPath, cFile.Content)
-		if err != nil {
-			return err
+		if coverage {
+			err := filepath_plus.AlterFileWithStringFast(tPath, cFile.Content)
+			if err != nil {
+				return err
+			}
+		} else {
+			err := filepath_plus.CheckOrCreateFileWithStringFast(tPath, cFile.Content)
+			if err != nil {
+				return err
+			}
 		}
-		slog.Debugf("TemplateGithubDotWalkEnUs check or create file: %s", tPath)
+		slog.Debugf("TemplateGithubDotWalkEnUs check or create mode [ %v ] file: %s", coverage, tPath)
 	}
 	return nil
 }
@@ -171,7 +178,7 @@ var (
 	zhCNContributing string
 )
 
-func templateGithubDotWalkZhCn(config template_file.ConventionalConfig, targetRootDir string) error {
+func templateGithubDotWalkZhCn(config template_file.ConventionalConfig, targetRootDir string, coverage bool) error {
 	walkList := []template_file.ConventionalFile{
 		{
 			Name:         "CODE_OF_CONDUCT.md",
@@ -190,11 +197,18 @@ func templateGithubDotWalkZhCn(config template_file.ConventionalConfig, targetRo
 	}
 	for _, cFile := range walkList {
 		tPath := filepath.Join(cFile.FullPaths...)
-		err := filepath_plus.CheckOrCreateFileWithStringFast(tPath, cFile.Content)
-		if err != nil {
-			return err
+		if coverage {
+			err := filepath_plus.AlterFileWithStringFast(tPath, cFile.Content)
+			if err != nil {
+				return err
+			}
+		} else {
+			err := filepath_plus.CheckOrCreateFileWithStringFast(tPath, cFile.Content)
+			if err != nil {
+				return err
+			}
 		}
-		slog.Debugf("TemplateGithubDotWalkEnUs check or create file: %s", tPath)
+		slog.Debugf("TemplateGithubDotWalkEnUs check or create mode [ %v ] file: %s", coverage, tPath)
 	}
 	return nil
 }

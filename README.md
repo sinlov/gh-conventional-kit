@@ -43,9 +43,9 @@ Please read [Contributor Guide](.github/CONTRIBUTING_DOC/CONTRIBUTING.md) for mo
 
 ```bash
 # install at $(GO_PATH)/bin
-$ go install -v github.com/sinlov/gh-conventional-kit/cmd@latest
+$ go install -v github.com/sinlov/gh-conventional-kit/cmd/gh-conventional-kit@latest
 # install version v1.0.0
-$ go install -v github.com/sinlov/gh-conventional-kit/cmd@v1.0.0
+$ go install -v github.com/sinlov/gh-conventional-kit/cmd/gh-conventional-kit@v1.0.0
 ```
 
 - please install [git](https://git-scm.com/) before use this cli
@@ -68,6 +68,23 @@ $ gh-conventional-kit --dry-run badge --rust
 $ gh-conventional-kit --dry-run badge --rust --npm
 # docker badges
 $ gh-conventional-kit --dry-run badge --rust --docker-user [user] --docker-repo [repo]
+
+## template tools help
+$ gh-conventional-kit template --help
+# try add template at .github and try add badge at README.md
+$ gh-conventional-kit --dry-run template --language en-US,zh-CN
+# this project is golang
+$ gh-conventional-kit --dry-run template --language en-US,zh-CN --golang
+# this project is rust
+$ gh-conventional-kit --dry-run template --language en-US,zh-CN --rust
+# this project is node
+$ gh-conventional-kit --dry-run template --language en-US,zh-CN --node
+# multiple programming languages
+$ gh-conventional-kit --dry-run template --language en-US,zh-CN --golang --node
+# do template and add badge at README.md
+$ gh-conventional-kit template --language en-US,zh-CN --golang
+# coverage template .github folder files
+$ gh-conventional-kit template --language en-US,zh-CN --golang --coverage-folder-file
 ```
 
 ## evn
