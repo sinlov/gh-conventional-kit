@@ -100,13 +100,12 @@ func (n *TemplateCommand) Exec() error {
 			}
 		}
 	}
-
 	slog.Infof("-> finish at template at: %s", n.TargetFolder)
+
 	err = filepath_plus.AppendFileHead(n.TargetFile, []byte(sb.String()))
 	if err != nil {
 		return err
 	}
-
 	slog.Infof("-> finish add template at: %s", n.TargetFile)
 	return nil
 }

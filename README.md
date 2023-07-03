@@ -10,7 +10,7 @@
 
 ## for what
 
-- this project used to cli with golang
+- this cli generate conventional markdown and add `.github` template to your project
 
 ## Contributing
 
@@ -25,8 +25,19 @@ Please read [Contributor Guide](.github/CONTRIBUTING_DOC/CONTRIBUTING.md) for mo
 
 ## Features
 
+- [x] `badge` add badge at github project
+    - `--common-badges` add common badges for github project
+    - `--golang` add golang badges for github project
+    - `--rust` add rust badges for github project
+    - `--node` add node badges for github project
+    - `-npm` add npm badges for github project
+    - `--docker-user` `--docker-repo` add docker badges for github project
+- [X] `markdown` subcommand generate markdown badge by program language or framework
+- [X] `template` add conventional template at .github and try add badge at README.md
+    -  conventional contributing support `--language`
+        - `en-US`
+        - `zh-CN`
 - [ ] more perfect test case coverage
-- [ ] more perfect benchmark case
 
 ## usage
 
@@ -37,10 +48,27 @@ $ go install -v github.com/sinlov/gh-conventional-kit/cmd@latest
 $ go install -v github.com/sinlov/gh-conventional-kit/cmd@v1.0.0
 ```
 
-- use this template, replace list below
-    - `github.com/sinlov/gh-conventional-kit` to your package name
-    - `sinlov` to your owner name
-    - `gh-conventional-kit` to your project name
+- please install [git](https://git-scm.com/) before use this cli
+
+```bash
+## show commands and global options
+$ gh-conventional-kit --help
+
+## badge tools help
+$ gh-conventional-kit badge --help
+
+# try at your git project root path golang
+$ gh-conventional-kit --dry-run badge --golang
+# append at README.md head
+$ gh-conventional-kit badge --golang
+
+# if use other language like rust
+$ gh-conventional-kit --dry-run badge --rust
+# multiple programming languages
+$ gh-conventional-kit --dry-run badge --rust --npm
+# docker badges
+$ gh-conventional-kit --dry-run badge --rust --docker-user [user] --docker-repo [repo]
+```
 
 ## evn
 

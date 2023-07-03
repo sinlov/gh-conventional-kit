@@ -1,7 +1,7 @@
 {
   "name": "gh-conventional-kit",
   "version": "0.1.2",
-  "description": "template of golang cli tools",
+  "description": "generate conventional markdown and template for github",
   "directories": {
     "doc": "doc"
   },

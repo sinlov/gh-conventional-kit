@@ -26,8 +26,7 @@ type MarkdownCommand struct {
 
 func (n *MarkdownCommand) Exec() error {
 
-	badgeConfig := n.BadgeConfig
-	err := common_subcommand.PrintBadgeByConfigWithMarkdown(badgeConfig, n.UserName, n.RepoName, n.Branch)
+	err := common_subcommand.PrintBadgeByConfigWithMarkdown(n.BadgeConfig, n.UserName, n.RepoName, n.Branch)
 	if err != nil {
 		return err
 	}
@@ -89,7 +88,7 @@ func Command() []*cli.Command {
 	return []*cli.Command{
 		{
 			Name:   commandName,
-			Usage:  "generate markdown text for git project",
+			Usage:  "generate markdown badge by program language or framework for this repo",
 			Action: action,
 			Flags:  urfave_cli.UrfaveCliAppendCliFlag(flag(), constant.BadgeFlags()),
 		},

@@ -2,6 +2,7 @@ package common_subcommand
 
 import (
 	"fmt"
+	"github.com/gookit/color"
 	"github.com/sinlov-go/badges/codecov_badges"
 	"github.com/sinlov-go/badges/golang_badges"
 	"github.com/sinlov-go/badges/node_badges"
@@ -113,7 +114,7 @@ func PrintBadgeByConfigWithMarkdown(
 		if userName == "" || repoName == "" {
 			return fmt.Errorf("need set --user and --repo")
 		}
-		fmt.Println("\nGolang badges:")
+		color.Greenf("\nGolang badges:\n")
 		fmt.Println(golang_badges.GithubGoModVersionMarkdown(userName, repoName))
 		fmt.Println(golang_badges.GithubGoDocMarkdown(userName, repoName))
 		fmt.Println(golang_badges.GithubGoReportCardMarkdown(userName, repoName))
@@ -123,7 +124,7 @@ func PrintBadgeByConfigWithMarkdown(
 		if userName == "" || repoName == "" {
 			return fmt.Errorf("need set --user and --repo")
 		}
-		fmt.Println("\nRust badges:")
+		color.Greenf("\nRust badges:")
 		if badgeConfig.RustVersion != "" {
 			staticBadgeOrange := shields_badges.StaticBadgeOrange("rust", badgeConfig.RustVersion)
 			fmt.Printf("[![rust version](%s)](https://github.com/%s/%s)\n", staticBadgeOrange, userName, repoName)
@@ -139,12 +140,12 @@ func PrintBadgeByConfigWithMarkdown(
 		if userName == "" || repoName == "" {
 			return fmt.Errorf("need set --user and --repo")
 		}
-		fmt.Println("\nnode badges:")
+		color.Greenf("\nnode badges:\n")
 		fmt.Println(node_badges.GitHubPackageJsonVersionMarkdown(userName, repoName))
 	}
 
 	if badgeConfig.NpmPackage != "" {
-		fmt.Println("\nnpm badges:")
+		color.Greenf("\nnpm badges:\n")
 		fmt.Println(npm_badges.VersionLatestMarkdown(badgeConfig.NpmPackage))
 		fmt.Println(npm_badges.NodeLtsVersionMarkdown(badgeConfig.NpmPackage))
 		fmt.Println(npm_badges.LicenseMarkdown(badgeConfig.NpmPackage))
@@ -156,7 +157,7 @@ func PrintBadgeByConfigWithMarkdown(
 		if badgeConfig.DockerRepo == "" {
 			return fmt.Errorf("need set --docker-repo")
 		}
-		fmt.Println("\nDocker badges:")
+		color.Greenf("\nDocker badges:\n")
 		fmt.Println(shields_badges.DockerHubImageVersionSemverMarkdown(badgeConfig.DockerUser, badgeConfig.DockerRepo))
 		fmt.Println(shields_badges.DockerHubImageSizeMarkdown(badgeConfig.DockerUser, badgeConfig.DockerRepo))
 		fmt.Println(shields_badges.DockerHubImagePullMarkdown(badgeConfig.DockerUser, badgeConfig.DockerRepo))
@@ -167,7 +168,7 @@ func PrintBadgeByConfigWithMarkdown(
 			return fmt.Errorf("need set --user and --repo")
 		}
 
-		fmt.Println("\nCommon badges:")
+		color.Greenf("\nCommon badges:\n")
 		fmt.Println(shields_badges.GithubLicenseMarkdown(userName, repoName))
 		if branch != "" {
 			fmt.Println(codecov_badges.GithubMarkdown(userName, repoName, branch))
@@ -187,7 +188,7 @@ func PrintBadgeByConfig(
 		if userName == "" || repoName == "" {
 			return fmt.Errorf("need set --user and --repo")
 		}
-		fmt.Println("\nGolang badges:")
+		color.Greenf("\nGolang badges:\n")
 		fmt.Println(golang_badges.GithubGoModVersion(userName, repoName))
 		fmt.Println(golang_badges.GithubGoDoc(userName, repoName))
 		fmt.Println(golang_badges.GithubGoReportCard(userName, repoName))
@@ -197,7 +198,7 @@ func PrintBadgeByConfig(
 		if userName == "" || repoName == "" {
 			return fmt.Errorf("need set --user and --repo")
 		}
-		fmt.Println("\nRust badges:")
+		color.Greenf("\nRust badges:\n")
 		if badgeConfig.RustVersion != "" {
 			fmt.Println(shields_badges.StaticBadgeOrange("rust", badgeConfig.RustVersion))
 		}
@@ -209,12 +210,12 @@ func PrintBadgeByConfig(
 	}
 
 	if badgeConfig.NodeBadges {
-		fmt.Println("\nnode badges:")
+		color.Greenf("\nnode badges:\n")
 		fmt.Println(node_badges.GitHubPackageJsonVersion(userName, repoName))
 	}
 
 	if badgeConfig.NpmPackage != "" {
-		fmt.Println("\nnpm badges:")
+		color.Greenf("\nnpm badges:\n")
 		fmt.Println(npm_badges.VersionLatest(badgeConfig.NpmPackage))
 		fmt.Println(npm_badges.NodeLtsVersion(badgeConfig.NpmPackage))
 		fmt.Println(npm_badges.License(badgeConfig.NpmPackage))
@@ -226,7 +227,7 @@ func PrintBadgeByConfig(
 		if badgeConfig.DockerRepo == "" {
 			return fmt.Errorf("need set --docker-repo")
 		}
-		fmt.Println("\nDocker badges:")
+		color.Greenf("\nDocker badges:\n")
 		fmt.Println(shields_badges.DockerHubImageVersionSemver(badgeConfig.DockerUser, badgeConfig.DockerRepo))
 		fmt.Println(shields_badges.DockerHubImageSize(badgeConfig.DockerUser, badgeConfig.DockerRepo))
 		fmt.Println(shields_badges.DockerHubImagePull(badgeConfig.DockerUser, badgeConfig.DockerRepo))
@@ -237,7 +238,7 @@ func PrintBadgeByConfig(
 			return fmt.Errorf("need set --user and --repo")
 		}
 
-		fmt.Println("\nCommon badges:")
+		color.Greenf("\nCommon badges:\n")
 		fmt.Println(shields_badges.GithubLicense(userName, repoName))
 		if branch != "" {
 			fmt.Println(codecov_badges.Github(userName, repoName, branch))
