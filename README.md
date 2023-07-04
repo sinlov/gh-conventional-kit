@@ -34,7 +34,7 @@ Please read [Contributor Guide](.github/CONTRIBUTING_DOC/CONTRIBUTING.md) for mo
     - `--docker-user` `--docker-repo` add docker badges for github project
 - [X] `markdown` subcommand generate markdown badge by program language or framework
 - [X] `template` add conventional template at .github and try add badge at README.md
-    -  conventional contributing support `--language`
+    - conventional contributing support `--language`
         - `en-US`
         - `zh-CN`
 - [ ] more perfect test case coverage
@@ -94,16 +94,15 @@ $ gh-conventional-kit template --language en-US,zh-CN --golang --coverage-folder
 
 ### libs
 
-| lib                                 | version             |
-|:------------------------------------|:--------------------|
-| https://github.com/stretchr/testify | v1.8.4              |
-| https://github.com/urfave/cli/      | v2.23.7             |
-| https://github.com/gookit/color     | v1.5.3              |
-| https://github.com/bar-counter/slog | v1.4.0              |
-| https://github.com/go-git/go-git    | v5.7.0              |
-| https://github.com/whilp/git-urls   | v1.0.0              |
-| https://github.com/sinlov-go/badges | v1.3.0              |
-| https://github.com/aymerick/raymond | v2.0.2+incompatible |
+| lib                                       | version             |
+|:------------------------------------------|:--------------------|
+| https://github.com/stretchr/testify       | v1.8.4              |
+| https://github.com/urfave/cli/            | v2.23.7             |
+| https://github.com/gookit/color           | v1.5.3              |
+| https://github.com/bar-counter/slog       | v1.4.0              |
+| https://github.com/sinlov-go/go-git-tools | v1.0.0              |
+| https://github.com/sinlov-go/badges       | v1.3.0              |
+| https://github.com/aymerick/raymond       | v2.0.2+incompatible |
 
 # dev
 

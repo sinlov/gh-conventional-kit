@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"github.com/bar-counter/slog"
 	"github.com/gookit/color"
+	"github.com/sinlov-go/go-git-tools/git_info"
 	"github.com/sinlov/gh-conventional-kit"
 	"github.com/sinlov/gh-conventional-kit/command"
 	"github.com/sinlov/gh-conventional-kit/command/common_subcommand"
 	"github.com/sinlov/gh-conventional-kit/constant"
 	"github.com/sinlov/gh-conventional-kit/resource/template_file"
 	"github.com/sinlov/gh-conventional-kit/utils/filepath_plus"
-	"github.com/sinlov/gh-conventional-kit/utils/git_tools"
 	"github.com/sinlov/gh-conventional-kit/utils/urfave_cli"
 	"github.com/urfave/cli/v2"
 	"os"
@@ -26,7 +26,7 @@ type TemplateCommand struct {
 	isDebug            bool
 	GitRootPath        string
 	Remote             string
-	LocalGitRemoteInfo *git_tools.GitRemoteInfo
+	LocalGitRemoteInfo *git_info.GitRemoteInfo
 	LocalGitBranch     string
 
 	TargetFile               string
@@ -157,15 +157,15 @@ func withEntry(c *cli.Context) (*TemplateCommand, error) {
 		}
 		gitRootFolder = dir
 	}
-	_, err := git_tools.IsPathGitManagementRoot(gitRootFolder)
+	_, err := git_info.IsPathGitManagementRoot(gitRootFolder)
 	if err != nil {
 		return nil, err
 	}
-	fistRemoteInfo, err := git_tools.RepositoryFistRemoteInfo(gitRootFolder, remote)
+	fistRemoteInfo, err := git_info.RepositoryFistRemoteInfo(gitRootFolder, remote)
 	if err != nil {
 		return nil, err
 	}
-	branchByPath, err := git_tools.RepositoryNowBranchByPath(gitRootFolder)
+	branchByPath, err := git_info.RepositoryNowBranchByPath(gitRootFolder)
 	if err != nil {
 		return nil, err
 	}
