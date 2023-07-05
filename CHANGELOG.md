@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/sinlov/gh-conventional-kit/compare/v1.0.0...v1.1.0) (2023-07-05)
+
+
+### ✨ Features
+
+* add docker image for not install go-sdk useage ([145e4d7](https://github.com/sinlov/gh-conventional-kit/commit/145e4d7f44bf9cbaee5570e74d81c6798f8f39ee))
+
 ## 1.0.0 (2023-07-04)
 
 
