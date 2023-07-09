@@ -44,7 +44,7 @@ Please read [Contributor Guide](.github/CONTRIBUTING_DOC/CONTRIBUTING.md) for mo
 ```bash
 # install at $(GO_PATH)/bin
 $ go install -v github.com/sinlov/gh-conventional-kit/cmd/gh-conventional-kit@latest
-# install version v1.0.0
+# install version v1.1.0
 $ go install -v github.com/sinlov/gh-conventional-kit/cmd/gh-conventional-kit@v1.1.0
 
 # usa as docker cli tools
@@ -102,6 +102,7 @@ $ gh-conventional-kit template --language en-US,zh-CN --golang --coverage-folder
 | lib                                       | version             |
 |:------------------------------------------|:--------------------|
 | https://github.com/stretchr/testify       | v1.8.4              |
+| https://github.com/sebdah/goldie          | v2.5.3              |
 | https://github.com/urfave/cli/            | v2.23.7             |
 | https://github.com/gookit/color           | v1.5.3              |
 | https://github.com/bar-counter/slog       | v1.4.0              |

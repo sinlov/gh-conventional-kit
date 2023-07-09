@@ -6,6 +6,7 @@ require (
 	github.com/aymerick/raymond v2.0.2+incompatible
 	github.com/bar-counter/slog v1.4.0
 	github.com/gookit/color v1.5.3
+	github.com/sebdah/goldie/v2 v2.5.3
 	github.com/sinlov-go/badges v1.3.0
 	github.com/sinlov-go/go-git-tools v1.0.0
 	github.com/stretchr/testify v1.8.4

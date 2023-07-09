@@ -5,12 +5,13 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/sinlov/gh-conventional-kit/utils/env_kit"
 	"io/fs"
 	"math/rand"
 	"os"
 	"path/filepath"
 	"runtime"
+	"strconv"
+	"strings"
 	"testing"
 	"time"
 )
@@ -34,10 +35,10 @@ var (
 )
 
 func init() {
-	envDebug = env_kit.FetchOsEnvBool(keyEnvDebug, false)
-	envCiNum = env_kit.FetchOsEnvInt(keyEnvCiNum, 1)
-	envCiKey = env_kit.FetchOsEnvStr(keyEnvCiKey, "")
-	envCiKeys = env_kit.FetchOsEnvArray(keyEnvCiKeys)
+	envDebug = fetchOsEnvBool(keyEnvDebug, false)
+	envCiNum = fetchOsEnvInt(keyEnvCiNum, 1)
+	envCiKey = fetchOsEnvStr(keyEnvCiKey, "")
+	envCiKeys = fetchOsEnvArray(keyEnvCiKeys)
 	for i := 0; i < 200; i++ {
 		strData = append(strData, randomStr(300))
 	}
@@ -48,22 +49,38 @@ func init() {
 // goldenDataSaveFast
 //
 //	save data to golden file
-//	style as: "TestFuncName-extraName.golden"
-func goldenDataSaveFast(t *testing.T, data []byte, extraName string) error {
-	return goldenDataSave(t, data, extraName, os.FileMode(0766))
+//	style as: "TestFuncName/extraName.golden"
+func goldenDataSaveFast(t *testing.T, data interface{}, extraName string) error {
+	marshal, errJson := json.Marshal(data)
+	if errJson != nil {
+		t.Fatal(errJson)
+	}
+	return goldenDataSave(t, marshal, extraName, os.FileMode(0766))
 }
 
 // goldenDataSave
 //
 //	save data to golden file
-//	style as: "TestFuncName-extraName.golden"
+//	style as: "TestFuncName/extraName.golden"
 func goldenDataSave(t *testing.T, data []byte, extraName string, fileMod fs.FileMode) error {
 	testDataFolderFullPath, err := getOrCreateTestDataFolderFullPath()
 	if err != nil {
 		return fmt.Errorf("try goldenDataSave err: %v", err)
 	}
-	savePath := filepath.Join(testDataFolderFullPath, fmt.Sprintf("%s-%s.golden", t.Name(), extraName))
-	err = writeFileByByte(savePath, data, fileMod, true)
+	testDataFolder := filepath.Join(testDataFolderFullPath, t.Name())
+	if !pathExistsFast(testDataFolder) {
+		errMk := mkdir(testDataFolder)
+		if errMk != nil {
+			t.Fatal(errMk)
+		}
+	}
+	savePath := filepath.Join(testDataFolderFullPath, t.Name(), fmt.Sprintf("%s.golden", extraName))
+	var str bytes.Buffer
+	err = json.Indent(&str, data, "", "  ")
+	if err != nil {
+		return err
+	}
+	err = writeFileByByte(savePath, str.Bytes(), fileMod, true)
 	if err != nil {
 		return fmt.Errorf("try goldenDataSave at path: %s err: %v", savePath, err)
 	}
@@ -73,20 +90,32 @@ func goldenDataSave(t *testing.T, data []byte, extraName string, fileMod fs.File
 // goldenDataReadAsByte
 //
 //	read golden file as byte
-//	style as: "TestFuncName-extraName.golden"
+//	style as: "TestFuncName/extraName.golden"
 func goldenDataReadAsByte(t *testing.T, extraName string) ([]byte, error) {
 	testDataFolderFullPath, err := getOrCreateTestDataFolderFullPath()
 	if err != nil {
 		return nil, fmt.Errorf("try goldenDataReadAsByte err: %v", err)
 	}
 
-	savePath := filepath.Join(testDataFolderFullPath, fmt.Sprintf("%s-%s.golden", t.Name(), extraName))
+	savePath := filepath.Join(testDataFolderFullPath, t.Name(), fmt.Sprintf("%s.golden", extraName))
 
 	fileAsByte, err := readFileAsByte(savePath)
 	if err != nil {
 		return nil, fmt.Errorf("try goldenDataReadAsByte err: %v", err)
 	}
 	return fileAsByte, nil
+}
+
+// goldenDataReadAsType
+//
+//	read golden file as type
+//	style as: "TestFuncName/extraName.golden"
+func goldenDataReadAsType(t *testing.T, extraName string, v interface{}) error {
+	readAsByte, err := goldenDataReadAsByte(t, extraName)
+	if err != nil {
+		t.Fatal(err)
+	}
+	return json.Unmarshal(readAsByte, v)
 }
 
 var currentTestDataFolderAbsPath = ""
@@ -318,6 +347,118 @@ func writeFileAsJson(path string, v interface{}, fileMod fs.FileMode, coverage, 
 //	write json file as 0766 and beauty
 func writeFileAsJsonBeauty(path string, v interface{}, coverage bool) error {
 	return writeFileAsJson(path, v, os.FileMode(0766), coverage, true)
+}
+
+// fetchOsEnvBool
+//
+//	fetch os env by key.
+//	if not found will return devValue.
+//	return env not same as true (will be lowercase, so TRUE is same)
+func fetchOsEnvBool(key string, devValue bool) bool {
+	if os.Getenv(key) == "" {
+		return devValue
+	}
+	return strings.ToLower(os.Getenv(key)) == "true"
+}
+
+// fetchOsEnvInt
+//
+//	fetch os env by key.
+//	return not found will return devValue.
+//	if not parse to int, return devValue
+func fetchOsEnvInt(key string, devValue int) int {
+	if os.Getenv(key) == "" {
+		return devValue
+	}
+	outNum, err := strconv.Atoi(os.Getenv(key))
+	if err != nil {
+		return devValue
+	}
+
+	return outNum
+}
+
+// fetchOsEnvStr
+//
+//	fetch os env by key.
+//	return not found will return devValue.
+func fetchOsEnvStr(key, devValue string) string {
+	if os.Getenv(key) == "" {
+		return devValue
+	}
+	return os.Getenv(key)
+}
+
+// fetchOsEnvInt
+//
+//	fetch os env split by `,` and trim space
+//	return not found will return []string(nil).
+func fetchOsEnvArray(key string) []string {
+	var devValueStr []string
+	if os.Getenv(key) == "" {
+		return devValueStr
+	}
+	envValue := os.Getenv(key)
+	splitVal := strings.Split(envValue, ",")
+	if len(splitVal) == 0 {
+		return devValueStr
+	}
+	for _, item := range splitVal {
+		devValueStr = append(devValueStr, strings.TrimSpace(item))
+	}
+
+	return devValueStr
+}
+
+// setEnvStr
+//
+//	set env by key and val
+func setEnvStr(t *testing.T, key string, val string) {
+	err := os.Setenv(key, val)
+	if err != nil {
+		t.Fatalf("set env key [%v] string err: %v", key, err)
+	}
+}
+
+// setEnvBool
+//
+//	set env by key and val
+//
+//nolint:golint,unused
+func setEnvBool(t *testing.T, key string, val bool) {
+	var err error
+	if val {
+		err = os.Setenv(key, "true")
+	} else {
+		err = os.Setenv(key, "false")
+	}
+	if err != nil {
+		t.Fatalf("set env key [%v] bool err: %v", key, err)
+	}
+}
+
+// setEnvU64
+//
+//	set env by key and val
+//
+//nolint:golint,unused
+func setEnvU64(t *testing.T, key string, val uint64) {
+	err := os.Setenv(key, strconv.FormatUint(val, 10))
+	if err != nil {
+		t.Fatalf("set env key [%v] uint64 err: %v", key, err)
+	}
+}
+
+// setEnvInt64
+//
+//	set env by key and val
+//
+//nolint:golint,unused
+func setEnvInt64(t *testing.T, key string, val int64) {
+	err := os.Setenv(key, strconv.FormatInt(val, 10))
+	if err != nil {
+		t.Fatalf("set env key [%v] int64 err: %v", key, err)
+	}
 }
 
 // randomStr
