@@ -6,6 +6,7 @@ type BadgeConfig struct {
 	NoCommonBadges bool
 	GolangBadges   bool
 	RustBadges     bool
+	RustCratesName string
 	RustVersion    string
 	NodeBadges     bool
 	NpmPackage     string
@@ -31,8 +32,8 @@ func BadgeFlags() []cli.Flag {
 			Usage: "rust badges for this repo",
 		},
 		&cli.StringFlag{
-			Name:  "rust-version",
-			Usage: "rust version badges for this repo",
+			Name:  "rust-crates",
+			Usage: "crates.io name badges for this repo, if not set, use repo name",
 		},
 
 		&cli.BoolFlag{
@@ -65,8 +66,9 @@ func BindBadgeConfig(c *cli.Context) *BadgeConfig {
 		NoCommonBadges: c.Bool("no-common-badges"),
 		GolangBadges:   c.Bool("golang"),
 		RustBadges:     c.Bool("rust"),
-		NodeBadges:     c.Bool("node"),
 		RustVersion:    c.String("rust-version"),
+		RustCratesName: c.String("rust-crates"),
+		NodeBadges:     c.Bool("node"),
 		NpmPackage:     c.String("npm"),
 		DockerUser:     c.String("docker-user"),
 		DockerRepo:     c.String("docker-repo"),
