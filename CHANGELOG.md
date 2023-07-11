@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/sinlov/gh-conventional-kit/compare/v1.1.0...v1.1.1) (2023-07-11)
+
+
+### 🐛 Bug Fixes
+
+* common_subcommand.PrintBadgeByConfigWithMarkdown not append return ([54b5f8e](https://github.com/sinlov/gh-conventional-kit/commit/54b5f8e83a44f7335c67c9e135d9a971fd7c5778))
+
 ## [1.1.0](https://github.com/sinlov/gh-conventional-kit/compare/v1.0.0...v1.1.0) (2023-07-05)
 
 
