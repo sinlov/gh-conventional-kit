@@ -59,6 +59,21 @@ $ docker run --rm sinlov/gh-conventional-kit:1.2.0 -h
 ## show commands and global options
 $ gh-conventional-kit --help
 
+## markdown tools help
+$ gh-conventional-kit markdown -h
+# show common badges
+$ gh-conventional-kit markdown -u [user] -r [repo]
+# this project is golang
+$ gh-conventional-kit markdown -u [user] -r [repo] --golang
+# this project is rust
+$ gh-conventional-kit markdown -u [user] -r [repo] --rust
+#  crates name not same as repo name
+$ gh-conventional-kit markdown -u [user] -r [repo] --rust --rust-crates some-rs
+# this project is node
+$ gh-conventional-kit markdown -u [user] -r [repo] --node
+# multiple programming languages
+$ gh-conventional-kit markdown -u [user] -r [repo] --golang --node
+
 ## badge tools help
 $ gh-conventional-kit badge --help
 
@@ -82,6 +97,8 @@ $ gh-conventional-kit --dry-run template --language en-US,zh-CN
 $ gh-conventional-kit --dry-run template --language en-US,zh-CN --golang
 # this project is rust
 $ gh-conventional-kit --dry-run template --language en-US,zh-CN --rust
+#  crates name not same as repo name
+$ gh-conventional-kit --dry-run template --language en-US,zh-CN --rust --rust-crates some-rs
 # this project is node
 $ gh-conventional-kit --dry-run template --language en-US,zh-CN --node
 # multiple programming languages
