@@ -216,7 +216,7 @@ func PrintBadgeByConfigWithMarkdown(
 		if userName == "" || repoName == "" {
 			return fmt.Errorf("need set --user and --repo")
 		}
-		color.Greenf("\nRust badges:")
+		color.Greenf("\nRust badges:\n")
 		if badgeConfig.RustVersion != "" {
 			staticBadgeOrange := shields_badges.StaticBadgeOrange("rust", badgeConfig.RustVersion)
 			fmt.Printf("[![rust version](%s)](https://github.com/%s/%s)\n", staticBadgeOrange, userName, repoName)
