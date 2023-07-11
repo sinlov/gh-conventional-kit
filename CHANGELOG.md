@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/sinlov/gh-conventional-kit/compare/v1.1.1...v1.2.0) (2023-07-11)
+
+
+### ✨ Features
+
+* add --rust-crates to support rust crates name different from repo name ([e0d0dba](https://github.com/sinlov/gh-conventional-kit/commit/e0d0dba24f76344a5f427aa947005f978de39705))
+
 ### [1.1.1](https://github.com/sinlov/gh-conventional-kit/compare/v1.1.0...v1.1.1) (2023-07-11)
 
 
