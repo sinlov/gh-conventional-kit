@@ -22,6 +22,8 @@ func TemplateConventionalReadme(readme template_file.ConventionalConfig) (string
 var (
 	//go:embed resource/template_file/versionrc.json
 	versionrc string
+	//go:embed resource/template_file/dependabot.yml
+	dependabotYml string
 )
 
 func TemplateGitRootWalk(config template_file.ConventionalConfig, gitRootDir string) error {
@@ -32,6 +34,13 @@ func TemplateGitRootWalk(config template_file.ConventionalConfig, gitRootDir str
 			GitRepoName:  config.GitOwnerName,
 			FullPaths:    []string{gitRootDir, ".versionrc"},
 			Content:      versionrc,
+		},
+		{
+			Name:         "dependabot.yml",
+			GitOwnerName: config.GitOwnerName,
+			GitRepoName:  config.GitOwnerName,
+			FullPaths:    []string{gitRootDir, "dependabot.yml"},
+			Content:      dependabotYml,
 		},
 	}
 	for _, cFile := range walkList {
