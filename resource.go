@@ -39,7 +39,7 @@ func TemplateGitRootWalk(config template_file.ConventionalConfig, gitRootDir str
 			Name:         "dependabot.yml",
 			GitOwnerName: config.GitOwnerName,
 			GitRepoName:  config.GitOwnerName,
-			FullPaths:    []string{gitRootDir, "dependabot.yml"},
+			FullPaths:    []string{gitRootDir, ".github", "dependabot.yml"},
 			Content:      dependabotYml,
 		},
 	}
