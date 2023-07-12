@@ -10,7 +10,7 @@ require (
 	github.com/sinlov-go/badges v1.3.0
 	github.com/sinlov-go/go-git-tools v1.0.0
 	github.com/stretchr/testify v1.8.4
-	github.com/urfave/cli/v2 v2.23.7
+	github.com/urfave/cli/v2 v2.25.7
 )
 
 require (
