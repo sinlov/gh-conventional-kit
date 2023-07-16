@@ -1,6 +1,8 @@
 package constant
 
 const (
+	CopyrightStartYear = "2023"
+
 	// EnvKeyCliVerbose
 	//	Provides the debug flag. This value is true when the command is open debug mode
 	EnvKeyCliVerbose = "CLI_VERBOSE"

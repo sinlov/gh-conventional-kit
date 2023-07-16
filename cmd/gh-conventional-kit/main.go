@@ -10,10 +10,12 @@ import (
 	"github.com/sinlov/gh-conventional-kit/command/subcommand_badge"
 	"github.com/sinlov/gh-conventional-kit/command/subcommand_markdown"
 	"github.com/sinlov/gh-conventional-kit/command/subcommand_template"
+	"github.com/sinlov/gh-conventional-kit/constant"
 	"github.com/sinlov/gh-conventional-kit/utils/pkgJson"
 	"github.com/sinlov/gh-conventional-kit/utils/urfave_cli"
 	"github.com/urfave/cli/v2"
 	os "os"
+	"time"
 )
 
 func main() {
@@ -27,9 +29,12 @@ func main() {
 	}
 	app.Description = pkgJson.GetPackageJsonDescription()
 
+	year := time.Now().Year()
+	jsonAuthor := pkgJson.GetPackageJsonAuthor()
+	app.Copyright = fmt.Sprintf("© %s-%d %s", constant.CopyrightStartYear, year, jsonAuthor.Name)
 	author := &cli.Author{
-		Name:  pkgJson.GetPackageJsonAuthor().Name,
-		Email: pkgJson.GetPackageJsonAuthor().Email,
+		Name:  jsonAuthor.Name,
+		Email: jsonAuthor.Email,
 	}
 	app.Authors = []*cli.Author{
 		author,
