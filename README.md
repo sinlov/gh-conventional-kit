@@ -1,4 +1,4 @@
-[![golang-ci](https://github.com/sinlov/gh-conventional-kit/workflows/golang-ci/badge.svg?branch=main)](https://github.com/sinlov/gh-conventional-kit/actions/workflows/golang-ci.yml)
+[![ci](https://github.com/sinlov/gh-conventional-kit/workflows/ci/badge.svg?branch=main)](https://github.com/sinlov/gh-conventional-kit/actions/workflows/ci.yml)
 [![go mod version](https://img.shields.io/github/go-mod/go-version/sinlov/gh-conventional-kit?label=go.mod)](https://github.com/sinlov/gh-conventional-kit)
 [![GoDoc](https://godoc.org/github.com/sinlov/gh-conventional-kit?status.png)](https://godoc.org/github.com/sinlov/gh-conventional-kit/)
 [![GoReportCard](https://goreportcard.com/badge/github.com/sinlov/gh-conventional-kit)](https://goreportcard.com/report/github.com/sinlov/gh-conventional-kit)

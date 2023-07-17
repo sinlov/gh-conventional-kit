@@ -134,7 +134,7 @@ style: modTidy modVerify modFmt modLintRun
 ci: modTidy modVerify modFmt modVet modLintRun test
 
 buildMain:
-	@echo "-> start build local OS"
+	@echo "-> start build local OS: ${PLATFORM} ${OS_BIT}"
 ifeq ($(OS),Windows_NT)
 	@go build -o $(subst /,\,${ENV_ROOT_BUILD_BIN_PATH}).exe ${ENV_ROOT_BUILD_ENTRANCE}
 	@echo "-> finish build out path: $(subst /,\,${ENV_ROOT_BUILD_BIN_PATH}).exe"
@@ -150,7 +150,7 @@ ifeq ($(ENV_DIST_GO_OS),windows)
 	-a \
 	-tags netgo \
 	-ldflags '-w -s --extldflags "-static -fpic"' \
-	-o $(subst /,\,${ENV_ROOT_BUILD_BIN_PATH}).exe ${ENV_ROOT_BUILD_ENTRANCE}
+	-o ${ENV_ROOT_BUILD_BIN_PATH}.exe ${ENV_ROOT_BUILD_ENTRANCE}
 	@echo "-> finish build out path: $(subst /,\,${ENV_ROOT_BUILD_BIN_PATH}).exe"
 else
 	@GOOS=$(ENV_DIST_GO_OS) GOARCH=$(ENV_DIST_GO_ARCH) go build \
@@ -163,7 +163,7 @@ endif
 
 devHelp: export CLI_VERBOSE=false
 devHelp: cleanBuild buildMain
-ifeq ($(OS),windows)
+ifeq ($(OS),Windows_NT)
 	$(subst /,\,${ENV_ROOT_BUILD_BIN_PATH}).exe ${ENV_RUN_INFO_HELP_ARGS}
 else
 	${ENV_ROOT_BUILD_BIN_PATH} ${ENV_RUN_INFO_HELP_ARGS}
@@ -171,15 +171,27 @@ endif
 
 dev: export CLI_VERBOSE=true
 dev: cleanBuild buildMain
-ifeq ($(OS),windows)
+ifeq ($(OS),Windows_NT)
 	$(subst /,\,${ENV_ROOT_BUILD_BIN_PATH}).exe ${ENV_RUN_INFO_ARGS}
 else
 	${ENV_ROOT_BUILD_BIN_PATH} ${ENV_RUN_INFO_ARGS}
 endif
 
+devInstallLocal: cleanBuild buildMain
+ifeq ($(shell go env GOPATH),)
+	$(error can not get go env GOPATH)
+endif
+ifeq ($(OS),Windows_NT)
+	$(info -> notes: install $(subst /,\,${ENV_GO_PATH}/bin/${ENV_ROOT_BUILD_BIN_NAME}.exe))
+	@cp $(subst /,\,${ENV_ROOT_BUILD_BIN_PATH}).exe $(subst /,\,${ENV_GO_PATH}/bin)
+else
+	$(info -> notes: install ${GOPATH}/bin/${ENV_ROOT_BUILD_BIN_NAME})
+	@cp ${ENV_ROOT_BUILD_BIN_PATH} ${ENV_GO_PATH}/bin
+endif
+
 run: cleanBuild buildMain
 	@echo "=> run start"
-ifeq ($(OS),windows)
+ifeq ($(OS),Windows_NT)
 	$(subst /,\,${ENV_ROOT_BUILD_BIN_PATH}).exe ${ENV_RUN_INFO_ARGS}
 else
 	${ENV_ROOT_BUILD_BIN_PATH} ${ENV_RUN_INFO_ARGS}
@@ -219,6 +231,11 @@ endif
 	@echo "~> make style               - run local code fmt and style check"
 	@echo "~> make devHelp             - run as develop mode show help"
 	@echo "~> make dev                 - run as develop mode"
+ifeq ($(OS),Windows_NT)
+	@echo "~> make devInstallLocal     - install at $(subst /,\,${ENV_GO_PATH}/bin)"
+else
+	@echo "~> make devInstallLocal     - install at ${ENV_GO_PATH}/bin"
+endif
 	@echo "~> make run                 - run as ordinary mode"
 
 help: helpGoMod helpGoTest helpGoDist helpDocker helpProjectRoot

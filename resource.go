@@ -2,7 +2,6 @@ package gh_conventional_kit
 
 import (
 	_ "embed"
-	_ "github.com/aymerick/raymond"
 	"github.com/bar-counter/slog"
 	"github.com/sinlov/gh-conventional-kit/resource/template_file"
 	"github.com/sinlov/gh-conventional-kit/utils/filepath_plus"
