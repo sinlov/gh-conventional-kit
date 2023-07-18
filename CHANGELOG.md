@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/sinlov/gh-conventional-kit/compare/v1.2.0...v1.3.0) (2023-07-18)
+
+
+### ✨ Features
+
+* add dependabot.yml at github_template when use commands `template` ([47b75df](https://github.com/sinlov/gh-conventional-kit/commit/47b75dfc415fd3fd10fa1cdff95b0718f2110c47))
+
+
+### 👷‍ Build System
+
+* change to new build workflows by ci.yml ([d8fc77b](https://github.com/sinlov/gh-conventional-kit/commit/d8fc77b4a71c575015c1c253cea4b3a38cb24c55))
+* **gomod:** github.com/sinlov-go/badges v1.3.1 ([8244502](https://github.com/sinlov/gh-conventional-kit/commit/824450274064d5f3deeea4aa4b4dfc9321a02fd7))
+
 ## [1.2.0](https://github.com/sinlov/gh-conventional-kit/compare/v1.1.1...v1.2.0) (2023-07-11)
 
 
