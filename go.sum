@@ -66,8 +66,8 @@ github.com/sebdah/goldie/v2 v2.5.3/go.mod h1:oZ9fp0+se1eapSRjfYbsV/0Hqhbuu3bJVvK
 github.com/sergi/go-diff v1.0.0/go.mod h1:0CfEIISq7TuYL3j771MWULgwwjU+GofnZX9QAmXWZgo=
 github.com/sergi/go-diff v1.1.0 h1:we8PVUC3FE2uYfodKH/nBHMSetSfHDR6scGdBi+erh0=
 github.com/sergi/go-diff v1.1.0/go.mod h1:STckp+ISIX8hZLjrqAeVduY0gWCT9IjLuqbuNXdaHfM=
-github.com/sinlov-go/badges v1.3.0 h1:SF/jGJqXT2RT3DbWBc5QO+rbOQssqydLLRnHanqfUaY=
-github.com/sinlov-go/badges v1.3.0/go.mod h1:9uekcqCz6sEQUOqvzqf4XulzKNVkB/1p9Kmq3YppR7g=
+github.com/sinlov-go/badges v1.3.1 h1:+zoM/ees0s6uvgWjCU441MxxkGjSmk4Xi0u6Gr8kJrA=
+github.com/sinlov-go/badges v1.3.1/go.mod h1:9uekcqCz6sEQUOqvzqf4XulzKNVkB/1p9Kmq3YppR7g=
 github.com/sinlov-go/go-git-tools v1.3.0 h1:m2yfFkkSycfC7kLjGYcd0nmQJ8UOuG0vbrZM7eLRK8M=
 github.com/sinlov-go/go-git-tools v1.3.0/go.mod h1:v9H1aSlTwK3lwMyl/5Yu2nAJW1C2zeRLKYez4Lx57mA=
 github.com/sirupsen/logrus v1.7.0/go.mod h1:yWOB1SBYBC5VeMP7gHvWumXLIWorT60ONWic61uBYv0=
