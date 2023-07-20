@@ -93,16 +93,22 @@ var (
 	enUSContributing string
 
 	//go:embed resource/template_file/github_template/en-US/ISSUE_TEMPLATE/bug_report.md
-	enUSBugReport string
+	enUSIssueTemplateBugReport string
+
+	//go:embed resource/template_file/github_template/en-US/ISSUE_TEMPLATE/documentation.md
+	enUSIssueTemplateDocumentation string
 
 	//go:embed resource/template_file/github_template/en-US/ISSUE_TEMPLATE/feature_request.md
-	enUSFeatureRequest string
+	enUSIssueTemplateFeatureRequest string
+
+	//go:embed resource/template_file/github_template/en-US/ISSUE_TEMPLATE/good_first_issue.md
+	enUSIssueTemplateGoodFirstIssue string
 
 	//go:embed resource/template_file/github_template/en-US/ISSUE_TEMPLATE/help_wanted.md
-	enUSHelpWanted string
+	enUSIssueTemplateHelpWanted string
 
 	//go:embed resource/template_file/github_template/en-US/ISSUE_TEMPLATE/question.md
-	enUSQuestion string
+	enUSIssueTemplateQuestion string
 )
 
 func templateGithubDotWalkEnUs(config template_file.ConventionalConfig, targetRootDir string, coverage bool) error {
@@ -133,28 +139,42 @@ func templateGithubDotWalkEnUs(config template_file.ConventionalConfig, targetRo
 			GitOwnerName: config.GitOwnerName,
 			GitRepoName:  config.GitOwnerName,
 			FullPaths:    []string{targetRootDir, "ISSUE_TEMPLATE", "bug_report.md"},
-			Content:      enUSBugReport,
+			Content:      enUSIssueTemplateBugReport,
+		},
+		{
+			Name:         "documentation.md",
+			GitOwnerName: config.GitOwnerName,
+			GitRepoName:  config.GitOwnerName,
+			FullPaths:    []string{targetRootDir, "ISSUE_TEMPLATE", "documentation.md"},
+			Content:      enUSIssueTemplateDocumentation,
 		},
 		{
 			Name:         "feature_request.md",
 			GitOwnerName: config.GitOwnerName,
 			GitRepoName:  config.GitOwnerName,
 			FullPaths:    []string{targetRootDir, "ISSUE_TEMPLATE", "feature_request.md"},
-			Content:      enUSFeatureRequest,
+			Content:      enUSIssueTemplateFeatureRequest,
+		},
+		{
+			Name:         "good_first_issue.md",
+			GitOwnerName: config.GitOwnerName,
+			GitRepoName:  config.GitOwnerName,
+			FullPaths:    []string{targetRootDir, "ISSUE_TEMPLATE", "good_first_issue.md"},
+			Content:      enUSIssueTemplateGoodFirstIssue,
 		},
 		{
 			Name:         "help_wanted.md",
 			GitOwnerName: config.GitOwnerName,
 			GitRepoName:  config.GitOwnerName,
 			FullPaths:    []string{targetRootDir, "ISSUE_TEMPLATE", "help_wanted.md"},
-			Content:      enUSHelpWanted,
+			Content:      enUSIssueTemplateHelpWanted,
 		},
 		{
 			Name:         "question.md",
 			GitOwnerName: config.GitOwnerName,
 			GitRepoName:  config.GitOwnerName,
 			FullPaths:    []string{targetRootDir, "ISSUE_TEMPLATE", "question.md"},
-			Content:      enUSQuestion,
+			Content:      enUSIssueTemplateQuestion,
 		},
 	}
 	for _, cFile := range walkList {

@@ -76,6 +76,8 @@ func (n *TemplateCommand) Exec() error {
 	sb.WriteString("\n\n")
 
 	if command.CmdGlobalEntry().DryRun {
+		color.Bluef("-> dry run, not add to file: %s\n\n", n.TargetFile)
+
 		color.Greenf("template append head at path: %s \n", n.TargetFile)
 		color.Grayf("%s\n", sb.String())
 		return nil

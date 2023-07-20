@@ -3,6 +3,7 @@ package subcommand_badge
 import (
 	"fmt"
 	"github.com/bar-counter/slog"
+	"github.com/gookit/color"
 	"github.com/sinlov-go/go-git-tools/git_info"
 	"github.com/sinlov/gh-conventional-kit/command"
 	"github.com/sinlov/gh-conventional-kit/command/common_subcommand"
@@ -34,6 +35,7 @@ type BadgeCommand struct {
 func (n *BadgeCommand) Exec() error {
 
 	if command.CmdGlobalEntry().DryRun {
+		color.Bluef("-> dry run, not add to file: %s\n\n", n.TargetFile)
 		if n.NoMarkdown {
 			err := common_subcommand.PrintBadgeByConfig(
 				n.BadgeConfig,
