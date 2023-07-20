@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/sinlov/gh-conventional-kit/compare/v1.3.0...v1.4.0) (2023-07-20)
+
+
+### ✨ Features
+
+* update template file and add notice at --dry-run ([38ae66f](https://github.com/sinlov/gh-conventional-kit/commit/38ae66fe27a556e3b24405d91593a99de6762274))
+
 ## [1.3.0](https://github.com/sinlov/gh-conventional-kit/compare/v1.2.0...v1.3.0) (2023-07-18)
 
 
