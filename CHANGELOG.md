@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/sinlov/gh-conventional-kit/compare/v1.4.0...v1.5.0) (2023-07-20)
+
+
+### 🐛 Bug Fixes
+
+* change github.com/sinlov-go/go-git-tools v1.6.0 to fix local parse error ([e2e8905](https://github.com/sinlov/gh-conventional-kit/commit/e2e8905b41f94d371574341d3de803a30b3479ed))
+
 ## [1.4.0](https://github.com/sinlov/gh-conventional-kit/compare/v1.3.0...v1.4.0) (2023-07-20)
 
 
