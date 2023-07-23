@@ -15,6 +15,7 @@ import (
 	"github.com/sinlov/gh-conventional-kit/utils/urfave_cli"
 	"github.com/urfave/cli/v2"
 	os "os"
+	"runtime"
 	"time"
 )
 
@@ -31,7 +32,8 @@ func main() {
 
 	year := time.Now().Year()
 	jsonAuthor := pkgJson.GetPackageJsonAuthor()
-	app.Copyright = fmt.Sprintf("© %s-%d %s", constant.CopyrightStartYear, year, jsonAuthor.Name)
+	app.Copyright = fmt.Sprintf("© %s-%d %s by verson: %s",
+		constant.CopyrightStartYear, year, jsonAuthor.Name, runtime.Version())
 	author := &cli.Author{
 		Name:  jsonAuthor.Name,
 		Email: jsonAuthor.Email,
