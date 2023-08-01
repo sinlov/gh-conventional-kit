@@ -1,9 +1,24 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file. See [convention-change-log](https://github.com/convention-change/convention-change-log) for commit guidelines.
+
+## [1.6.0](https://github.com/sinlov/gh-conventional-kit/compare/1.5.0...v1.6.0) (2023-08-01)
+
+### ✨ Features
+
+* let subcommond markdown support <gitUrl> for fast got git info ([88d8e254](https://github.com/sinlov/gh-conventional-kit/commit/88d8e254b41c352c7efe5cda6205ef80fcac7a42))
+
+* add go verison show and change versionrc.json ([47bf4187](https://github.com/sinlov/gh-conventional-kit/commit/47bf4187ac1771c2e49f77e54fdecf64b39107b8))
+
+### ♻ Refactor
+
+* show more run info and move to github.com/sinlov/gh-conventional-kit/cmd/cli ([8375fa30](https://github.com/sinlov/gh-conventional-kit/commit/8375fa304b92e0da4221cc26429b6de57072c4aa))
+
+### 👷‍ Build System
+
+* change new version of CI pipline ([f595eac2](https://github.com/sinlov/gh-conventional-kit/commit/f595eac23f2647cdb107f1da9a68f5a637713de9))
 
 ## [1.5.0](https://github.com/sinlov/gh-conventional-kit/compare/v1.4.0...v1.5.0) (2023-07-20)
-
 
 ### 🐛 Bug Fixes
 
@@ -11,26 +26,23 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [1.4.0](https://github.com/sinlov/gh-conventional-kit/compare/v1.3.0...v1.4.0) (2023-07-20)
 
-
 ### ✨ Features
 
 * update template file and add notice at --dry-run ([38ae66f](https://github.com/sinlov/gh-conventional-kit/commit/38ae66fe27a556e3b24405d91593a99de6762274))
 
 ## [1.3.0](https://github.com/sinlov/gh-conventional-kit/compare/v1.2.0...v1.3.0) (2023-07-18)
 
-
 ### ✨ Features
 
 * add dependabot.yml at github_template when use commands `template` ([47b75df](https://github.com/sinlov/gh-conventional-kit/commit/47b75dfc415fd3fd10fa1cdff95b0718f2110c47))
 
-
 ### 👷‍ Build System
 
 * change to new build workflows by ci.yml ([d8fc77b](https://github.com/sinlov/gh-conventional-kit/commit/d8fc77b4a71c575015c1c253cea4b3a38cb24c55))
+
 * **gomod:** github.com/sinlov-go/badges v1.3.1 ([8244502](https://github.com/sinlov/gh-conventional-kit/commit/824450274064d5f3deeea4aa4b4dfc9321a02fd7))
 
 ## [1.2.0](https://github.com/sinlov/gh-conventional-kit/compare/v1.1.1...v1.2.0) (2023-07-11)
-
 
 ### ✨ Features
 
@@ -38,13 +50,11 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.1.1](https://github.com/sinlov/gh-conventional-kit/compare/v1.1.0...v1.1.1) (2023-07-11)
 
-
 ### 🐛 Bug Fixes
 
 * common_subcommand.PrintBadgeByConfigWithMarkdown not append return ([54b5f8e](https://github.com/sinlov/gh-conventional-kit/commit/54b5f8e83a44f7335c67c9e135d9a971fd7c5778))
 
 ## [1.1.0](https://github.com/sinlov/gh-conventional-kit/compare/v1.0.0...v1.1.0) (2023-07-05)
-
 
 ### ✨ Features
 
@@ -52,18 +62,28 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## 1.0.0 (2023-07-04)
 
-
 ### ✨ Features
 
 * --coverage-folder-file for template, change install folder for this cli ([70c67a4](https://github.com/sinlov/gh-conventional-kit/commit/70c67a47bdaa4888ef5cda23ac34bcb09010dd68))
+
 * add badge node ([b37a97a](https://github.com/sinlov/gh-conventional-kit/commit/b37a97a25819f0a600f02a547883cede7653d978))
+
 * add subCmdMarkdown common github info ([0f5c6ba](https://github.com/sinlov/gh-conventional-kit/commit/0f5c6baa51da5953ea3d430ce51273c21919bb68))
+
 * add template can add README.md info ([5353a62](https://github.com/sinlov/gh-conventional-kit/commit/5353a6263b7d099852d86e695c3cc69ebea61cec))
+
 * add template command support --language ([c259255](https://github.com/sinlov/gh-conventional-kit/commit/c25925549b0d2de7ffbbaf94f72054774f116b21))
+
 * add TemplateGitRootWalk and TemplateGithubDotWalk can try add template file by embed ([ed67248](https://github.com/sinlov/gh-conventional-kit/commit/ed67248655cd50cbb0fb783269ce1e3095b431d9))
+
 * badge commond can gen by git workspace root folder ([aa04173](https://github.com/sinlov/gh-conventional-kit/commit/aa04173c18b34f8ba925b5720ac509c9dc453898))
+
 * change to github.com/sinlov-go/go-git-tools v1.0.0 ([6c53aeb](https://github.com/sinlov/gh-conventional-kit/commit/6c53aeb4cfb42890768b28a499110a27932e02f4))
+
 * github.com/sinlov-go/badges@1.1.0 ([b2ea894](https://github.com/sinlov/gh-conventional-kit/commit/b2ea8941246ee27d96b226dd8a2ae4a51dac175c))
+
 * remove useless template noversion rc and let bages support --no-markdown at append README.md ([f18babb](https://github.com/sinlov/gh-conventional-kit/commit/f18babbcc1a5b5fafd98a58bebfa262fc11af4f5))
+
 * update help of cli and let `badge` can append README.md ([16fccbd](https://github.com/sinlov/gh-conventional-kit/commit/16fccbd30b8127dba847847409721d78bfc85551))
+
 * use lib github.com/sinlov-go/badges at markdown subcommand ([2c1af69](https://github.com/sinlov/gh-conventional-kit/commit/2c1af69bc867fc2e5fc01893d702a1f9b888f580))
