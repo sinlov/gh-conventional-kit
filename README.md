@@ -44,13 +44,13 @@ Please read [Contributor Guide](.github/CONTRIBUTING_DOC/CONTRIBUTING.md) for mo
 ```bash
 # install at $(GO_PATH)/bin
 $ go install -v github.com/sinlov/gh-conventional-kit/cmd/gh-conventional-kit@latest
-# install version v1.5.0
-$ go install -v github.com/sinlov/gh-conventional-kit/cmd/gh-conventional-kit@v1.5.0
+# install version v1.6.0
+$ go install -v github.com/sinlov/gh-conventional-kit/cmd/gh-conventional-kit@v1.6.0
 
 # usa as docker cli tools
 $ docker run --rm sinlov/gh-conventional-kit:latest -h
 # use as docker cli tools with version
-$ docker run --rm sinlov/gh-conventional-kit:1.5.0 -h
+$ docker run --rm sinlov/gh-conventional-kit:1.6.0 -h
 ```
 
 - please install [git](https://git-scm.com/) before use this cli
@@ -61,18 +61,23 @@ $ gh-conventional-kit --help
 
 ## markdown tools help
 $ gh-conventional-kit markdown -h
-# show common badges
-$ gh-conventional-kit markdown -u [user] -r [repo]
-# this project is golang
-$ gh-conventional-kit markdown -u [user] -r [repo] --golang
-# this project is rust
-$ gh-conventional-kit markdown -u [user] -r [repo] --rust
-#  crates name not same as repo name
-$ gh-conventional-kit markdown -u [user] -r [repo] --rust --rust-crates some-rs
-# this project is node
-$ gh-conventional-kit markdown -u [user] -r [repo] --node
+# show common badges by gitUrl 1.6.+ support
+$ gh-conventional-kit markdown --golang <gitUrl>
+$ gh-conventional-kit markdown --golang git@github.com:sinlov/gh-conventional-kit.git
+$ gh-conventional-kit markdown --golang https://github.com/sinlov/gh-conventional-kit.git
+
+# when project is golang
+$ gh-conventional-kit markdown --golang <gitUrl>
+# when project is rust
+$ gh-conventional-kit markdown --rust <gitUrl>
+# crates name not same as repo name
+$ gh-conventional-kit markdown --rust --rust-crates some-rs <gitUrl>
+# when project is node
+$ gh-conventional-kit markdown --node <gitUrl>
 # multiple programming languages
-$ gh-conventional-kit markdown -u [user] -r [repo] --golang --node
+$ gh-conventional-kit markdown --golang --node <gitUrl>
+# show common badges by -u and r
+$ gh-conventional-kit markdown -u [user] -r [repo]
 
 ## badge tools help
 $ gh-conventional-kit badge --help

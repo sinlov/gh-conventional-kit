@@ -1,12 +1,15 @@
 package subcommand_markdown
 
 import (
+	"fmt"
 	"github.com/bar-counter/slog"
 	"github.com/sinlov/gh-conventional-kit/command"
 	"github.com/sinlov/gh-conventional-kit/command/common_subcommand"
 	"github.com/sinlov/gh-conventional-kit/constant"
 	"github.com/sinlov/gh-conventional-kit/utils/urfave_cli"
 	"github.com/urfave/cli/v2"
+	giturls "github.com/whilp/git-urls"
+	"strings"
 )
 
 const commandName = "markdown"
@@ -16,7 +19,6 @@ var commandEntry *MarkdownCommand
 type MarkdownCommand struct {
 	isDebug bool
 
-	GitHost  string
 	UserName string
 	RepoName string
 	Branch   string
@@ -38,12 +40,12 @@ func flag() []cli.Flag {
 		&cli.StringFlag{
 			Name:    "user",
 			Aliases: []string{"u"},
-			Usage:   "Repository at git user name",
+			Usage:   "Repository at git user name, can cover by arg0",
 		},
 		&cli.StringFlag{
 			Name:    "repo",
 			Aliases: []string{"r"},
-			Usage:   "Repository at git repo",
+			Usage:   "Repository at git repo, can cover by arg0",
 		},
 		&cli.StringFlag{
 			Name:    "branch",
@@ -63,11 +65,44 @@ func flag() []cli.Flag {
 
 func withEntry(c *cli.Context) (*MarkdownCommand, error) {
 	globalEntry := command.CmdGlobalEntry()
+
+	user := c.String("user")
+	repo := c.String("repo")
+
+	if user == "" || repo == "" {
+		if c.Args().Len() > 0 {
+			gitCmdUrl := c.Args().First()
+			slog.Debugf("input gitCmdUrl: %s", gitCmdUrl)
+			gitUrl, err := giturls.Parse(gitCmdUrl)
+			if err != nil {
+				return nil, fmt.Errorf("parse gitCmdUrl: %s error: %s", gitCmdUrl, err)
+			}
+			urlPath := gitUrl.Path
+			if gitUrl.Scheme == "ssh" {
+				splitPath := strings.Split(urlPath, "/")
+				if len(splitPath) < 2 {
+					return nil, fmt.Errorf("gitCmdUrl: %s not find user or repo", gitCmdUrl)
+				}
+
+				user = splitPath[0]
+				repo = splitPath[1]
+			} else {
+				splitPath := strings.Split(urlPath, "/")
+				if len(splitPath) < 3 {
+					return nil, fmt.Errorf("gitCmdUrl: %s not find user or repo", gitCmdUrl)
+				}
+
+				user = splitPath[1]
+				repo = splitPath[2]
+			}
+
+		}
+	}
+
 	return &MarkdownCommand{
 		isDebug:     globalEntry.Verbose,
-		GitHost:     c.String("host"),
-		UserName:    c.String("user"),
-		RepoName:    c.String("repo"),
+		UserName:    user,
+		RepoName:    repo,
 		Branch:      c.String("branch"),
 		BadgeConfig: constant.BindBadgeConfig(c),
 	}, nil
@@ -87,10 +122,11 @@ func Command() []*cli.Command {
 	urfave_cli.UrfaveCliAppendCliFlag(command.GlobalFlag(), command.HideGlobalFlag())
 	return []*cli.Command{
 		{
-			Name:   commandName,
-			Usage:  "generate markdown badge by program language or framework for this repo",
-			Action: action,
-			Flags:  urfave_cli.UrfaveCliAppendCliFlag(flag(), constant.BadgeFlags()),
+			Name:      commandName,
+			Usage:     "generate markdown badge by program language or framework for this repo",
+			UsageText: "markdown [command options] <gitUrl>\nmarkdown --golang https://github.com/sinlov/gh-conventional-kit",
+			Action:    action,
+			Flags:     urfave_cli.UrfaveCliAppendCliFlag(flag(), constant.BadgeFlags()),
 		},
 	}
 }
