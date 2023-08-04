@@ -25,6 +25,8 @@ Please read [Contributor Guide](.github/CONTRIBUTING_DOC/CONTRIBUTING.md) for mo
 
 ## Features
 
+- [X] `markdown` subcommand generate markdown badge by program language or framework
+    - markdown can use git url or http url to get git info (only support github now)
 - [x] `badge` add badge at github project
     - `--common-badges` add common badges for github project
     - `--golang` add golang badges for github project
@@ -32,7 +34,6 @@ Please read [Contributor Guide](.github/CONTRIBUTING_DOC/CONTRIBUTING.md) for mo
     - `--node` add node badges for github project
     - `-npm` add npm badges for github project
     - `--docker-user` `--docker-repo` add docker badges for github project
-- [X] `markdown` subcommand generate markdown badge by program language or framework
 - [X] `template` add conventional template at .github and try add badge at README.md
     - conventional contributing support `--language`
         - `en-US`
@@ -63,6 +64,7 @@ $ gh-conventional-kit --help
 $ gh-conventional-kit markdown -h
 # show common badges by gitUrl 1.6.+ support
 $ gh-conventional-kit markdown --golang <gitUrl>
+# example
 $ gh-conventional-kit markdown --golang git@github.com:sinlov/gh-conventional-kit.git
 $ gh-conventional-kit markdown --golang https://github.com/sinlov/gh-conventional-kit.git
 
