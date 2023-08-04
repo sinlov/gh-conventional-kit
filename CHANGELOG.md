@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [convention-change-log](https://github.com/convention-change/convention-change-log) for commit guidelines.
 
+## [1.7.0](https://github.com/sinlov/gh-conventional-kit/compare/1.6.0...v1.7.0) (2023-08-05)
+
+### ✨ Features
+
+* let markdown each group have return and update dependabot.yml resource` ([e84b6918](https://github.com/sinlov/gh-conventional-kit/commit/e84b69186e27a4c00aa5bf74b6d7b1c7e3528dea))
+
 ## [1.6.0](https://github.com/sinlov/gh-conventional-kit/compare/1.5.0...v1.6.0) (2023-08-01)
 
 ### ✨ Features
