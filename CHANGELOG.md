@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [convention-change-log](https://github.com/convention-change/convention-change-log) for commit guidelines.
 
+## [1.7.1](https://github.com/sinlov/gh-conventional-kit/compare/1.7.0...v1.7.1) (2023-08-05)
+
+### 👷‍ Build System
+
+* try fix build of verison ([e4bd0bda](https://github.com/sinlov/gh-conventional-kit/commit/e4bd0bda3ebd96ff80dec7034152e8bd82cf63ba))
+
+* fix github action echo words error ([635b78a3](https://github.com/sinlov/gh-conventional-kit/commit/635b78a3278adebb12824ac5c0fcf7a44874a967))
+
 ## [1.7.0](https://github.com/sinlov/gh-conventional-kit/compare/1.6.0...v1.7.0) (2023-08-05)
 
 ### ✨ Features
