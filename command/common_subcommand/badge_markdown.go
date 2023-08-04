@@ -24,6 +24,7 @@ func BadgeByConfigWithMarkdown(
 		if userName == "" || repoName == "" {
 			return sb.String(), fmt.Errorf("need set --user and --repo")
 		}
+		sb.WriteString("\n")
 		sb.WriteString(golang_badges.GithubGoModVersionMarkdown(userName, repoName))
 		sb.WriteString("\n")
 		sb.WriteString(golang_badges.GithubGoDocMarkdown(userName, repoName))
@@ -36,6 +37,7 @@ func BadgeByConfigWithMarkdown(
 		if userName == "" || repoName == "" {
 			return sb.String(), fmt.Errorf("need set --user and --repo")
 		}
+		sb.WriteString("\n")
 		if badgeConfig.RustVersion != "" {
 			staticBadgeOrange := shields_badges.StaticBadgeOrange("rust", badgeConfig.RustVersion)
 			sb.WriteString(fmt.Sprintf("[![rust version](%s)](https://github.com/%s/%s)\n", staticBadgeOrange, userName, repoName))
@@ -59,6 +61,10 @@ func BadgeByConfigWithMarkdown(
 		sb.WriteString("\n")
 	}
 
+	if badgeConfig.NodeBadges || badgeConfig.NpmPackage != "" {
+		sb.WriteString("\n")
+	}
+
 	if badgeConfig.NodeBadges {
 		if userName == "" || repoName == "" {
 			return sb.String(), fmt.Errorf("need set --user and --repo")
@@ -78,10 +84,12 @@ func BadgeByConfigWithMarkdown(
 		sb.WriteString(npm_badges.CollaboratorsMarkdown(badgeConfig.NpmPackage))
 		sb.WriteString("\n")
 	}
+
 	if badgeConfig.DockerUser != "" {
 		if userName == "" || repoName == "" {
 			return sb.String(), fmt.Errorf("need set --user and --repo")
 		}
+		sb.WriteString("\n")
 		sb.WriteString(shields_badges.DockerHubImageVersionSemverMarkdown(badgeConfig.DockerUser, badgeConfig.DockerRepo))
 		sb.WriteString("\n")
 		sb.WriteString(shields_badges.DockerHubImageSizeMarkdown(badgeConfig.DockerUser, badgeConfig.DockerRepo))
@@ -94,6 +102,7 @@ func BadgeByConfigWithMarkdown(
 		if userName == "" || repoName == "" {
 			return sb.String(), fmt.Errorf("need set --user and --repo")
 		}
+		sb.WriteString("\n")
 		sb.WriteString(shields_badges.GithubLicenseMarkdown(userName, repoName))
 		sb.WriteString("\n")
 
@@ -122,6 +131,8 @@ func BadgeByConfig(
 		if userName == "" || repoName == "" {
 			return sb.String(), fmt.Errorf("need set --user and --repo")
 		}
+		sb.WriteString("\n")
+
 		sb.WriteString(golang_badges.GithubGoModVersion(userName, repoName))
 		sb.WriteString("\n")
 		sb.WriteString(golang_badges.GithubGoDoc(userName, repoName))
@@ -134,6 +145,9 @@ func BadgeByConfig(
 		if userName == "" || repoName == "" {
 			return sb.String(), fmt.Errorf("need set --user and --repo")
 		}
+
+		sb.WriteString("\n")
+
 		if badgeConfig.RustVersion != "" {
 			staticBadgeOrange := shields_badges.StaticBadgeOrange("rust", badgeConfig.RustVersion)
 			sb.WriteString(staticBadgeOrange)
@@ -157,6 +171,10 @@ func BadgeByConfig(
 		sb.WriteString("\n")
 	}
 
+	if badgeConfig.NodeBadges || badgeConfig.NpmPackage != "" {
+		sb.WriteString("\n")
+	}
+
 	if badgeConfig.NodeBadges {
 		if userName == "" || repoName == "" {
 			return sb.String(), fmt.Errorf("need set --user and --repo")
@@ -176,10 +194,14 @@ func BadgeByConfig(
 		sb.WriteString(npm_badges.Collaborators(badgeConfig.NpmPackage))
 		sb.WriteString("\n")
 	}
+
 	if badgeConfig.DockerUser != "" {
 		if userName == "" || repoName == "" {
 			return sb.String(), fmt.Errorf("need set --user and --repo")
 		}
+
+		sb.WriteString("\n")
+
 		sb.WriteString(shields_badges.DockerHubImageVersionSemver(badgeConfig.DockerUser, badgeConfig.DockerRepo))
 		sb.WriteString("\n")
 		sb.WriteString(shields_badges.DockerHubImageSize(badgeConfig.DockerUser, badgeConfig.DockerRepo))
@@ -192,6 +214,9 @@ func BadgeByConfig(
 		if userName == "" || repoName == "" {
 			return sb.String(), fmt.Errorf("need set --user and --repo")
 		}
+
+		sb.WriteString("\n")
+
 		sb.WriteString(shields_badges.GithubLicense(userName, repoName))
 		sb.WriteString("\n")
 

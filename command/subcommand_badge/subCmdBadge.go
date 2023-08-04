@@ -60,6 +60,7 @@ func (n *BadgeCommand) Exec() error {
 		}
 		return nil
 	}
+	var sb strings.Builder
 	targetAppendHeadBadge := ""
 	if n.NoMarkdown {
 		targetAppendHead, errBadge := common_subcommand.BadgeByConfig(
@@ -85,8 +86,8 @@ func (n *BadgeCommand) Exec() error {
 		targetAppendHeadBadge = targetAppendHead
 	}
 
-	var sb strings.Builder
 	sb.WriteString(targetAppendHeadBadge)
+	sb.WriteString("\n")
 	sb.WriteString("\n")
 
 	sb.WriteString("\n")
