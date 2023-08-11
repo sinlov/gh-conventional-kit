@@ -7,7 +7,7 @@ import (
 	"github.com/gookit/color"
 	"github.com/sinlov/gh-conventional-kit"
 	"github.com/sinlov/gh-conventional-kit/cmd/cli"
-	"github.com/sinlov/gh-conventional-kit/utils/pkgJson"
+	"github.com/sinlov/gh-conventional-kit/internal/pkgJson"
 	os "os"
 )
 

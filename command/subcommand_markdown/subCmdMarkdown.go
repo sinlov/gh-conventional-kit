@@ -6,7 +6,7 @@ import (
 	"github.com/sinlov/gh-conventional-kit/command"
 	"github.com/sinlov/gh-conventional-kit/command/common_subcommand"
 	"github.com/sinlov/gh-conventional-kit/constant"
-	"github.com/sinlov/gh-conventional-kit/utils/urfave_cli"
+	"github.com/sinlov/gh-conventional-kit/internal/urfave_cli"
 	"github.com/urfave/cli/v2"
 	giturls "github.com/whilp/git-urls"
 	"strings"

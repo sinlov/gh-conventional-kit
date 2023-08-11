@@ -3,8 +3,8 @@ package gh_conventional_kit
 import (
 	_ "embed"
 	"github.com/bar-counter/slog"
+	"github.com/sinlov/gh-conventional-kit/internal/filepath_plus"
 	"github.com/sinlov/gh-conventional-kit/resource/template_file"
-	"github.com/sinlov/gh-conventional-kit/utils/filepath_plus"
 	"path/filepath"
 )
 

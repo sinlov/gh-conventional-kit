@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/bar-counter/slog"
 	"github.com/sinlov/gh-conventional-kit/constant"
-	"github.com/sinlov/gh-conventional-kit/utils/env_kit"
+	"github.com/sinlov/gh-conventional-kit/internal/env_kit"
 )
 
 // InitLog
