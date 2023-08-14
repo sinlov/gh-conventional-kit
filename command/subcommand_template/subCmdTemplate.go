@@ -3,15 +3,12 @@ package subcommand_template
 import (
 	"fmt"
 	"github.com/bar-counter/slog"
-	"github.com/gookit/color"
 	"github.com/sinlov-go/go-git-tools/git_info"
-	"github.com/sinlov/gh-conventional-kit"
 	"github.com/sinlov/gh-conventional-kit/command"
 	"github.com/sinlov/gh-conventional-kit/command/common_subcommand"
 	"github.com/sinlov/gh-conventional-kit/constant"
 	"github.com/sinlov/gh-conventional-kit/internal/filepath_plus"
 	"github.com/sinlov/gh-conventional-kit/internal/urfave_cli"
-	"github.com/sinlov/gh-conventional-kit/resource/template_file"
 	"github.com/urfave/cli/v2"
 	"os"
 	"path/filepath"
@@ -48,60 +45,62 @@ func (n *TemplateCommand) Exec() error {
 		return err
 	}
 
-	conventionalConfig := template_file.ConventionalConfig{
-		GitOwnerName: n.LocalGitRemoteInfo.User,
-		GitRepoName:  n.LocalGitRemoteInfo.Repo,
-	}
-	readmeAppendConventional, err := gh_conventional_kit.TemplateConventionalReadme(conventionalConfig)
-	if err != nil {
-		return err
-	}
 	var sb strings.Builder
 	sb.WriteString(readmeAppendHead)
 	sb.WriteString("\n")
-	sb.WriteString(readmeAppendConventional)
-	if len(n.LanguageSet) > 0 {
-		languageConventional := gh_conventional_kit.LanguageConventional()
-		for _, l := range n.LanguageSet {
-			_, ok := languageConventional[l]
-			if ok {
-				sb.WriteString("\n")
-				sb.WriteString(languageConventional[l])
-				sb.WriteString("\n")
-			} else {
-				return fmt.Errorf("tempalte not support language: %s", l)
-			}
-		}
-	}
-	sb.WriteString("\n\n")
 
-	if command.CmdGlobalEntry().DryRun {
-		color.Bluef("-> dry run, not add to file: %s\n\n", n.TargetFile)
+	//conventionalConfig := contributing_doc.ConventionalConfig{
+	//	GitOwnerName: n.LocalGitRemoteInfo.User,
+	//	GitRepoName:  n.LocalGitRemoteInfo.Repo,
+	//}
 
-		color.Greenf("template append head at path: %s \n", n.TargetFile)
-		color.Grayf("%s\n", sb.String())
-		return nil
-	}
-
-	err = gh_conventional_kit.TemplateGitRootWalk(conventionalConfig, n.GitRootPath)
-	if err != nil {
-		return err
-	}
-
-	if len(n.LanguageSet) > 0 {
-		conventionalTemplate := gh_conventional_kit.LanguageConventionalTemplate()
-		for _, l := range n.LanguageSet {
-			_, ok := conventionalTemplate[l]
-			if ok {
-				fun := conventionalTemplate[l]
-				err = fun(conventionalConfig, n.TargetFolder, n.CoverageTargetFolderFile)
-				if err != nil {
-					return err
-				}
-				slog.Debugf("-> finish add template at language: %s", l)
-			}
-		}
-	}
+	//readmeAppendConventional, err := gh_conventional_kit.TemplateConventionalReadme(conventionalConfig)
+	//if err != nil {
+	//	return err
+	//}
+	//sb.WriteString(readmeAppendConventional)
+	//if len(n.LanguageSet) > 0 {
+	//	languageConventional := gh_conventional_kit.LanguageConventional()
+	//	for _, l := range n.LanguageSet {
+	//		_, ok := languageConventional[l]
+	//		if ok {
+	//			sb.WriteString("\n")
+	//			sb.WriteString(languageConventional[l])
+	//			sb.WriteString("\n")
+	//		} else {
+	//			return fmt.Errorf("tempalte not support language: %s", l)
+	//		}
+	//	}
+	//}
+	//sb.WriteString("\n\n")
+	//
+	//if command.CmdGlobalEntry().DryRun {
+	//	color.Bluef("-> dry run, not add to file: %s\n\n", n.TargetFile)
+	//
+	//	color.Greenf("template append head at path: %s \n", n.TargetFile)
+	//	color.Grayf("%s\n", sb.String())
+	//	return nil
+	//}
+	//
+	//err = gh_conventional_kit.TemplateGitRootWalk(conventionalConfig, n.GitRootPath)
+	//if err != nil {
+	//	return err
+	//}
+	//
+	//if len(n.LanguageSet) > 0 {
+	//	conventionalTemplate := gh_conventional_kit.LanguageConventionalTemplate()
+	//	for _, l := range n.LanguageSet {
+	//		_, ok := conventionalTemplate[l]
+	//		if ok {
+	//			fun := conventionalTemplate[l]
+	//			err = fun(conventionalConfig, n.TargetFolder, n.CoverageTargetFolderFile)
+	//			if err != nil {
+	//				return err
+	//			}
+	//			slog.Debugf("-> finish add template at language: %s", l)
+	//		}
+	//	}
+	//}
 	slog.Infof("-> finish at template at: %s", n.TargetFolder)
 
 	err = filepath_plus.AppendFileHead(n.TargetFile, []byte(sb.String()))

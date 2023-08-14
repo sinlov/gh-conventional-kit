@@ -1,4 +1,4 @@
-package template_file
+package contributing_doc
 
 type ConventionalConfig struct {
 	GitOwnerName string

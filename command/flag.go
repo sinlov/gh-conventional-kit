@@ -12,13 +12,13 @@ import (
 func GlobalFlag() []cli.Flag {
 	return []cli.Flag{
 		&cli.BoolFlag{
-			Name:    "verbose",
+			Name:    constant.NameCliVerbose,
 			Usage:   "open cli verbose mode",
 			Value:   false,
 			EnvVars: []string{constant.EnvKeyCliVerbose},
 		},
 		&cli.BoolFlag{
-			Name:  "dry-run",
+			Name:  constant.NameCliDryRun,
 			Usage: "See the commands that running standard-version would run",
 			Value: false,
 		},
@@ -28,18 +28,24 @@ func GlobalFlag() []cli.Flag {
 func HideGlobalFlag() []cli.Flag {
 	return []cli.Flag{
 		&cli.UintFlag{
-			Name:    "config.timeout_second",
-			Usage:   "command timeout setting second. default 10",
+			Name:    constant.NameCliTimeoutSecond,
+			Usage:   "command timeout setting second.",
 			Hidden:  true,
 			Value:   10,
 			EnvVars: []string{constant.EnvKeyCliTimeoutSecond},
 		},
 		&cli.StringFlag{
-			Name:    "config.log_level",
+			Name:    constant.NameLogLevel,
 			Usage:   fmt.Sprintf("command clog level. default %s", slog.INFO),
 			Value:   slog.INFO,
 			Hidden:  true,
 			EnvVars: []string{constant.EnvLogLevel},
+		},
+		&cli.StringFlag{
+			Name:   constant.NameCliRunPath,
+			Usage:  "command run path. default current path",
+			Hidden: true,
+			Value:  "",
 		},
 	}
 }
