@@ -1,242 +1,65 @@
 package gh_conventional_kit
 
 import (
+	"embed"
 	_ "embed"
-	"github.com/bar-counter/slog"
-	"github.com/sinlov/gh-conventional-kit/resource/template_file"
-	"github.com/sinlov/gh-conventional-kit/utils/filepath_plus"
-	"path/filepath"
+	"github.com/sinlov/gh-conventional-kit/constant"
+	"github.com/sinlov/gh-conventional-kit/internal/embed_source"
+	"github.com/sinlov/gh-conventional-kit/resource"
+	"path"
 )
 
 //go:embed package.json
 var PackageJson string
 
-//go:embed resource/template_file/conventional_readme.md
-var conventionalReadme string
+func CheckAllResource(root string) error {
 
-func TemplateConventionalReadme(readme template_file.ConventionalConfig) (string, error) {
-	return template_file.Render(conventionalReadme, readme)
-}
+	embed_source.SettingResourceRootPath(root)
 
-var (
-	//go:embed resource/template_file/versionrc.json
-	versionrc string
-	//go:embed resource/template_file/dependabot.yml
-	dependabotYml string
-)
-
-func TemplateGitRootWalk(config template_file.ConventionalConfig, gitRootDir string) error {
-	walkList := []template_file.ConventionalFile{
-		{
-			Name:         ".versionrc",
-			GitOwnerName: config.GitOwnerName,
-			GitRepoName:  config.GitOwnerName,
-			FullPaths:    []string{gitRootDir, ".versionrc"},
-			Content:      versionrc,
-		},
-		{
-			Name:         "dependabot.yml",
-			GitOwnerName: config.GitOwnerName,
-			GitRepoName:  config.GitOwnerName,
-			FullPaths:    []string{gitRootDir, ".github", "dependabot.yml"},
-			Content:      dependabotYml,
-		},
+	err := embed_source.InitResourceByDir(resource.GroupResource, embedResourceFiles, embedDotGithubList)
+	if err != nil {
+		return err
 	}
-	for _, cFile := range walkList {
-		tPath := filepath.Join(cFile.FullPaths...)
-		err := filepath_plus.CheckOrCreateFileWithStringFast(tPath, cFile.Content)
+
+	for _, resActionItem := range embedResourceActionList {
+		err = embed_source.InitResourceGroupByLanguage(resource.GroupResourceAction, embedResourceActionFiles, resActionItem, constant.SupportLanguage())
 		if err != nil {
 			return err
 		}
-		slog.Debugf("TemplateGitRootWalk check or create file: %s", tPath)
 	}
-	return nil
-}
 
-var languageConventional map[string]string
-
-func LanguageConventional() map[string]string {
-	if languageConventional == nil {
-		languageConventional = map[string]string{
-			"en-US": enUsConventionalReadme,
-			"zh-CN": zhCNConventionalReadme,
+	for _, resPathItem := range embedResourceCCDocPathList {
+		err = embed_source.InitResourceGroupByLanguage(resource.GroupResource, embedResourceContributingDocFiles, resPathItem, constant.SupportLanguage())
+		if err != nil {
+			return err
 		}
 	}
-	return languageConventional
-}
 
-type TemplateFunc func(config template_file.ConventionalConfig, dir string, coverage bool) error
-
-var languageConventionalTemplate map[string]TemplateFunc
-
-func LanguageConventionalTemplate() map[string]TemplateFunc {
-	if languageConventionalTemplate == nil {
-		languageConventionalTemplate = map[string]TemplateFunc{
-			"en-US": templateGithubDotWalkEnUs,
-			"zh-CN": templateGithubDotWalkZhCn,
-		}
-	}
-	return languageConventionalTemplate
-}
-
-var (
-	//go:embed resource/template_file/github_template/en-US/conventional_readme.md
-	enUsConventionalReadme string
-
-	//go:embed resource/template_file/github_template/en-US/pull_request_template.md
-	enUSPullRequestTemplate string
-
-	//go:embed resource/template_file/github_template/en-US/CONTRIBUTING_DOC/CODE_OF_CONDUCT.md
-	enUSCodeOfConduct string
-
-	//go:embed resource/template_file/github_template/en-US/CONTRIBUTING_DOC/CONTRIBUTING.md
-	enUSContributing string
-
-	//go:embed resource/template_file/github_template/en-US/ISSUE_TEMPLATE/bug_report.md
-	enUSIssueTemplateBugReport string
-
-	//go:embed resource/template_file/github_template/en-US/ISSUE_TEMPLATE/documentation.md
-	enUSIssueTemplateDocumentation string
-
-	//go:embed resource/template_file/github_template/en-US/ISSUE_TEMPLATE/feature_request.md
-	enUSIssueTemplateFeatureRequest string
-
-	//go:embed resource/template_file/github_template/en-US/ISSUE_TEMPLATE/good_first_issue.md
-	enUSIssueTemplateGoodFirstIssue string
-
-	//go:embed resource/template_file/github_template/en-US/ISSUE_TEMPLATE/help_wanted.md
-	enUSIssueTemplateHelpWanted string
-
-	//go:embed resource/template_file/github_template/en-US/ISSUE_TEMPLATE/question.md
-	enUSIssueTemplateQuestion string
-)
-
-func templateGithubDotWalkEnUs(config template_file.ConventionalConfig, targetRootDir string, coverage bool) error {
-	walkList := []template_file.ConventionalFile{
-		{
-			Name:         "pull_request_template.md",
-			GitOwnerName: config.GitOwnerName,
-			GitRepoName:  config.GitOwnerName,
-			FullPaths:    []string{targetRootDir, "pull_request_template.md"},
-			Content:      enUSPullRequestTemplate,
-		},
-		{
-			Name:         "CODE_OF_CONDUCT.md",
-			GitOwnerName: config.GitOwnerName,
-			GitRepoName:  config.GitOwnerName,
-			FullPaths:    []string{targetRootDir, "CONTRIBUTING_DOC", "CODE_OF_CONDUCT.md"},
-			Content:      enUSCodeOfConduct,
-		},
-		{
-			Name:         "CONTRIBUTING.md",
-			GitOwnerName: config.GitOwnerName,
-			GitRepoName:  config.GitOwnerName,
-			FullPaths:    []string{targetRootDir, "CONTRIBUTING_DOC", "CONTRIBUTING.md"},
-			Content:      enUSContributing,
-		},
-		{
-			Name:         "bug_report.md",
-			GitOwnerName: config.GitOwnerName,
-			GitRepoName:  config.GitOwnerName,
-			FullPaths:    []string{targetRootDir, "ISSUE_TEMPLATE", "bug_report.md"},
-			Content:      enUSIssueTemplateBugReport,
-		},
-		{
-			Name:         "documentation.md",
-			GitOwnerName: config.GitOwnerName,
-			GitRepoName:  config.GitOwnerName,
-			FullPaths:    []string{targetRootDir, "ISSUE_TEMPLATE", "documentation.md"},
-			Content:      enUSIssueTemplateDocumentation,
-		},
-		{
-			Name:         "feature_request.md",
-			GitOwnerName: config.GitOwnerName,
-			GitRepoName:  config.GitOwnerName,
-			FullPaths:    []string{targetRootDir, "ISSUE_TEMPLATE", "feature_request.md"},
-			Content:      enUSIssueTemplateFeatureRequest,
-		},
-		{
-			Name:         "good_first_issue.md",
-			GitOwnerName: config.GitOwnerName,
-			GitRepoName:  config.GitOwnerName,
-			FullPaths:    []string{targetRootDir, "ISSUE_TEMPLATE", "good_first_issue.md"},
-			Content:      enUSIssueTemplateGoodFirstIssue,
-		},
-		{
-			Name:         "help_wanted.md",
-			GitOwnerName: config.GitOwnerName,
-			GitRepoName:  config.GitOwnerName,
-			FullPaths:    []string{targetRootDir, "ISSUE_TEMPLATE", "help_wanted.md"},
-			Content:      enUSIssueTemplateHelpWanted,
-		},
-		{
-			Name:         "question.md",
-			GitOwnerName: config.GitOwnerName,
-			GitRepoName:  config.GitOwnerName,
-			FullPaths:    []string{targetRootDir, "ISSUE_TEMPLATE", "question.md"},
-			Content:      enUSIssueTemplateQuestion,
-		},
-	}
-	for _, cFile := range walkList {
-		tPath := filepath.Join(cFile.FullPaths...)
-		if coverage {
-			err := filepath_plus.AlterFileWithStringFast(tPath, cFile.Content)
-			if err != nil {
-				return err
-			}
-		} else {
-			err := filepath_plus.CheckOrCreateFileWithStringFast(tPath, cFile.Content)
-			if err != nil {
-				return err
-			}
-		}
-		slog.Debugf("TemplateGithubDotWalkEnUs check or create mode [ %v ] file: %s", coverage, tPath)
-	}
 	return nil
 }
 
 var (
-	//go:embed resource/template_file/github_template/zh-CN/conventional_readme.md
-	zhCNConventionalReadme string
+	//go:embed resource
+	embedResourceFiles embed.FS
 
-	//go:embed resource/template_file/github_template/zh-CN/CONTRIBUTING_DOC/CODE_OF_CONDUCT.md
-	zhCNCodeOfConduct string
+	embedDotGithubList = []string{
+		path.Join(resource.GroupResource, resource.DirGithubAction, resource.KeyIssueTemplate),
+	}
 
-	//go:embed resource/template_file/github_template/zh-CN/CONTRIBUTING_DOC/CONTRIBUTING.md
-	zhCNContributing string
+	//go:embed resource/action
+	embedResourceActionFiles embed.FS
+
+	embedResourceActionList = []string{
+		resource.KeyContributingDoc,
+		resource.KeyPullRequestTemplate,
+		resource.KeyDependabotConfig,
+	}
+
+	//go:embed resource/contributing_doc
+	embedResourceContributingDocFiles embed.FS
+
+	embedResourceCCDocPathList = []string{
+		path.Join(resource.DirNameContributingDoc, resource.KeyConventionalReadmeTitle),
+		path.Join(resource.DirNameContributingDoc, resource.KeyConventionalReadmeI18n),
+	}
 )
-
-func templateGithubDotWalkZhCn(config template_file.ConventionalConfig, targetRootDir string, coverage bool) error {
-	walkList := []template_file.ConventionalFile{
-		{
-			Name:         "CODE_OF_CONDUCT.md",
-			GitOwnerName: config.GitOwnerName,
-			GitRepoName:  config.GitOwnerName,
-			FullPaths:    []string{targetRootDir, "CONTRIBUTING_DOC", "zh-CN", "CODE_OF_CONDUCT.md"},
-			Content:      zhCNCodeOfConduct,
-		},
-		{
-			Name:         "CONTRIBUTING.md",
-			GitOwnerName: config.GitOwnerName,
-			GitRepoName:  config.GitOwnerName,
-			FullPaths:    []string{targetRootDir, "CONTRIBUTING_DOC", "zh-CN", "CONTRIBUTING.md"},
-			Content:      zhCNContributing,
-		},
-	}
-	for _, cFile := range walkList {
-		tPath := filepath.Join(cFile.FullPaths...)
-		if coverage {
-			err := filepath_plus.AlterFileWithStringFast(tPath, cFile.Content)
-			if err != nil {
-				return err
-			}
-		} else {
-			err := filepath_plus.CheckOrCreateFileWithStringFast(tPath, cFile.Content)
-			if err != nil {
-				return err
-			}
-		}
-		slog.Debugf("TemplateGithubDotWalkEnUs check or create mode [ %v ] file: %s", coverage, tPath)
-	}
-	return nil
-}

@@ -12,11 +12,5 @@
     {"type": "chore", "section":"📦 Chores", "hidden": true, "sort": 10},
     {"type": "revert", "section":"⏪ Reverts", "hidden": false, "sort": 11}
   ],
-  "tag-prefix": "",
-  "skip": {
-    "bump": false,
-    "changelog": false,
-    "commit": false,
-    "tag": false
-  }
+  "tag-prefix": "v"
 }

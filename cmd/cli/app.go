@@ -6,15 +6,21 @@ import (
 	"github.com/sinlov/gh-conventional-kit/command/subcommand_badge"
 	"github.com/sinlov/gh-conventional-kit/command/subcommand_markdown"
 	"github.com/sinlov/gh-conventional-kit/command/subcommand_template"
-	"github.com/sinlov/gh-conventional-kit/constant"
-	"github.com/sinlov/gh-conventional-kit/utils/pkgJson"
-	"github.com/sinlov/gh-conventional-kit/utils/urfave_cli"
+	"github.com/sinlov/gh-conventional-kit/internal/pkgJson"
+	"github.com/sinlov/gh-conventional-kit/internal/urfave_cli"
+	"github.com/sinlov/gh-conventional-kit/internal/urfave_cli/cli_exit_urfave"
 	"github.com/urfave/cli/v2"
 	"runtime"
 	"time"
 )
 
+const (
+	copyrightStartYear = "2023"
+	defaultExitCode    = 1
+)
+
 func NewCliApp() *cli.App {
+	cli_exit_urfave.ChangeDefaultExitCode(defaultExitCode)
 	app := cli.NewApp()
 	app.EnableBashCompletion = true
 	app.Version = pkgJson.GetPackageJsonVersionGoStyle(false)
@@ -27,7 +33,7 @@ func NewCliApp() *cli.App {
 	year := time.Now().Year()
 	jsonAuthor := pkgJson.GetPackageJsonAuthor()
 	app.Copyright = fmt.Sprintf("© %s-%d %s by: %s, run on %s %s",
-		constant.CopyrightStartYear, year, jsonAuthor.Name, runtime.Version(), runtime.GOOS, runtime.GOARCH)
+		copyrightStartYear, year, jsonAuthor.Name, runtime.Version(), runtime.GOOS, runtime.GOARCH)
 	author := &cli.Author{
 		Name:  jsonAuthor.Name,
 		Email: jsonAuthor.Email,

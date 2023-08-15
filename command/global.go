@@ -3,14 +3,19 @@ package command
 import (
 	"fmt"
 	"github.com/bar-counter/slog"
-	"github.com/sinlov/gh-conventional-kit/utils/log"
-	"github.com/sinlov/gh-conventional-kit/utils/pkgJson"
+	"github.com/sinlov/gh-conventional-kit"
+	"github.com/sinlov/gh-conventional-kit/constant"
+	"github.com/sinlov/gh-conventional-kit/internal/log"
+	"github.com/sinlov/gh-conventional-kit/internal/pkgJson"
+	"github.com/sinlov/gh-conventional-kit/internal/urfave_cli/cli_exit_urfave"
 	"github.com/urfave/cli/v2"
+	"os"
 )
 
 type GlobalConfig struct {
 	LogLevel      string
 	TimeoutSecond uint
+	RunRootPath   string
 }
 
 type (
@@ -67,8 +72,12 @@ func GlobalBeforeAction(c *cli.Context) error {
 		slog.Warnf("-> open verbose, and now command version is: %s", cliVersion)
 	}
 	appName := pkgJson.GetPackageJsonName()
-	cmdGlobalEntry = withGlobalFlag(c, cliVersion, appName)
+	cmdGlobal, errFlag := withGlobalFlag(c, cliVersion, appName)
+	if errFlag != nil {
+		return cli_exit_urfave.ErrMsg(errFlag, "init global flag")
+	}
 
+	cmdGlobalEntry = cmdGlobal
 	return nil
 }
 
@@ -85,20 +94,35 @@ func GlobalAfterAction(c *cli.Context) error {
 	return nil
 }
 
-func withGlobalFlag(c *cli.Context, cliVersion, cliName string) *GlobalCommand {
-	isVerbose := c.Bool("verbose")
+func withGlobalFlag(c *cli.Context, cliVersion, cliName string) (*GlobalCommand, error) {
+	isVerbose := c.Bool(constant.NameCliVerbose)
+	cliRunRootPath := c.String(constant.NameCliRunPath)
+	if len(cliRunRootPath) == 0 {
+		rootDir, err := os.Getwd()
+		if err != nil {
+			slog.Errorf(err, "get rooted path name corresponding to the current directory path err")
+			return nil, cli_exit_urfave.Err(err)
+		}
+		cliRunRootPath = rootDir
+	}
+	err := gh_conventional_kit.CheckAllResource(cliRunRootPath)
+	if err != nil {
+		slog.Errorf(err, "check all resource err")
+		return nil, cli_exit_urfave.Err(err)
+	}
 
 	config := GlobalConfig{
-		LogLevel:      c.String("config.log_level"),
-		TimeoutSecond: c.Uint("config.timeout_second"),
+		LogLevel:      c.String(constant.NameLogLevel),
+		TimeoutSecond: c.Uint(constant.NameCliTimeoutSecond),
+		RunRootPath:   cliRunRootPath,
 	}
 
 	p := GlobalCommand{
 		Name:    cliName,
 		Version: cliVersion,
 		Verbose: isVerbose,
-		DryRun:  c.Bool("dry-run"),
+		DryRun:  c.Bool(constant.NameCliDryRun),
 		RootCfg: config,
 	}
-	return &p
+	return &p, nil
 }

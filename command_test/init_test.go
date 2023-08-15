@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/sinlov/gh-conventional-kit/internal/embed_source"
 	"io/fs"
 	"math/rand"
 	"os"
@@ -35,6 +36,7 @@ var (
 )
 
 func init() {
+	embed_source.RegisterSettings(embed_source.DefaultFunctions)
 	envDebug = fetchOsEnvBool(keyEnvDebug, false)
 	envCiNum = fetchOsEnvInt(keyEnvCiNum, 1)
 	envCiKey = fetchOsEnvStr(keyEnvCiKey, "")
