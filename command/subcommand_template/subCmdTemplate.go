@@ -120,7 +120,8 @@ func (n *TemplateCommand) Exec() error {
 	}
 	err = embed_operator.WriteFileByEmbedResources(resIssues,
 		n.GitRootPath, n.CoverageTargetFolderFile,
-		filepath.Join(resource.GroupResource, resource.DirGithubAction), constant.PathGithubAction,
+		path.Join(resource.GroupResource, resource.DirGithubAction),
+		constant.PathGithubAction,
 		"issue template")
 	if err != nil {
 		slog.Errorf(err, "WriteFileByEmbedResources")
@@ -136,7 +137,8 @@ func (n *TemplateCommand) Exec() error {
 		}
 		errMaintainResourceWrite := embed_operator.WriteFileByEmbedResource(maintainResEmbedItem,
 			n.GitRootPath, n.CoverageTargetFolderFile,
-			filepath.Join(resource.GroupResource, resource.DirGithubAction), constant.PathGithubAction,
+			path.Join(resource.GroupResource, resource.DirGithubAction),
+			constant.PathGithubAction,
 			maintainResourceFileItem)
 		if errMaintainResourceWrite != nil {
 			slog.Errorf(errMaintainResourceWrite, "WriteFileByEmbedResource for maintainResourceActionFileList %s", maintainResourceFileItem)
@@ -152,7 +154,8 @@ func (n *TemplateCommand) Exec() error {
 		}
 		errWriteCCAsLang := embed_operator.WriteFileByEmbedResources(ccEmbedAsLang,
 			n.GitRootPath, n.CoverageTargetFolderFile,
-			filepath.Join(resource.GroupResource, resource.DirGithubAction), n.ConventionalTargetFolder,
+			path.Join(resource.GroupResource, resource.DirGithubAction),
+			n.ConventionalTargetFolder,
 			"contributing template",
 		)
 		if errWriteCCAsLang != nil {
