@@ -21,16 +21,14 @@ func CheckAllResource(root string) error {
 		return err
 	}
 
-	err = embed_source.InitResourceGroupByLanguage(resource.GroupResourceAction, embedResourceActionFiles, resource.KeyPullRequestTemplate, constant.SupportLanguage())
-	if err != nil {
-		return err
-	}
-	err = embed_source.InitResourceGroupByLanguage(resource.GroupResourceAction, embedResourceActionFiles, resource.KeyDependabotConfig, constant.SupportLanguage())
-	if err != nil {
-		return err
+	for _, resActionItem := range embedResourceActionList {
+		err = embed_source.InitResourceGroupByLanguage(resource.GroupResourceAction, embedResourceActionFiles, resActionItem, constant.SupportLanguage())
+		if err != nil {
+			return err
+		}
 	}
 
-	for _, resPathItem := range embedResourcePathList {
+	for _, resPathItem := range embedResourceCCDocPathList {
 		err = embed_source.InitResourceGroupByLanguage(resource.GroupResource, embedResourceContributingDocFiles, resPathItem, constant.SupportLanguage())
 		if err != nil {
 			return err
@@ -51,10 +49,16 @@ var (
 	//go:embed resource/action
 	embedResourceActionFiles embed.FS
 
+	embedResourceActionList = []string{
+		resource.KeyContributingDoc,
+		resource.KeyPullRequestTemplate,
+		resource.KeyDependabotConfig,
+	}
+
 	//go:embed resource/contributing_doc
 	embedResourceContributingDocFiles embed.FS
 
-	embedResourcePathList = []string{
+	embedResourceCCDocPathList = []string{
 		path.Join(resource.DirNameContributingDoc, resource.KeyConventionalReadmeTitle),
 		path.Join(resource.DirNameContributingDoc, resource.KeyConventionalReadmeI18n),
 	}

@@ -6,14 +6,15 @@ import (
 	"github.com/sinlov/gh-conventional-kit/internal/filepath_plus"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
-func WriteFileByEmbedResources(resourceList []embed_source.EmbedResource, root string, isCoverage bool, addFileTag string) error {
+func WriteFileByEmbedResources(resourceList []embed_source.EmbedResource, root string, isCoverage bool, innerPath string, replacePath string, addFileTag string) error {
 	for _, embedRes := range resourceList {
 		if embedRes.IsDir() {
 			continue
 		}
-		err := WriteFileByEmbedResource(embedRes, root, isCoverage, addFileTag)
+		err := WriteFileByEmbedResource(embedRes, root, isCoverage, innerPath, replacePath, addFileTag)
 		if err != nil {
 			return err
 		}
@@ -22,8 +23,10 @@ func WriteFileByEmbedResources(resourceList []embed_source.EmbedResource, root s
 	return nil
 }
 
-func WriteFileByEmbedResource(embedSource embed_source.EmbedResource, root string, isCoverage bool, addFileTag string) error {
-	targetPath := filepath.Join(root, embedSource.RelativePath())
+func WriteFileByEmbedResource(embedSource embed_source.EmbedResource, root string, isCoverage bool, innerPath string, replacePath string, addFileTag string) error {
+	relativePath := embedSource.RelativePath()
+	pathReplace := strings.Replace(relativePath, innerPath, replacePath, 1)
+	targetPath := filepath.Join(root, pathReplace)
 	if filepath_plus.PathExistsFast(targetPath) {
 		if isCoverage {
 			bytes, err := embedSource.Raw()

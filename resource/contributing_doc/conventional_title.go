@@ -1,6 +1,6 @@
 package contributing_doc
 
-type ConventionalConfig struct {
+type ConventionalTitleConfig struct {
 	GitOwnerName string
 	GitRepoName  string
 }

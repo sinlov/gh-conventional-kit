@@ -1,5 +1,7 @@
 package constant
 
+import "sort"
+
 const (
 	NameCliDryRun = "dry-run"
 
@@ -27,4 +29,17 @@ const (
 	// NameCliRunPath
 	// 	Provides the cwd path flag
 	NameCliRunPath = "config.cli_run_root_path"
+
+	// PathGithubAction
+	// github action path
+	PathGithubAction = ".github"
 )
+
+func StrInArr(target string, strArray []string) bool {
+	sort.Strings(strArray)
+	index := sort.SearchStrings(strArray, target)
+	if index < len(strArray) && strArray[index] == target {
+		return true
+	}
+	return false
+}

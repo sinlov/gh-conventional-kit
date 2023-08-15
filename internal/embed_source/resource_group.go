@@ -34,7 +34,7 @@ func checkResourceRootPathNotSet() bool {
 
 // GetResourceByLanguage
 // this method will check lang and parent dir
-// if not found will use default lang
+// if not found will use default lang with GetResourceByLanguageDefault
 //
 //	group: resource group, most of the use path of resource folder
 //	innerPath: inner path of resource folder
@@ -48,25 +48,46 @@ func GetResourceByLanguage(group string, innerPath string, lang string) (EmbedRe
 	wantKey := fmt.Sprintf("%s%s%s%s%s", group, markKey, lang, markKey, parentDirPath)
 	resources, ok := resourceGroup[wantKey]
 	if !ok {
-		defaultKey := fmt.Sprintf("%s%s%s%s", group, markKey, markKey, parentDirPath)
-		resourcesDefault, okDefault := resourceGroup[defaultKey]
-		if !okDefault {
-			return nil, fmt.Errorf("not found GetResourceListByLanguage group %s lang %s item %s, as item %s", group, lang, innerPath, defaultKey)
-		}
-		resources = resourcesDefault
+		return GetResourceByLanguageDefault(group, innerPath)
 	}
 	if len(resources) == 0 {
 		return nil, fmt.Errorf("not found GetResourceListByLanguage group %s lang %s item %s", group, lang, innerPath)
 	}
+	var target EmbedResource
 	for _, resource := range resources {
 		if resource.Lang() != "" && resource.Lang() != lang {
 			continue
 		}
 		if resource.FileName() == fileName {
+			target = resource
+		}
+	}
+
+	if target != nil {
+		return target, nil
+	}
+
+	return GetResourceByLanguageDefault(group, innerPath)
+}
+
+func GetResourceByLanguageDefault(group string, innerPath string) (EmbedResource, error) {
+	checkPath := path.Join(group, innerPath)
+	parentDirPath := path.Dir(checkPath)
+	fileName := path.Base(checkPath)
+	defaultKey := fmt.Sprintf("%s%s%s%s", group, markKey, markKey, parentDirPath)
+	resourcesDefault, okDefault := resourceGroup[defaultKey]
+	if !okDefault {
+		return nil, fmt.Errorf("not found GetResourceByLanguageDefault group %s item %s, as item %s", group, innerPath, defaultKey)
+	}
+	if len(resourcesDefault) == 0 {
+		return nil, fmt.Errorf("not found GetResourceByLanguageDefault group %s item %s", group, innerPath)
+	}
+	for _, resource := range resourcesDefault {
+		if resource.FileName() == fileName {
 			return resource, nil
 		}
 	}
-	return nil, fmt.Errorf("not found GetResourceListByLanguage group %s lang %s item %s", group, lang, innerPath)
+	return nil, fmt.Errorf("not found GetResourceByLanguageDefault group %s item %s", group, innerPath)
 }
 
 func GetResourceListByLanguage(group string, innerScanPath string, lang string) ([]EmbedResource, error) {

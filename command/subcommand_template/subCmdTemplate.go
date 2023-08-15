@@ -3,14 +3,21 @@ package subcommand_template
 import (
 	"fmt"
 	"github.com/bar-counter/slog"
+	"github.com/gookit/color"
 	"github.com/sinlov-go/go-git-tools/git_info"
 	"github.com/sinlov/gh-conventional-kit/command"
 	"github.com/sinlov/gh-conventional-kit/command/common_subcommand"
 	"github.com/sinlov/gh-conventional-kit/constant"
+	"github.com/sinlov/gh-conventional-kit/internal/embed_operator"
+	"github.com/sinlov/gh-conventional-kit/internal/embed_source"
 	"github.com/sinlov/gh-conventional-kit/internal/filepath_plus"
 	"github.com/sinlov/gh-conventional-kit/internal/urfave_cli"
+	"github.com/sinlov/gh-conventional-kit/internal/urfave_cli/cli_exit_urfave"
+	"github.com/sinlov/gh-conventional-kit/resource"
+	"github.com/sinlov/gh-conventional-kit/resource/contributing_doc"
 	"github.com/urfave/cli/v2"
 	"os"
+	"path"
 	"path/filepath"
 	"strings"
 )
@@ -26,12 +33,19 @@ type TemplateCommand struct {
 	LocalGitRemoteInfo *git_info.GitRemoteInfo
 	LocalGitBranch     string
 
-	TargetFile               string
-	TargetFolder             string
 	CoverageTargetFolderFile bool
+	TargetFile               string
+	ConventionalTargetFolder string
 	LanguageSet              []string
 	BadgeConfig              *constant.BadgeConfig
 }
+
+var (
+	maintainResourceActionFileList = []string{
+		resource.KeyPullRequestTemplate,
+		resource.KeyDependabotConfig,
+	}
+)
 
 func (n *TemplateCommand) Exec() error {
 
@@ -42,66 +56,112 @@ func (n *TemplateCommand) Exec() error {
 		n.LocalGitBranch,
 	)
 	if err != nil {
-		return err
+		slog.Errorf(err, "BadgeByConfigWithMarkdown")
+		return cli_exit_urfave.ErrMsg(err, "BadgeByConfigWithMarkdown")
 	}
 
 	var sb strings.Builder
 	sb.WriteString(readmeAppendHead)
 	sb.WriteString("\n")
 
-	//conventionalConfig := contributing_doc.ConventionalConfig{
-	//	GitOwnerName: n.LocalGitRemoteInfo.User,
-	//	GitRepoName:  n.LocalGitRemoteInfo.Repo,
-	//}
+	conventionalConfig := contributing_doc.ConventionalTitleConfig{
+		GitOwnerName: n.LocalGitRemoteInfo.User,
+		GitRepoName:  n.LocalGitRemoteInfo.Repo,
+	}
 
-	//readmeAppendConventional, err := gh_conventional_kit.TemplateConventionalReadme(conventionalConfig)
-	//if err != nil {
-	//	return err
-	//}
-	//sb.WriteString(readmeAppendConventional)
-	//if len(n.LanguageSet) > 0 {
-	//	languageConventional := gh_conventional_kit.LanguageConventional()
-	//	for _, l := range n.LanguageSet {
-	//		_, ok := languageConventional[l]
-	//		if ok {
-	//			sb.WriteString("\n")
-	//			sb.WriteString(languageConventional[l])
-	//			sb.WriteString("\n")
-	//		} else {
-	//			return fmt.Errorf("tempalte not support language: %s", l)
-	//		}
-	//	}
-	//}
-	//sb.WriteString("\n\n")
-	//
-	//if command.CmdGlobalEntry().DryRun {
-	//	color.Bluef("-> dry run, not add to file: %s\n\n", n.TargetFile)
-	//
-	//	color.Greenf("template append head at path: %s \n", n.TargetFile)
-	//	color.Grayf("%s\n", sb.String())
-	//	return nil
-	//}
-	//
-	//err = gh_conventional_kit.TemplateGitRootWalk(conventionalConfig, n.GitRootPath)
-	//if err != nil {
-	//	return err
-	//}
-	//
-	//if len(n.LanguageSet) > 0 {
-	//	conventionalTemplate := gh_conventional_kit.LanguageConventionalTemplate()
-	//	for _, l := range n.LanguageSet {
-	//		_, ok := conventionalTemplate[l]
-	//		if ok {
-	//			fun := conventionalTemplate[l]
-	//			err = fun(conventionalConfig, n.TargetFolder, n.CoverageTargetFolderFile)
-	//			if err != nil {
-	//				return err
-	//			}
-	//			slog.Debugf("-> finish add template at language: %s", l)
-	//		}
-	//	}
-	//}
-	slog.Infof("-> finish at template at: %s", n.TargetFolder)
+	conventionalTitleEmbed, err := embed_source.GetResourceByLanguage(resource.GroupResource,
+		path.Join(resource.DirNameContributingDoc, resource.KeyConventionalReadmeTitle), constant.LangEnUS)
+	if err != nil {
+		slog.Errorf(err, "GetResourceByLanguage")
+		return cli_exit_urfave.Err(err)
+	}
+
+	ccTitleRenderRes, err := conventionalTitleEmbed.Render(conventionalConfig)
+	if err != nil {
+		slog.Errorf(err, "Render")
+		return cli_exit_urfave.Err(err)
+	}
+	slog.Debugf("-> conventionalTitleEmbed render: %s", ccTitleRenderRes)
+	sb.WriteString(ccTitleRenderRes)
+
+	if len(n.LanguageSet) > 0 {
+
+		for _, l := range n.LanguageSet {
+			ccReadmeEmbed, errCCReadMe := embed_source.GetResourceByLanguage(resource.GroupResource,
+				path.Join(resource.DirNameContributingDoc, resource.KeyConventionalReadmeI18n), l)
+			if errCCReadMe != nil {
+				slog.Warnf("get conventional readme i18n err: %v", errCCReadMe)
+				continue
+			}
+			ccReadmeContent, errCCReadMe := ccReadmeEmbed.Raw()
+			if errCCReadMe != nil {
+				slog.Warnf("get conventional readme i18n Raw err: %v", errCCReadMe)
+				continue
+			}
+			sb.WriteString("\n")
+			sb.WriteString(string(ccReadmeContent))
+			sb.WriteString("\n")
+		}
+	}
+	sb.WriteString("\n\n")
+
+	if command.CmdGlobalEntry().DryRun {
+		color.Bluef("-> dry run, not add to file: %s\n\n", n.TargetFile)
+
+		color.Greenf("template append head at path: %s \n", n.TargetFile)
+		color.Grayf("%s\n", sb.String())
+		return nil
+	}
+
+	resIssues, err := embed_source.GetResourceGroupByDir(resource.GroupResource, path.Join(resource.DirGithubAction, resource.KeyIssueTemplate))
+	if err != nil {
+		slog.Errorf(err, "GetResourceGroupByDir")
+		return cli_exit_urfave.ErrMsg(err, "GetResourceGroupByDir")
+	}
+	err = embed_operator.WriteFileByEmbedResources(resIssues,
+		n.GitRootPath, n.CoverageTargetFolderFile,
+		filepath.Join(resource.GroupResource, resource.DirGithubAction), constant.PathGithubAction,
+		"issue template")
+	if err != nil {
+		slog.Errorf(err, "WriteFileByEmbedResources")
+		return cli_exit_urfave.ErrMsg(err, "WriteFileByEmbedResources")
+	}
+	slog.Infof("-> finish check issues template at: %s", constant.PathGithubAction)
+
+	for _, maintainResourceFileItem := range maintainResourceActionFileList {
+		maintainResEmbedItem, errMaintainResEmbed := embed_source.GetResourceByLanguage(resource.GroupResourceAction, maintainResourceFileItem, constant.LangEnUS)
+		if errMaintainResEmbed != nil {
+			slog.Errorf(errMaintainResEmbed, "GetResourceByLanguage for maintainResourceActionFileList %s", maintainResourceFileItem)
+			return cli_exit_urfave.ErrMsg(errMaintainResEmbed, "GetResourceByLanguage for maintainResourceActionFileList")
+		}
+		errMaintainResourceWrite := embed_operator.WriteFileByEmbedResource(maintainResEmbedItem,
+			n.GitRootPath, n.CoverageTargetFolderFile,
+			filepath.Join(resource.GroupResource, resource.DirGithubAction), constant.PathGithubAction,
+			maintainResourceFileItem)
+		if errMaintainResourceWrite != nil {
+			slog.Errorf(errMaintainResourceWrite, "WriteFileByEmbedResource for maintainResourceActionFileList %s", maintainResourceFileItem)
+			return cli_exit_urfave.Err(errMaintainResourceWrite)
+		}
+	}
+
+	for _, l := range n.LanguageSet {
+		ccEmbedAsLang, errCCEmbedAsLang := embed_source.GetResourceListByLanguage(resource.GroupResourceAction, resource.KeyContributingDoc, l)
+		if errCCEmbedAsLang != nil {
+			slog.Errorf(errCCEmbedAsLang, "GetResourceByLanguage")
+			return cli_exit_urfave.ErrMsg(errCCEmbedAsLang, "GetResourceByLanguage")
+		}
+		errWriteCCAsLang := embed_operator.WriteFileByEmbedResources(ccEmbedAsLang,
+			n.GitRootPath, n.CoverageTargetFolderFile,
+			filepath.Join(resource.GroupResource, resource.DirGithubAction), n.ConventionalTargetFolder,
+			"contributing template",
+		)
+		if errWriteCCAsLang != nil {
+			slog.Errorf(errWriteCCAsLang, "WriteFileByEmbedResources")
+			return cli_exit_urfave.ErrMsg(errWriteCCAsLang, "WriteFileByEmbedResources")
+		}
+	}
+
+	slog.Infof("-> finish add contributing template at: %s", n.ConventionalTargetFolder)
 
 	err = filepath_plus.AppendFileHead(n.TargetFile, []byte(sb.String()))
 	if err != nil {
@@ -129,9 +189,9 @@ func flag() []cli.Flag {
 			Value: "README.md",
 		},
 		&cli.StringFlag{
-			Name:  "targetFolder",
-			Usage: "set conventional folder, defaults is: .github",
-			Value: ".github",
+			Name:  "conventional-targetFolder",
+			Usage: "set conventional folder",
+			Value: constant.PathGithubAction,
 		},
 		&cli.BoolFlag{
 			Name:  "coverage-folder-file",
@@ -140,8 +200,8 @@ func flag() []cli.Flag {
 		},
 		&cli.StringSliceFlag{
 			Name:  "language",
-			Usage: "set language, support : en-US,zh-CN",
-			Value: cli.NewStringSlice("en-US"),
+			Usage: fmt.Sprintf("set language, support : %v", constant.SupportLanguage()),
+			Value: cli.NewStringSlice(constant.LangEnUS, constant.LangZhCN),
 		},
 	}
 }
@@ -173,8 +233,16 @@ func withEntry(c *cli.Context) (*TemplateCommand, error) {
 
 	targetFile := c.String("targetFile")
 	targetFile = filepath.Join(gitRootFolder, targetFile)
-	targetFolder := c.String("targetFolder")
-	targetFolder = filepath.Join(gitRootFolder, targetFolder)
+	conventionalTargetFolder := c.String("conventional-targetFolder")
+
+	languageSet := c.StringSlice("language")
+	if len(languageSet) > 0 {
+		for _, lang := range languageSet {
+			if !constant.StrInArr(lang, constant.SupportLanguage()) {
+				return nil, fmt.Errorf("not support language: %s, please check flag --language", lang)
+			}
+		}
+	}
 
 	return &TemplateCommand{
 		isDebug:            globalEntry.Verbose,
@@ -183,10 +251,10 @@ func withEntry(c *cli.Context) (*TemplateCommand, error) {
 		LocalGitRemoteInfo: fistRemoteInfo,
 		LocalGitBranch:     branchByPath,
 
-		TargetFile:               targetFile,
-		TargetFolder:             targetFolder,
 		CoverageTargetFolderFile: c.Bool("coverage-folder-file"),
-		LanguageSet:              c.StringSlice("language"),
+		TargetFile:               targetFile,
+		ConventionalTargetFolder: conventionalTargetFolder,
+		LanguageSet:              languageSet,
 		BadgeConfig:              constant.BindBadgeConfig(c),
 	}, nil
 }
