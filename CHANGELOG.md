@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [convention-change-log](https://github.com/convention-change/convention-change-log) for commit guidelines.
 
+## [1.8.0](https://github.com/sinlov/gh-conventional-kit/compare/1.7.1...v1.8.0) (2023-08-15)
+
+### ✨ Features
+
+* workflows-template can render by git info ([4f5714f9](https://github.com/sinlov/gh-conventional-kit/commit/4f5714f9fbb05398156cc25a8712cb80fdb3c198))
+
+* embed_source package to management template resource ([13f4b6df](https://github.com/sinlov/gh-conventional-kit/commit/13f4b6df34a98b1ebfb0f23f799949c219b43908)), feat [#10](https://github.com/sinlov/gh-conventional-kit/issues/10)
+
+### 🐛 Bug Fixes
+
+* fix windows inner path will be replace error ([66240198](https://github.com/sinlov/gh-conventional-kit/commit/66240198d54cdf546e159ea82ebc16919a96f831))
+
+### ♻ Refactor
+
+* rename util package to internal ([dd782237](https://github.com/sinlov/gh-conventional-kit/commit/dd78223754857f3a967b0a70cc3cc9af59459da6))
+
 ## [1.7.1](https://github.com/sinlov/gh-conventional-kit/compare/1.7.0...v1.7.1) (2023-08-05)
 
 ### 👷‍ Build System
