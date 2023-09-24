@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [convention-change-log](https://github.com/convention-change/convention-change-log) for commit guidelines.
 
+## [1.9.0](https://github.com/sinlov/gh-conventional-kit/compare/1.8.0...v1.9.0) (2023-09-24)
+
+### ✨ Features
+
+* change pull_request_template.md be sample ([2bca4de8](https://github.com/sinlov/gh-conventional-kit/commit/2bca4de8cece66df1eb9ab0c54766e2a8f621e27))
+
+* update template of issue support form ([20f697ae](https://github.com/sinlov/gh-conventional-kit/commit/20f697ae7ba62f99e67ae1cc3f14b6ccf9a45e6f)), feat [#13](https://github.com/sinlov/gh-conventional-kit/issues/13)
+
 ## [1.8.0](https://github.com/sinlov/gh-conventional-kit/compare/1.7.1...v1.8.0) (2023-08-15)
 
 ### ✨ Features
