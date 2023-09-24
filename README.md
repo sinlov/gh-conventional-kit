@@ -45,8 +45,8 @@ Please read [Contributor Guide](.github/CONTRIBUTING_DOC/CONTRIBUTING.md) for mo
 ```bash
 # install at $(GO_PATH)/bin
 $ go install -v github.com/sinlov/gh-conventional-kit/cmd/gh-conventional-kit@latest
-# install version v1.8.0
-$ go install -v github.com/sinlov/gh-conventional-kit/cmd/gh-conventional-kit@v1.8.0
+# install version v1.9.0
+$ go install -v github.com/sinlov/gh-conventional-kit/cmd/gh-conventional-kit@v1.9.0
 
 # usa as docker cli tools
 $ docker run --rm sinlov/gh-conventional-kit:latest -h
