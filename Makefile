@@ -8,7 +8,7 @@ ROOT_NAME?=gh-conventional-kit
 
 ## MakeDocker.mk settings start
 ROOT_OWNER ?=sinlov
-ROOT_PARENT_SWITCH_TAG=1.18.10-buster
+ROOT_PARENT_SWITCH_TAG=1.19.13-bullseye
 # for image local build
 INFO_TEST_BUILD_DOCKER_PARENT_IMAGE=golang
 # for image running
