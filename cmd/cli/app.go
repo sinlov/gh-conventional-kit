@@ -3,6 +3,7 @@ package cli
 import (
 	"fmt"
 	"github.com/sinlov/gh-conventional-kit/command"
+	"github.com/sinlov/gh-conventional-kit/command/subcommand_action"
 	"github.com/sinlov/gh-conventional-kit/command/subcommand_badge"
 	"github.com/sinlov/gh-conventional-kit/command/subcommand_markdown"
 	"github.com/sinlov/gh-conventional-kit/command/subcommand_template"
@@ -53,6 +54,7 @@ func NewCliApp() *cli.App {
 	appCommands = urfave_cli.UrfaveCliAppendCliCommand(appCommands, subcommand_badge.Command())
 	appCommands = urfave_cli.UrfaveCliAppendCliCommand(appCommands, subcommand_markdown.Command())
 	appCommands = urfave_cli.UrfaveCliAppendCliCommand(appCommands, subcommand_template.Command())
+	appCommands = urfave_cli.UrfaveCliAppendCliCommand(appCommands, subcommand_action.Command())
 
 	app.Commands = appCommands
 
