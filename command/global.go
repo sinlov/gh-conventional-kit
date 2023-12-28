@@ -3,7 +3,7 @@ package command
 import (
 	"fmt"
 	"github.com/bar-counter/slog"
-	"github.com/sinlov/gh-conventional-kit"
+	ghconventionalkit "github.com/sinlov/gh-conventional-kit"
 	"github.com/sinlov/gh-conventional-kit/constant"
 	"github.com/sinlov/gh-conventional-kit/internal/log"
 	"github.com/sinlov/gh-conventional-kit/internal/pkgJson"
@@ -105,7 +105,7 @@ func withGlobalFlag(c *cli.Context, cliVersion, cliName string) (*GlobalCommand,
 		}
 		cliRunRootPath = rootDir
 	}
-	err := gh_conventional_kit.CheckAllResource(cliRunRootPath)
+	err := ghconventionalkit.CheckAllResource(cliRunRootPath)
 	if err != nil {
 		slog.Errorf(err, "check all resource err")
 		return nil, cli_exit_urfave.Err(err)
