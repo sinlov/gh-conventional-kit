@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [convention-change-log](https://github.com/convention-change/convention-change-log) for commit guidelines.
 
+## [1.10.0](https://github.com/sinlov/gh-conventional-kit/compare/1.9.0...v1.10.0) (2023-12-29)
+
+### ✨ Features
+
+* add subcommand action ([75eea7e8](https://github.com/sinlov/gh-conventional-kit/commit/75eea7e8e7ed3ee9a216a918734c5a1de9057f2f)), feature [#23](https://github.com/sinlov/gh-conventional-kit/issues/23)
+
+### 👷‍ Build System
+
+* change build goversion1.19 for base of build ([b0147e03](https://github.com/sinlov/gh-conventional-kit/commit/b0147e034e0966a82533a80903dd3759ba76ecf4))
+
 ## [1.9.0](https://github.com/sinlov/gh-conventional-kit/compare/1.8.0...v1.9.0) (2023-09-24)
 
 ### ✨ Features
