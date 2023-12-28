@@ -35,6 +35,13 @@ func CheckAllResource(root string) error {
 		}
 	}
 
+	for _, resPathItem := range embedResourceActionWorkflowsDeployTagsList {
+		err = embed_source.InitResourceGroupByLanguage(resource.GroupResourceActionWorkflowsDeployTags, embedResourceActionWorkflowsFiles, resPathItem, constant.SupportLanguage())
+		if err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -61,5 +68,14 @@ var (
 	embedResourceCCDocPathList = []string{
 		path.Join(resource.DirNameContributingDoc, resource.KeyConventionalReadmeTitle),
 		path.Join(resource.DirNameContributingDoc, resource.KeyConventionalReadmeI18n),
+	}
+
+	//go:embed resource/action-workflows
+	embedResourceActionWorkflowsFiles embed.FS
+
+	embedResourceActionWorkflowsDeployTagsList = []string{
+		resource.KeyGithubActionVersionYml,
+		resource.KeyGithubActionDeployTagsYml,
+		resource.KeyGithubActionCIYml,
 	}
 )

@@ -33,6 +33,10 @@ const (
 	// PathGithubAction
 	// github action path
 	PathGithubAction = ".github"
+
+	// PathWorkflows
+	// github action workflows path
+	PathWorkflows = "workflows"
 )
 
 func StrInArr(target string, strArray []string) bool {
