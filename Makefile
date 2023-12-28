@@ -126,12 +126,12 @@ init:
 	@echo "~> you can use [ make help ] see more task"
 	-go mod verify
 
-dep: modVerify modDownload modTidy modVendor
+dep: modVerify modDownload modTidy
 	@echo "-> just check depends below"
 
 style: modTidy modVerify modFmt modLintRun
 
-ci: modTidy modVerify modFmt modVet modLintRun test
+ci: modTidy modVerify modFmt modVet modLintRun modGosec test
 
 buildMain:
 	@echo "-> start build local OS: ${PLATFORM} ${OS_BIT}"
@@ -189,6 +189,10 @@ else
 	@cp ${ENV_ROOT_BUILD_BIN_PATH} ${ENV_GO_PATH}/bin
 endif
 
+runHelp: export CLI_VERBOSE=false
+runHelp:
+	go run -v ${ENV_ROOT_BUILD_ENTRANCE} ${ENV_RUN_INFO_HELP_ARGS}
+
 run: cleanBuild buildMain
 	@echo "=> run start"
 ifeq ($(OS),Windows_NT)
@@ -236,8 +240,9 @@ ifeq ($(OS),Windows_NT)
 else
 	@echo "~> make devInstallLocal     - install at ${ENV_GO_PATH}/bin"
 endif
+	@echo "~> make runHelp             - run use ${ENV_RUN_INFO_HELP_ARGS}"
 	@echo "~> make run                 - run as ordinary mode"
 
 help: helpGoMod helpGoTest helpGoDist helpDocker helpProjectRoot
 	@echo ""
-	@echo "-- more info see Makefile include: MakeGoMod.mk MakeGoTest.mk MakeGoTestIntegration.mk MakeGoDist.mk MakeDockerRun.mk MakeGoAction.mk --"
+	@echo "-- more info see Makefile include: MakeGoMod.mk MakeGoTest.mk MakeGoTestIntegration.mk MakeGoDist.mk MakeDocker.mk --"

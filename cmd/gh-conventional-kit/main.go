@@ -5,7 +5,7 @@ package main
 import (
 	"fmt"
 	"github.com/gookit/color"
-	"github.com/sinlov/gh-conventional-kit"
+	ghconventionalkit "github.com/sinlov/gh-conventional-kit"
 	"github.com/sinlov/gh-conventional-kit/cmd/cli"
 	"github.com/sinlov/gh-conventional-kit/internal/embed_source"
 	"github.com/sinlov/gh-conventional-kit/internal/pkgJson"
@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	pkgJson.InitPkgJsonContent(gh_conventional_kit.PackageJson)
+	pkgJson.InitPkgJsonContent(ghconventionalkit.PackageJson)
 	embed_source.RegisterSettings(embed_source.DefaultFunctions)
 	app := cli.NewCliApp()
 
