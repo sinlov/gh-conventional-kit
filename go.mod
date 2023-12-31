@@ -11,7 +11,7 @@ require (
 	github.com/sinlov-go/badges v1.3.1
 	github.com/sinlov-go/go-git-tools v1.10.0
 	github.com/stretchr/testify v1.8.4
-	github.com/urfave/cli/v2 v2.27.0
+	github.com/urfave/cli/v2 v2.27.1
 	github.com/whilp/git-urls v1.0.0
 )
 
