@@ -3,12 +3,12 @@ package subcommand_markdown
 import (
 	"fmt"
 	"github.com/bar-counter/slog"
+	giturls "github.com/chainguard-dev/git-urls"
 	"github.com/sinlov/gh-conventional-kit/command"
 	"github.com/sinlov/gh-conventional-kit/command/common_subcommand"
 	"github.com/sinlov/gh-conventional-kit/constant"
 	"github.com/sinlov/gh-conventional-kit/internal/urfave_cli"
 	"github.com/urfave/cli/v2"
-	giturls "github.com/whilp/git-urls"
 	"strings"
 )
 
