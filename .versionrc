@@ -2,7 +2,7 @@
   "types": [
     {"type": "feat", "section": "✨ Features", "hidden": false, "sort": 1},
     {"type": "fix", "section": "🐛 Bug Fixes", "hidden": false, "sort": 2},
-    {"type": "docs", "section":"📝 Documentation", "hidden": true, "sort": 3},
+    {"type": "docs", "section":"📝 Documentation", "hidden": false, "sort": 3},
     {"type": "style", "section":"💄 Styles", "hidden": true, "sort": 4},
     {"type": "refactor", "section":"♻ Refactor", "hidden": false, "sort": 5},
     {"type": "perf", "section":"⚡ Performance Improvements", "hidden": false, "sort": 6},
