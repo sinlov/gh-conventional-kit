@@ -25,21 +25,27 @@ Please read [Contributor Guide](.github/CONTRIBUTING_DOC/CONTRIBUTING.md) for mo
 
 ## Features
 
-- [X] `markdown` subcommand generate markdown badge by program language or framework
-    - markdown can use git url or http url to get git info (only support github now)
+- [X] `markdown` subcommand generate markdown badge by program language or framework, this subcommand `only output into stdout`
+  - markdown can use git url or http url to get git info (only support github now)
+  - can cover by `arg0` to fast get badge output, event not in git managed project
+  - `--no-common-badges` no badges common subcommand for this repo (default: false)
+  - `--golang` add golang badges for github project
+  - `--rust` add rust badges for github project
+    - `--rust-crates` value    crates.io name badges for this repo, if not set, use repo name
+  - `--node` add node badges for github project
+  - `--npm` add npm badges for github project
+  - `--docker-user` `--docker-repo` add docker badges for github project
 - [x] `badge` add badge at github project
-    - `--common-badges` add common badges for github project
-    - `--golang` add golang badges for github project
-    - `--rust` add rust badges for github project
-    - `--node` add node badges for github project
-    - `-npm` add npm badges for github project
-    - `--docker-user` `--docker-repo` add docker badges for github project
+  - support badge same as `markdown` subcommand, different must use in `git` managed project
 - [X] `template` add conventional template at .github and try add badge at README.md
-    - conventional contributing support `--language`
-        - `en-US`
-        - `zh-CN`
-- [X] `action` fast add github action workflow (1.10.+)
-    -  `--ci-deploy-tag` add sample deploy by tag
+  - support badge same as `markdown` subcommand, different must use in `git` managed project
+  - `--coverage-folder-file` coverage folder file under targetFolder, does not affect files that are not in the template (default: false) 
+  - conventional contributing support `--language`
+    - `en-US`
+    - `zh-CN`
+- [X] `action` fast add github action workflow (1.10.+), must set `--ci-*` to effective
+  - `--coverage-folder-file` coverage folder or file under targetFolder, does not affect files that are not in the template (default: false) 
+  -  `--ci-deploy-tag` add sample deploy by tag
 - [ ] more perfect test case coverage
 
 ## usage
@@ -255,17 +261,17 @@ $ make helpDocker
 ### log
 
 - cli log use [github.com/sinlov/go-logger](https://github.com/bar-counter/slog)
-    - open debug log by env `CLI_VERBOSE=true` or global flag `--verbose`
+  - open debug log by env `CLI_VERBOSE=true` or global flag `--verbose`
 
 ```go
 package foo
 
 func action(c *cli.Context) error {
-	slog.Debug("SubCommand [ new ] start") // this not show at CLI_VERBOSE=false
+  slog.Debug("SubCommand [ new ] start") // this not show at CLI_VERBOSE=false
 
-	if c.Bool("lib") {
-		slog.Info("new lib mode")
-	}
-	return nil
+  if c.Bool("lib") {
+    slog.Info("new lib mode")
+  }
+  return nil
 }
 ```
