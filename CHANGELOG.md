@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [convention-change-log](https://github.com/convention-change/convention-change-log) for commit guidelines.
 
+## [1.11.2](https://github.com/sinlov/gh-conventional-kit/compare/1.11.1...v1.11.2) (2024-01-26)
+
+### 🐛 Bug Fixes
+
+* rust badge docs.rs url error update github.com/sinlov-go/badges v1.3.2 ([34219ad3](https://github.com/sinlov/gh-conventional-kit/commit/34219ad3947d267bea608c42884d2fb44fbc8c65)), fix [#31](https://github.com/sinlov/gh-conventional-kit/issues/31)
+
+### 📝 Documentation
+
+* update usage doc to v1.11.2 ([7d583a9f](https://github.com/sinlov/gh-conventional-kit/commit/7d583a9ff89dc64f6d84051c615e2db597d6be86))
+
 ## [1.11.1](https://github.com/sinlov/gh-conventional-kit/compare/1.11.0...v1.11.1) (2024-01-26)
 
 ### 📝 Documentation
