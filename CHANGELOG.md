@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [convention-change-log](https://github.com/convention-change/convention-change-log) for commit guidelines.
 
+## [1.11.1](https://github.com/sinlov/gh-conventional-kit/compare/1.11.0...v1.11.1) (2024-01-26)
+
+### 📝 Documentation
+
+* update usage of Features, support actions/download-artifact@v4 ([7d6dd193](https://github.com/sinlov/gh-conventional-kit/commit/7d6dd193151c432247044be9042de4b82d19215c)), doc [#29](https://github.com/sinlov/gh-conventional-kit/issues/29)
+
 ## [1.11.0](https://github.com/sinlov/gh-conventional-kit/compare/1.10.0...v1.11.0) (2024-01-23)
 
 ### ✨ Features

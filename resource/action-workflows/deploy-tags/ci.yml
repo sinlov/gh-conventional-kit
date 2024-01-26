@@ -21,11 +21,11 @@ on:
       - opened
       - reopened
       - closed
-    branches:
-      - 'main'
-      - 'release-*'
-      - 'DOC-*'
-      - 'hotfix-*'
+    # branches:
+    #   - 'main'
+    #   - 'release-*'
+    #   - 'DOC-*'
+    #   - 'hotfix-*'
 
 permissions:
   contents: write
@@ -44,6 +44,8 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/')
     secrets: inherit
     with:
-      prerelease: true
+      dry_run: false # open/close dry run
+      prerelease: true # open/close pre-release
       tag_name: ${{ needs.version.outputs.tag_name }}
       tag_changes: ${{ needs.version.outputs.cc_changes }}
+      # download_artifact_name: "" # download artifact name, download from actions/upload-artifact, as: {download_artifact_name}-{tag_name}-*, empty is not download
