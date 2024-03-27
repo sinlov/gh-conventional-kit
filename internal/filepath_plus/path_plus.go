@@ -84,9 +84,9 @@ func ReadFileAsByte(path string) ([]byte, error) {
 	if PathIsDir(path) {
 		return nil, fmt.Errorf("path is dir: %s", path)
 	}
-	data, err := os.ReadFile(path)
-	if err != nil {
-		return nil, fmt.Errorf("path: %s read err: %v", path, err)
+	data, errRead := os.ReadFile(path)
+	if errRead != nil {
+		return nil, fmt.Errorf("path: %s read err: %v", path, errRead)
 	}
 
 	return data, nil
