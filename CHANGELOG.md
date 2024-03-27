@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [convention-change-log](https://github.com/convention-change/convention-change-log) for commit guidelines.
 
+## [1.12.0](https://github.com/sinlov/gh-conventional-kit/compare/1.11.2...v1.12.0) (2024-03-27)
+
+### ✨ Features
+
+* markdown support find by current folder to get git info ([e0a1d1b8](https://github.com/sinlov/gh-conventional-kit/commit/e0a1d1b8065756cc7a5ef38ac2c63f7d4b3c9ec2))
+
+* add flag `--codecov-badges` to open show codecov.io badge ([4f5fd059](https://github.com/sinlov/gh-conventional-kit/commit/4f5fd059239ef572665a25d9eef1d83cb533e4fc))
+
 ## [1.11.2](https://github.com/sinlov/gh-conventional-kit/compare/1.11.1...v1.11.2) (2024-01-26)
 
 ### 🐛 Bug Fixes
