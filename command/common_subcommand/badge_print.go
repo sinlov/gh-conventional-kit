@@ -82,7 +82,11 @@ func PrintBadgeByConfigWithMarkdown(
 		color.Greenf("\nCommon badges:\n")
 		fmt.Println(shields_badges.GithubLicenseMarkdown(userName, repoName))
 		if branch != "" {
-			fmt.Println(codecov_badges.GithubMarkdown(userName, repoName, branch))
+
+			if badgeConfig.CodeCovBadges {
+				fmt.Println(codecov_badges.GithubMarkdown(userName, repoName, branch))
+			}
+
 		}
 		fmt.Println(shields_badges.GithubLatestSemVerTagMarkdown(userName, repoName))
 		fmt.Println(shields_badges.GithubReleaseMarkdown(userName, repoName))
@@ -156,7 +160,9 @@ func PrintBadgeByConfig(
 		color.Greenf("\nCommon badges:\n")
 		fmt.Println(shields_badges.GithubLicense(userName, repoName))
 		if branch != "" {
-			fmt.Println(codecov_badges.Github(userName, repoName, branch))
+			if badgeConfig.CodeCovBadges {
+				fmt.Println(codecov_badges.Github(userName, repoName, branch))
+			}
 		}
 		fmt.Println(shields_badges.GithubLatestSemVerTag(userName, repoName))
 		fmt.Println(shields_badges.GithubRelease(userName, repoName))

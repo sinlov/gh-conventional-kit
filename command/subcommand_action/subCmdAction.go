@@ -69,7 +69,7 @@ func (n *ActionCommand) Exec() error {
 func flag() []cli.Flag {
 	return []cli.Flag{
 		&cli.StringFlag{
-			Name:  "gitRootFolder",
+			Name:  constant.CliNameGitRootFolder,
 			Usage: "set add target git root folder, defaults is cli run path",
 			Value: "",
 		},
@@ -94,7 +94,7 @@ func flag() []cli.Flag {
 func withEntry(c *cli.Context) (*ActionCommand, error) {
 	globalEntry := command.CmdGlobalEntry()
 
-	gitRootFolder := c.String("gitRootFolder")
+	gitRootFolder := c.String(constant.CliNameGitRootFolder)
 	if gitRootFolder == "" {
 		dir, err := os.Getwd()
 		if err != nil {

@@ -107,8 +107,10 @@ func BadgeByConfigWithMarkdown(
 		sb.WriteString("\n")
 
 		if branch != "" {
-			sb.WriteString(codecov_badges.GithubMarkdown(userName, repoName, branch))
-			sb.WriteString("\n")
+			if badgeConfig.CodeCovBadges {
+				sb.WriteString(codecov_badges.GithubMarkdown(userName, repoName, branch))
+				sb.WriteString("\n")
+			}
 		}
 		sb.WriteString(shields_badges.GithubLatestSemVerTagMarkdown(userName, repoName))
 		sb.WriteString("\n")
@@ -221,8 +223,10 @@ func BadgeByConfig(
 		sb.WriteString("\n")
 
 		if branch != "" {
-			sb.WriteString(codecov_badges.Github(userName, repoName, branch))
-			sb.WriteString("\n")
+			if badgeConfig.CodeCovBadges {
+				sb.WriteString(codecov_badges.Github(userName, repoName, branch))
+				sb.WriteString("\n")
+			}
 		}
 		sb.WriteString(shields_badges.GithubLatestSemVerTag(userName, repoName))
 		sb.WriteString("\n")

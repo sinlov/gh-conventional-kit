@@ -104,12 +104,12 @@ func (n *BadgeCommand) Exec() error {
 func flag() []cli.Flag {
 	return []cli.Flag{
 		&cli.StringFlag{
-			Name:  "gitRootFolder",
+			Name:  constant.CliNameGitRootFolder,
 			Usage: "set add target git root folder, defaults is cli run path",
 			Value: "",
 		},
 		&cli.StringFlag{
-			Name:  "remote",
+			Name:  constant.CliNameGitRemote,
 			Usage: "set git remote name, defaults is origin",
 			Value: "origin",
 		},
@@ -128,8 +128,8 @@ func flag() []cli.Flag {
 func withEntry(c *cli.Context) (*BadgeCommand, error) {
 	globalEntry := command.CmdGlobalEntry()
 
-	remote := c.String("remote")
-	gitRootFolder := c.String("gitRootFolder")
+	remote := c.String(constant.CliNameGitRemote)
+	gitRootFolder := c.String(constant.CliNameGitRootFolder)
 	if gitRootFolder == "" {
 		dir, err := os.Getwd()
 		if err != nil {

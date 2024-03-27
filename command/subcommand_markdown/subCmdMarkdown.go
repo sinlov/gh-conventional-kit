@@ -4,11 +4,13 @@ import (
 	"fmt"
 	"github.com/bar-counter/slog"
 	giturls "github.com/chainguard-dev/git-urls"
+	"github.com/sinlov-go/go-git-tools/git_info"
 	"github.com/sinlov/gh-conventional-kit/command"
 	"github.com/sinlov/gh-conventional-kit/command/common_subcommand"
 	"github.com/sinlov/gh-conventional-kit/constant"
 	"github.com/sinlov/gh-conventional-kit/internal/urfave_cli"
 	"github.com/urfave/cli/v2"
+	"os"
 	"strings"
 )
 
@@ -37,6 +39,17 @@ func (n *MarkdownCommand) Exec() error {
 
 func flag() []cli.Flag {
 	return []cli.Flag{
+		&cli.StringFlag{
+			Name:  constant.CliNameGitRootFolder,
+			Usage: "set add target git root folder, defaults is cli run path, this will ignore --user and --repo or use arg0 to input git url",
+			Value: "",
+		},
+		&cli.StringFlag{
+			Name:  constant.CliNameGitRemote,
+			Usage: "set git remote name, defaults is origin, this will ignore --user and --repo or use arg0 to input git url",
+			Value: "origin",
+		},
+
 		&cli.StringFlag{
 			Name:    "user",
 			Aliases: []string{"u"},
@@ -95,8 +108,37 @@ func withEntry(c *cli.Context) (*MarkdownCommand, error) {
 				user = splitPath[1]
 				repo = splitPath[2]
 			}
-
+		} else {
+			slog.Debug("try find out at git repo")
+			remote := c.String(constant.CliNameGitRemote)
+			gitRootFolder := c.String(constant.CliNameGitRootFolder)
+			if gitRootFolder == "" {
+				dir, err := os.Getwd()
+				if err != nil {
+					return nil, fmt.Errorf("can not get target foler err: %v", err)
+				}
+				gitRootFolder = dir
+			}
+			_, err := git_info.IsPathGitManagementRoot(gitRootFolder)
+			if err != nil {
+				return nil, err
+			}
+			fistRemoteInfo, err := git_info.RepositoryFistRemoteInfo(gitRootFolder, remote)
+			if err != nil {
+				return nil, err
+			}
+			user = fistRemoteInfo.User
+			slog.Debugf("find git repo user: %s", user)
+			repo = fistRemoteInfo.Repo
+			slog.Debugf("find git repo: %s", repo)
 		}
+	}
+
+	if user == "" {
+		return nil, fmt.Errorf("need set --user, or can not find git repo user")
+	}
+	if repo == "" {
+		return nil, fmt.Errorf("need set --repo, or can not find git repo")
 	}
 
 	return &MarkdownCommand{
