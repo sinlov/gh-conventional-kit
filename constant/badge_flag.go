@@ -4,6 +4,8 @@ import "github.com/urfave/cli/v2"
 
 type BadgeConfig struct {
 	NoCommonBadges bool
+	CodeCovBadges  bool
+
 	GolangBadges   bool
 	RustBadges     bool
 	RustCratesName string
@@ -20,6 +22,12 @@ func BadgeFlags() []cli.Flag {
 			Name:  "no-common-badges",
 			Value: false,
 			Usage: "no badges common subcommand for this repo",
+		},
+
+		&cli.BoolFlag{
+			Name:  "codecov-badges",
+			Value: false,
+			Usage: "codecov badges for this repo",
 		},
 
 		&cli.BoolFlag{
@@ -64,6 +72,8 @@ func BadgeFlags() []cli.Flag {
 func BindBadgeConfig(c *cli.Context) *BadgeConfig {
 	return &BadgeConfig{
 		NoCommonBadges: c.Bool("no-common-badges"),
+		CodeCovBadges:  c.Bool("codecov-badges"),
+
 		GolangBadges:   c.Bool("golang"),
 		RustBadges:     c.Bool("rust"),
 		RustVersion:    c.String("rust-version"),

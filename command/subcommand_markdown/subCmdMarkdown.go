@@ -95,8 +95,14 @@ func withEntry(c *cli.Context) (*MarkdownCommand, error) {
 				user = splitPath[1]
 				repo = splitPath[2]
 			}
-
 		}
+	}
+
+	if user == "" {
+		return nil, fmt.Errorf("need set --user, or can not find git repo user")
+	}
+	if repo == "" {
+		return nil, fmt.Errorf("need set --repo, or can not find git repo")
 	}
 
 	return &MarkdownCommand{
