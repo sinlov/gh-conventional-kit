@@ -64,7 +64,7 @@ $ go install -v github.com/sinlov/gh-conventional-kit/cmd/gh-conventional-kit@v1
 # usa as docker cli tools
 $ docker run --rm sinlov/gh-conventional-kit:latest -h
 # use as docker cli tools with version
-$ docker run --rm sinlov/gh-conventional-kit:1.11.2 -h
+$ docker run --rm sinlov/gh-conventional-kit:1.12.0 -h
 ```
 
 - please install [git](https://git-scm.com/) before use this cli
