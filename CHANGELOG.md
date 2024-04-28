@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [convention-change-log](https://github.com/convention-change/convention-change-log) for commit guidelines.
 
+## [1.13.0](https://github.com/sinlov/gh-conventional-kit/compare/1.12.0...v1.13.0) (2024-04-28)
+
+### ✨ Features
+
+* pipeline change to use docker baka ([fc7b3168](https://github.com/sinlov/gh-conventional-kit/commit/fc7b3168746391514a6d47503bf63fffda0a1369))
+
+### 🐛 Bug Fixes
+
+* config file `docker-bake.hcl` add ([f77093fe](https://github.com/sinlov/gh-conventional-kit/commit/f77093fef834b9b69c4b1ae8d0705d527127a15c))
+
 ## [1.12.0](https://github.com/sinlov/gh-conventional-kit/compare/1.11.2...v1.12.0) (2024-03-27)
 
 ### ✨ Features
