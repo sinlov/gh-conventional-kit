@@ -30,9 +30,10 @@ on:
     #   - 'DOC-*'
     #   - 'hotfix-*'
 
-permissions:
+permissions: # https://docs.github.com/actions/using-workflows/workflow-syntax-for-github-actions#permissions
   contents: write
   discussions: write
+  packages: write
 
 jobs:
   version:
@@ -45,6 +46,7 @@ jobs:
       - version
     uses: ./.github/workflows/golang-ci.yml
     secrets: inherit
+    # if: ${{ github.event.pull_request.merged == true }}
 
   go-build-check-main:
     name: go-build-check-main
@@ -57,37 +59,38 @@ jobs:
     with:
       version_name: latest
 
-  docker-image-latest:
-    name: docker-image-latest
+  docker-buildx-bake-hubdocker-latest:
+    name: docker-buildx-bake-hubdocker-latest
     needs:
       - version
       - golang-ci
-    uses: ./.github/workflows/docker-image-latest.yml
-    if: ${{ ( github.event_name == 'push' && github.ref == 'refs/heads/main' ) || ( github.base_ref == 'main' && github.event.pull_request.merged == true ) }}
-    secrets: inherit
+      - go-build-check-main
+    uses: ./.github/workflows/docker-buildx-bake-hubdocker-latest.yml
+    # if: ${{ ( github.event_name == 'push' && github.ref == 'refs/heads/main' ) || github.base_ref == 'main' }}
     with:
-      docker_hub_user: 'sinlov'
-      docker_image_name: 'sinlov/gh-conventional-kit'
-      build_branch_name: 'main'
+      # push_remote_flag: ${{ github.ref == 'refs/heads/main' }}
+      push_remote_flag: ${{ github.event.pull_request.merged == true }}
+    secrets:
+      DOCKERHUB_TOKEN: "${{ secrets.DOCKERHUB_TOKEN }}"
 
-  docker-image-tag:
-    name: docker-image-tag
+  docker-buildx-bake-hubdocker-tag:
+    name: docker-buildx-bake-hubdocker-tag
     needs:
       - version
       - golang-ci
-    uses: ./.github/workflows/docker-image-tag.yml
+    uses: ./.github/workflows/docker-buildx-bake-hubdocker-tag.yml
     if: startsWith(github.ref, 'refs/tags/')
-    secrets: inherit
-    with:
-      docker_hub_user: 'sinlov'
-      docker_image_name: 'sinlov/gh-conventional-kit'
+    # with:
+      # push_remote_flag: true # default is true
+    secrets:
+      DOCKERHUB_TOKEN: "${{ secrets.DOCKERHUB_TOKEN }}"
 
   go-release-platform:
     name: go-release-platform
     needs:
       - version
       - golang-ci
-      - docker-image-tag
+      - docker-buildx-bake-hubdocker-tag
     if: startsWith(github.ref, 'refs/tags/')
     uses: ./.github/workflows/go-release-platform.yml
     secrets: inherit
@@ -98,14 +101,16 @@ jobs:
   deploy-tag:
     needs:
       - version
-      - docker-image-tag
+      - golang-ci
+      - docker-buildx-bake-hubdocker-tag
       - go-release-platform
     name: deploy-tag
     uses: ./.github/workflows/deploy-tag.yml
     if: startsWith(github.ref, 'refs/tags/')
     secrets: inherit
     with:
+      dry_run: false # open/close dry run
       prerelease: true
       tag_name: ${{ needs.version.outputs.tag_name }}
       tag_changes: ${{ needs.version.outputs.cc_changes }}
-      download_artifact_name: go-release
+      download_artifact_name: go-release # download artifact name, download from actions/upload-artifact, as: {download_artifact_name}-{tag_name}-*, empty is not download
