@@ -12,8 +12,13 @@ group "default" {
   targets = ["image-local"]
 }
 
-target "image" {
+// this config use by `docker_bake_targets` most of time is `image-basic`
+// https://docs.docker.com/build/bake/reference/#target
+// show config as: docker buildx bake --print image-basic
+target "image-basic" {
   inherits = ["docker-metadata-action"]
+  context = "."
+  dockerfile = "Dockerfile"
 }
 
 target "image-local" {
@@ -21,11 +26,14 @@ target "image-local" {
   output = ["type=docker"]
 }
 
+// this config use by `docker_bake_matrix_target_postfix` most of time is {targets}-all
+// https://docs.docker.com/build/bake/reference/#target
 // must check by parent image support multi-platform
 // doc: https://docs.docker.com/reference/cli/docker/buildx/build/#platform
 // most of can as: linux/amd64 linux/386 linux/arm64/v8 linux/arm/v7 linux/arm/v6 linux/ppc64le linux/s390x
-target "image-all" {
-  inherits = ["image"]
+// show config as: docker buildx bake --print image-basic-all
+target "image-basic-all" {
+  inherits = ["image-basic"]
   platforms = [
     "linux/amd64",
     "linux/arm64/v8"
@@ -35,7 +43,7 @@ target "image-all" {
 // // must check by parent image support multi-platform
 // // doc: https://docs.docker.com/reference/cli/docker/buildx/build/#platform
 // // golang with alpine can use as: linux/amd64 linux/386 linux/arm64/v8 linux/arm/v7 linux/ppc64le linux/s390x
-// target "image-all" {
+// target "image-basic-all" {
 //   inherits = ["image"]
 //   platforms = [
 //     "linux/amd64",
