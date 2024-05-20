@@ -1,6 +1,6 @@
 {
   "name": "gh-conventional-kit",
-  "version": "1.13.0",
+  "version": "1.14.0",
   "description": "generate conventional markdown and template for github",
   "directories": {
     "doc": "doc"

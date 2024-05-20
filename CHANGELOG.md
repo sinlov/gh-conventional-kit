@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [convention-change-log](https://github.com/convention-change/convention-change-log) for commit guidelines.
 
+## [1.14.0](https://github.com/sinlov/gh-conventional-kit/compare/1.13.0...v1.14.0) (2024-05-20)
+
+### ✨ Features
+
+* update docker bake-hubdocker build pipline ([4b9cce79](https://github.com/sinlov/gh-conventional-kit/commit/4b9cce796f875781b73421df5883d342b1403442)), feat [#46](https://github.com/sinlov/gh-conventional-kit/issues/46)
+
+* github action auto depends update, full make task update ([000455b9](https://github.com/sinlov/gh-conventional-kit/commit/000455b9613675a56e2be68462e9f081075d8db3)), feat [#46](https://github.com/sinlov/gh-conventional-kit/issues/46)
+
 ## [1.13.0](https://github.com/sinlov/gh-conventional-kit/compare/1.12.0...v1.13.0) (2024-04-28)
 
 ### ✨ Features
