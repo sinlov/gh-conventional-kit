@@ -20,7 +20,7 @@ const (
 	defaultExitCode    = 1
 )
 
-func NewCliApp() *cli.App {
+func NewCliApp(buildId string) *cli.App {
 	cli_exit_urfave.ChangeDefaultExitCode(defaultExitCode)
 	app := cli.NewApp()
 	app.EnableBashCompletion = true
@@ -33,8 +33,8 @@ func NewCliApp() *cli.App {
 
 	year := time.Now().Year()
 	jsonAuthor := pkgJson.GetPackageJsonAuthor()
-	app.Copyright = fmt.Sprintf("© %s-%d %s by: %s, run on %s %s",
-		copyrightStartYear, year, jsonAuthor.Name, runtime.Version(), runtime.GOOS, runtime.GOARCH)
+	app.Copyright = fmt.Sprintf("© %s-%d %s by: %s, build id: %s, run on %s %s",
+		copyrightStartYear, year, jsonAuthor.Name, runtime.Version(), buildId, runtime.GOOS, runtime.GOARCH)
 	author := &cli.Author{
 		Name:  jsonAuthor.Name,
 		Email: jsonAuthor.Email,
