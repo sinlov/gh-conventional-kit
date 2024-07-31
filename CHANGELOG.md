@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [convention-change-log](https://github.com/convention-change/convention-change-log) for commit guidelines.
 
+## [1.15.0](https://github.com/sinlov/gh-conventional-kit/compare/1.14.0...v1.15.0) (2024-08-01)
+
+### ✨ Features
+
+* change file template for change `dependabot.yml` for `commit-message` ([776d07e2](https://github.com/sinlov/gh-conventional-kit/commit/776d07e2b68281622c45d07f52954e6adc9e6f67)), feat [#53](https://github.com/sinlov/gh-conventional-kit/issues/53)
+
+### 👷‍ Build System
+
+* add `main.buildID` inject at build pipeline ([f33e7486](https://github.com/sinlov/gh-conventional-kit/commit/f33e7486df5bd64977bcb5870ba45ab3185688e0))
+
 ## [1.14.0](https://github.com/sinlov/gh-conventional-kit/compare/1.13.0...v1.14.0) (2024-05-20)
 
 ### ✨ Features
