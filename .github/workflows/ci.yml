@@ -59,6 +59,7 @@ jobs:
     secrets: inherit
     with:
       version_name: latest
+      go_build_id: ${{ needs.version.outputs.short_sha }}
 
   docker-buildx-bake-hubdocker-latest:
     name: docker-buildx-bake-hubdocker-latest
@@ -100,6 +101,7 @@ jobs:
     secrets: inherit
     with:
       version_name: ${{ needs.version.outputs.tag_name }}
+      go_build_id: ${{ needs.version.outputs.short_sha }}
       upload_artifact_name: go-release
 
   deploy-tag:

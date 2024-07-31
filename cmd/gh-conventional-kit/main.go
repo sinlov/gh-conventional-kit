@@ -12,10 +12,18 @@ import (
 	os "os"
 )
 
+var buildID string
+
+func init() {
+	if buildID == "" {
+		buildID = "unknown"
+	}
+}
+
 func main() {
 	pkgJson.InitPkgJsonContent(ghconventionalkit.PackageJson)
 	embed_source.RegisterSettings(embed_source.DefaultFunctions)
-	app := cli.NewCliApp()
+	app := cli.NewCliApp(buildID)
 
 	args := os.Args
 	if len(args) < 2 {
