@@ -3,6 +3,8 @@ package constant
 import "github.com/urfave/cli/v2"
 
 type BadgeConfig struct {
+	EnableHtmlFlag bool
+
 	NoCommonBadges bool
 	CodeCovBadges  bool
 
@@ -18,6 +20,12 @@ type BadgeConfig struct {
 
 func BadgeFlags() []cli.Flag {
 	return []cli.Flag{
+		&cli.BoolFlag{
+			Name:  "html-img",
+			Value: false,
+			Usage: "html img for markdown",
+		},
+
 		&cli.BoolFlag{
 			Name:  "no-common-badges",
 			Value: false,
@@ -71,6 +79,8 @@ func BadgeFlags() []cli.Flag {
 
 func BindBadgeConfig(c *cli.Context) *BadgeConfig {
 	return &BadgeConfig{
+		EnableHtmlFlag: c.Bool("html-img"),
+
 		NoCommonBadges: c.Bool("no-common-badges"),
 		CodeCovBadges:  c.Bool("codecov-badges"),
 
