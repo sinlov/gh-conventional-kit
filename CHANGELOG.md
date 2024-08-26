@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [convention-change-log](https://github.com/convention-change/convention-change-log) for commit guidelines.
 
+## [1.16.0](https://github.com/sinlov/gh-conventional-kit/compare/1.15.0...v1.16.0) (2024-08-26)
+
+### ✨ Features
+
+* add HTML markdown support for badges by flag `--html-img` ([f373d06c](https://github.com/sinlov/gh-conventional-kit/commit/f373d06c3419e4cc0655d9e4438130c84b0217b3)), fe [#56](https://github.com/sinlov/gh-conventional-kit/issues/56)
+
+### 👷‍ Build System
+
+* bump github.com/sebdah/goldie/v2 from 2.5.3 to 2.5.5 ([4df1cd7f](https://github.com/sinlov/gh-conventional-kit/commit/4df1cd7f060cd74efda93b88eca80d83fc5f3ae8))
+
+* upgrade github.com/sinlov-go/badges to v1.4.0Update the github.com/sinlov-go/badges dependency from v1.3.2 to v1.4.0 for improved ([fb28c237](https://github.com/sinlov/gh-conventional-kit/commit/fb28c23782dbc0d0341acf0641040cbeaf6083c1))
+
 ## [1.15.0](https://github.com/sinlov/gh-conventional-kit/compare/1.14.0...v1.15.0) (2024-08-01)
 
 ### ✨ Features
