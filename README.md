@@ -38,6 +38,7 @@
     - conventional contributing support `--language`
         - `en-US`
         - `zh-CN`
+- [x] add `--html-img` add html img badge (1.16.+)
 - [X] `action` fast add github action workflow (1.10.+), must set `--ci-*` to effective
     - `--coverage-folder-file` coverage folder or file under targetFolder, does not affect files that are not in the
       template (default: false)
