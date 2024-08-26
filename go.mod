@@ -8,8 +8,8 @@ require (
 	github.com/bar-counter/slog v1.4.0
 	github.com/chainguard-dev/git-urls v1.0.2
 	github.com/gookit/color v1.5.4
-	github.com/sebdah/goldie/v2 v2.5.3
-	github.com/sinlov-go/badges v1.3.2
+	github.com/sebdah/goldie/v2 v2.5.5
+	github.com/sinlov-go/badges v1.4.0
 	github.com/sinlov-go/go-git-tools v1.13.0
 	github.com/stretchr/testify v1.9.0
 	github.com/urfave/cli/v2 v2.27.3
