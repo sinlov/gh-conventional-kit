@@ -2,8 +2,8 @@ package embed_operator
 
 import (
 	"github.com/bar-counter/slog"
+	"github.com/sinlov-go/go-common-lib/pkg/filepath_plus"
 	"github.com/sinlov/gh-conventional-kit/internal/embed_source"
-	"github.com/sinlov/gh-conventional-kit/internal/filepath_plus"
 	"os"
 	"path/filepath"
 	"strings"
@@ -33,7 +33,7 @@ func WriteFileByEmbedResource(embedSource embed_source.EmbedResource, root strin
 			if err != nil {
 				return err
 			}
-			errWrite := filepath_plus.WriteFileByByte(targetPath, bytes, os.FileMode(0644), true)
+			errWrite := filepath_plus.WriteFileByByte(targetPath, bytes, os.FileMode(0o666), true)
 			if errWrite != nil {
 				return errWrite
 			}
@@ -46,7 +46,7 @@ func WriteFileByEmbedResource(embedSource embed_source.EmbedResource, root strin
 		if err != nil {
 			return err
 		}
-		errWrite := filepath_plus.WriteFileByByte(targetPath, bytes, os.FileMode(0766), false)
+		errWrite := filepath_plus.WriteFileByByte(targetPath, bytes, os.FileMode(0o666), false)
 		if errWrite != nil {
 			return errWrite
 		}

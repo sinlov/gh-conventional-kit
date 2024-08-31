@@ -85,6 +85,8 @@ github.com/shopspring/decimal v1.2.0 h1:abSATXmQEYyShuxI4/vyW3tV1MrKAJzCZ/0zLUXY
 github.com/shopspring/decimal v1.2.0/go.mod h1:DKyhrW/HYNuLGql+MJL6WCR6knT2jwCFRcu2hWCYk4o=
 github.com/sinlov-go/badges v1.4.0 h1:WTjB8XN1l+Jkbq2wRxnr+cfpJ30t8xUUJBMU3xPDac0=
 github.com/sinlov-go/badges v1.4.0/go.mod h1:9uekcqCz6sEQUOqvzqf4XulzKNVkB/1p9Kmq3YppR7g=
+github.com/sinlov-go/go-common-lib v1.7.1 h1:slVwwM/TiA7wzYYqRYMOHCOPmRLQn3NTU652fT2QWIE=
+github.com/sinlov-go/go-common-lib v1.7.1/go.mod h1:e+kY8eyLMnvayGezaWi3nU1VF5xsnMQ+DQUVdUC6Xbw=
 github.com/sinlov-go/go-git-tools v1.13.0 h1:ty+/9O9eTYMAUeYtZDtW/n2YjhkQhgSXDhxVRCI244g=
 github.com/sinlov-go/go-git-tools v1.13.0/go.mod h1:p5KlfInd3XjQgZtuGavWfgs5LgB1EEzMMivwt/sMkRE=
 github.com/sirupsen/logrus v1.7.0/go.mod h1:yWOB1SBYBC5VeMP7gHvWumXLIWorT60ONWic61uBYv0=

@@ -57,7 +57,7 @@ func goldenDataSaveFast(t *testing.T, data interface{}, extraName string) error 
 	if errJson != nil {
 		t.Fatal(errJson)
 	}
-	return goldenDataSave(t, marshal, extraName, os.FileMode(0766))
+	return goldenDataSave(t, marshal, extraName, os.FileMode(0o766))
 }
 
 // goldenDataSave
@@ -241,9 +241,9 @@ func rmDir(path string, force bool) error {
 
 // mkdir
 //
-//	will use FileMode 0766
+//	will use FileMode 0o766
 func mkdir(path string) error {
-	err := os.MkdirAll(path, os.FileMode(0766))
+	err := os.MkdirAll(path, os.FileMode(0o766))
 	if err != nil {
 		return fmt.Errorf("fail MkdirAll at path: %s , err: %v", path, err)
 	}
@@ -346,9 +346,9 @@ func writeFileAsJson(path string, v interface{}, fileMod fs.FileMode, coverage, 
 
 // writeFileAsJsonBeauty
 //
-//	write json file as 0766 and beauty
+//	write json file as 0o766 and beauty
 func writeFileAsJsonBeauty(path string, v interface{}, coverage bool) error {
-	return writeFileAsJson(path, v, os.FileMode(0766), coverage, true)
+	return writeFileAsJson(path, v, os.FileMode(0o766), coverage, true)
 }
 
 // fetchOsEnvBool
