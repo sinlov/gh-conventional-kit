@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [convention-change-log](https://github.com/convention-change/convention-change-log) for commit guidelines.
 
+## [1.16.1](https://github.com/sinlov/gh-conventional-kit/compare/1.16.0...v1.16.1) (2024-08-31)
+
+### 🐛 Bug Fixes
+
+* replace to 0o666 and use github.com/sinlov-go/go-common-lib ([ea92514d](https://github.com/sinlov/gh-conventional-kit/commit/ea92514dde721b382f8bb62d1ce643b432355b0c)), fix [#58](https://github.com/sinlov/gh-conventional-kit/issues/58)
+
+### 📝 Documentation
+
+* add usage of flag `--html-img` ([8cbccfca](https://github.com/sinlov/gh-conventional-kit/commit/8cbccfcacf00ab4043811a587ef2ceb3de9274dd))
+
 ## [1.16.0](https://github.com/sinlov/gh-conventional-kit/compare/1.15.0...v1.16.0) (2024-08-26)
 
 ### ✨ Features
