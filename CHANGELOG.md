@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [convention-change-log](https://github.com/convention-change/convention-change-log) for commit guidelines.
 
+## [1.16.2](https://github.com/sinlov/gh-conventional-kit/compare/1.16.1...v1.16.2) (2024-08-31)
+
+### 📝 Documentation
+
+* update resouce of doc for `CONTRIBUTING_DOC` ([60cef99a](https://github.com/sinlov/gh-conventional-kit/commit/60cef99aa4110a75daa8bfed003d5d62d70d0a77))
+
+* update `CONTRIBUTING_DOC` link ([cb2c0acc](https://github.com/sinlov/gh-conventional-kit/commit/cb2c0acced67b89499587df72ac72612de053bef)), doc [#60](https://github.com/sinlov/gh-conventional-kit/issues/60)
+
 ## [1.16.1](https://github.com/sinlov/gh-conventional-kit/compare/1.16.0...v1.16.1) (2024-08-31)
 
 ### 🐛 Bug Fixes
