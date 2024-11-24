@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [convention-change-log](https://github.com/convention-change/convention-change-log) for commit guidelines.
 
+## [1.17.0](https://github.com/sinlov/gh-conventional-kit/compare/1.16.2...v1.17.0) (2024-11-24)
+
+### ✨ Features
+
+* update dependency badge to use GitHub reference ([507bc493](https://github.com/sinlov/gh-conventional-kit/commit/507bc493661e2923cee60e0990b090bf029e94db)), feat [#63](https://github.com/sinlov/gh-conventional-kit/issues/63)
+
+### 👷‍ Build System
+
+* bump codecov/codecov-action from 4.5.0 to 4.6.0 ([f1c2bd94](https://github.com/sinlov/gh-conventional-kit/commit/f1c2bd9468239b796f3baff5880de10bc37d41c7))
+
 ## [1.16.2](https://github.com/sinlov/gh-conventional-kit/compare/1.16.1...v1.16.2) (2024-08-31)
 
 ### 📝 Documentation
