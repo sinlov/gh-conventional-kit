@@ -26,6 +26,7 @@
     - `--golang` add golang badges for github project
     - `--rust` add rust badges for github project
         - `--rust-crates` value crates.io name badges for this repo, if not set, use repo name
+        - use github reps badge for [deps.rs](https://deps.rs/) (1.17+)
     - `--node` add node badges for github project
     - `--npm` add npm badges for github project
     - `--docker-user` `--docker-repo` add docker badges for github project
