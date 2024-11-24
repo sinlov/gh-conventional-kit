@@ -70,7 +70,7 @@ func BadgeByConfigWithMarkdown(
 			sb.WriteString("\n")
 			sb.WriteString(rust_badges.CratesLicenseHtmlMarkdown(cratesName, htmlMarkdownSize))
 			sb.WriteString("\n")
-			sb.WriteString(rust_badges.DepsRsCrateLatestHtmlMarkdown(cratesName, htmlMarkdownSize))
+			sb.WriteString(rust_badges.DepsRsGithubHtmlMarkdown(userName, repoName, htmlMarkdownSize))
 			sb.WriteString("\n")
 		} else {
 			sb.WriteString(rust_badges.DocsRsMarkdown(cratesName))
@@ -81,7 +81,7 @@ func BadgeByConfigWithMarkdown(
 			sb.WriteString("\n")
 			sb.WriteString(rust_badges.CratesLicenseMarkdown(cratesName))
 			sb.WriteString("\n")
-			sb.WriteString(rust_badges.DepsRsCrateLatestMarkdown(cratesName))
+			sb.WriteString(rust_badges.DepsRsGithub(userName, repoName))
 			sb.WriteString("\n")
 		}
 
