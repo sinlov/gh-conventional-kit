@@ -81,7 +81,7 @@ func BadgeByConfigWithMarkdown(
 			sb.WriteString("\n")
 			sb.WriteString(rust_badges.CratesLicenseMarkdown(cratesName))
 			sb.WriteString("\n")
-			sb.WriteString(rust_badges.DepsRsGithub(userName, repoName))
+			sb.WriteString(rust_badges.DepsRsGithubMarkdown(userName, repoName))
 			sb.WriteString("\n")
 		}
 
