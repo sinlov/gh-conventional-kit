@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [convention-change-log](https://github.com/convention-change/convention-change-log) for commit guidelines.
 
+## [1.17.1](https://github.com/sinlov/gh-conventional-kit/compare/1.17.0...v1.17.1) (2024-11-25)
+
+### 🐛 Bug Fixes
+
+* update `badge-markdown` subcommand for Rust crates ([e6a69318](https://github.com/sinlov/gh-conventional-kit/commit/e6a69318c118183151bde89186be919e146cded7))
+
 ## [1.17.0](https://github.com/sinlov/gh-conventional-kit/compare/1.16.2...v1.17.0) (2024-11-24)
 
 ### ✨ Features
