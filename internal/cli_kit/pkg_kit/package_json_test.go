@@ -1,4 +1,4 @@
-package pkgJson
+package pkg_kit
 
 import (
 	"github.com/stretchr/testify/assert"
@@ -11,9 +11,9 @@ const (
   "version": "1.2.3",
   "name": "mock",
   "author": {
-    "name": "sinlov",
-    "email": "sinlovgmppt@gmail.com",
-    "url": "https://github.com/sinlov/gh-conventional-kit"
+    "name": "zeolite",
+    "email": "zeolitegmppt@gmail.com",
+    "url": "https://gitea.sinlov.cn/zeolite/zeolite-golang"
   }
 }
 `
@@ -22,12 +22,12 @@ const (
   "version": "v1.2.3",
   "name": "mock go style",
   "author": {
-    "name": "sinlov",
-    "email": "sinlovgmppt@gmail.com",
-    "url": "https://github.com/sinlov/gh-conventional-kit"
+    "name": "zeolite",
+    "email": "zeolitegmppt@gmail.com",
+    "url": "https://gitea.sinlov.cn/zeolite/zeolite-golang"
   },
   "description": "mock go style",
-  "homepage": "https://github.com/sinlov/gh-conventional-kit#readme"
+  "homepage": "https://gitea.sinlov.cn/zeolite/zeolite-golang#readme"
 }
 `
 )
@@ -98,7 +98,7 @@ func TestPanicInitPkgJsonContentError(t *testing.T) {
 func TestPanicPackageJsonLoadName(t *testing.T) {
 	// mock TestPanicPackageJsonLoadName
 
-	errString := "pkgJson parse package.json name is empty"
+	errString := "pkg_kit parse package.json name is empty"
 
 	if !assert.PanicsWithError(t, errString, func() {
 		// do TestPanicPackageJsonLoadName
@@ -115,7 +115,7 @@ func TestPanicPackageJsonLoadName(t *testing.T) {
 func TestPanicPackageJsonLoadVersion(t *testing.T) {
 	// mock TestPanicPackageJsonLoadVersion
 
-	errString := "pkgJson parse package.json version is empty"
+	errString := "pkg_kit parse package.json version is empty"
 
 	if !assert.PanicsWithError(t, errString, func() {
 		// do TestPanicPackageJsonLoadVersion
@@ -132,30 +132,13 @@ func TestPanicPackageJsonLoadVersion(t *testing.T) {
 func TestPanicPackageJsonLoadAuthor(t *testing.T) {
 	// mock TestPanicPackageJsonLoadAuthor
 
-	errString := "pkgJson parse package.json author name is empty"
+	errString := "pkg_kit parse package.json author name is empty"
 
 	if !assert.PanicsWithError(t, errString, func() {
 		// do TestPanicPackageJsonLoadAuthor
 		InitPkgJsonContent(`{
   "name": "foo",
   "version": "1.2.3"
-}
-`)
-	}) {
-		// verify TestPanicPackageJsonLoadAuthor
-		t.Fatalf("TestPanicPackageJsonLoadAuthor should panic")
-	}
-
-	errString = "pkgJson parse package.json author email is empty"
-
-	if !assert.PanicsWithError(t, errString, func() {
-		// do TestPanicPackageJsonLoadAuthor
-		InitPkgJsonContent(`{
-  "name": "foo",
-  "version": "1.2.3",
-  "author": {
-    "name": "sinlov"
-  }
 }
 `)
 	}) {
@@ -185,8 +168,8 @@ func TestGetPackageJsonAuthor(t *testing.T) {
 	// do GetPackageJsonAuthorName
 
 	// verify GetPackageJsonAuthorName
-	assert.Equal(t, "sinlov", GetPackageJsonAuthor().Name)
-	assert.Equal(t, "sinlovgmppt@gmail.com", GetPackageJsonAuthor().Email)
+	assert.Equal(t, "zeolite", GetPackageJsonAuthor().Name)
+	assert.Equal(t, "zeolitegmppt@gmail.com", GetPackageJsonAuthor().Email)
 }
 func TestGetPackageJsonDescription(t *testing.T) {
 	t.Logf("~> mock GetPackageJsonDescription")
@@ -215,5 +198,5 @@ func TestGetPackageJsonHomepage(t *testing.T) {
 	assert.Equal(t, "", GetPackageJsonHomepage())
 
 	InitPkgJsonContent(jsonInfoGoStyle)
-	assert.Equal(t, "https://github.com/sinlov/gh-conventional-kit#readme", GetPackageJsonHomepage())
+	assert.Equal(t, "https://gitea.sinlov.cn/zeolite/zeolite-golang#readme", GetPackageJsonHomepage())
 }

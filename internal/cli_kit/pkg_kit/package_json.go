@@ -1,7 +1,8 @@
-package pkgJson
+package pkg_kit
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"regexp"
 	"strings"
@@ -18,6 +19,7 @@ var (
 //	initialization will change the global variable pkgJsonContent
 func InitPkgJsonContent(content string) {
 	pkgJsonContent = content
+
 	initJsonContent()
 }
 
@@ -31,6 +33,7 @@ func replaceNoNumberAndDot(ctx string) string {
 	if regNoNumberAndDot == nil {
 		regNoNumberAndDot, _ = regexp.Compile("[^0-9.]+")
 	}
+
 	return regNoNumberAndDot.ReplaceAllString(ctx, "")
 }
 
@@ -39,40 +42,49 @@ func GetPackageJsonVersionGoStyle(onlyKeepVersion bool) string {
 	if onlyKeepVersion {
 		jsonVersion = replaceNoNumberAndDot(jsonVersion)
 	}
+
 	if pkgVersionPrefixGoStyle != "" && !strings.HasPrefix(jsonVersion, pkgVersionPrefixGoStyle) {
 		return fmt.Sprintf("%s%s", pkgVersionPrefixGoStyle, jsonVersion)
 	}
+
 	return jsonVersion
 }
 
 func GetPackageJsonName() string {
 	checkPackageJsonLoad()
+
 	return pkgJson.Name
 }
 
 func GetPackageJsonVersion() string {
 	checkPackageJsonLoad()
+
 	return pkgJson.Version
 }
 
 func GetPackageJsonAuthor() Author {
 	checkPackageJsonLoad()
+
 	return pkgJson.Author
 }
 
 func GetPackageJsonHomepage() string {
+	checkPackageJsonLoad()
+
 	return pkgJson.Homepage
 }
 
 func GetPackageJsonDescription() string {
 	checkPackageJsonLoad()
+
 	return pkgJson.Description
 }
 
 func checkPackageJsonLoad() {
 	if pkgJsonContent == "" {
-		panic(fmt.Errorf("pkgJson must use InitPkgJsonContent(content), then use"))
+		panic(errors.New("pkg_kit must use InitPkgJsonContent(content), then use"))
 	}
+
 	if pkgJson == nil {
 		initJsonContent()
 	}
@@ -80,25 +92,30 @@ func checkPackageJsonLoad() {
 
 func initJsonContent() {
 	if pkgJsonContent == "" {
-		panic(fmt.Errorf("InitPkgJsonContent(content) , can not be empty content"))
+		panic(errors.New("InitPkgJsonContent(content) , can not be empty content"))
 	}
+
 	pkgJ := PkgJson{}
+
 	err := json.Unmarshal([]byte(pkgJsonContent), &pkgJ)
 	if err != nil {
-		panic(fmt.Errorf("pkgJson parse package.json err: %v", err))
+		panic(fmt.Errorf("pkg_kit parse package.json err: %v", err))
 	}
+
 	if pkgJ.Name == "" {
-		panic(fmt.Errorf("pkgJson parse package.json name is empty"))
+		panic(errors.New("pkg_kit parse package.json name is empty"))
 	}
+
 	if pkgJ.Version == "" {
-		panic(fmt.Errorf("pkgJson parse package.json version is empty"))
+		panic(errors.New("pkg_kit parse package.json version is empty"))
 	}
+
 	if pkgJ.Author.Name == "" {
-		panic(fmt.Errorf("pkgJson parse package.json author name is empty"))
+		panic(errors.New("pkg_kit parse package.json author name is empty"))
 	}
-	if pkgJ.Author.Email == "" {
-		panic(fmt.Errorf("pkgJson parse package.json author email is empty"))
-	}
+	//if pkgJ.AuthorName.Email == "" {
+	//	panic(fmt.Errorf("pkg_kit parse package.json author email is empty"))
+	//}
 	pkgJson = &pkgJ
 }
 
@@ -148,18 +165,16 @@ type PkgJson struct {
 }
 
 // Directories
-// struct
+// struct.
 type Directories struct {
-
 	// Doc
 	//
 	Doc string `json:"doc,omitempty"`
 }
 
 // Repository
-// struct
+// struct.
 type Repository struct {
-
 	// Type
 	//
 	Type string `json:"type,omitempty"`
@@ -170,9 +185,8 @@ type Repository struct {
 }
 
 // Author
-// struct
+// struct.
 type Author struct {
-
 	// Name
 	//
 	Name string `json:"name,omitempty"`
@@ -187,9 +201,8 @@ type Author struct {
 }
 
 // Bugs
-// struct
+// struct.
 type Bugs struct {
-
 	// Url
 	//
 	Url string `json:"url,omitempty"`

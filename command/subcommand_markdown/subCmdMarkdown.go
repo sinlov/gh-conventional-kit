@@ -1,17 +1,19 @@
 package subcommand_markdown
 
 import (
+	"errors"
 	"fmt"
+	"os"
+	"strings"
+
 	"github.com/bar-counter/slog"
 	giturls "github.com/chainguard-dev/git-urls"
 	"github.com/sinlov-go/go-git-tools/git_info"
 	"github.com/sinlov/gh-conventional-kit/command"
 	"github.com/sinlov/gh-conventional-kit/command/common_subcommand"
 	"github.com/sinlov/gh-conventional-kit/constant"
-	"github.com/sinlov/gh-conventional-kit/internal/urfave_cli"
+	"github.com/sinlov/gh-conventional-kit/internal/cli_kit/urfave_cli"
 	"github.com/urfave/cli/v2"
-	"os"
-	"strings"
 )
 
 const commandName = "markdown"
@@ -29,11 +31,16 @@ type MarkdownCommand struct {
 }
 
 func (n *MarkdownCommand) Exec() error {
-
-	err := common_subcommand.PrintBadgeByConfigWithMarkdown(n.BadgeConfig, n.UserName, n.RepoName, n.Branch)
+	err := common_subcommand.PrintBadgeByConfigWithMarkdown(
+		n.BadgeConfig,
+		n.UserName,
+		n.RepoName,
+		n.Branch,
+	)
 	if err != nil {
 		return err
 	}
+
 	return nil
 }
 
@@ -86,10 +93,12 @@ func withEntry(c *cli.Context) (*MarkdownCommand, error) {
 		if c.Args().Len() > 0 {
 			gitCmdUrl := c.Args().First()
 			slog.Debugf("input gitCmdUrl: %s", gitCmdUrl)
+
 			gitUrl, err := giturls.Parse(gitCmdUrl)
 			if err != nil {
 				return nil, fmt.Errorf("parse gitCmdUrl: %s error: %s", gitCmdUrl, err)
 			}
+
 			urlPath := gitUrl.Path
 			if gitUrl.Scheme == "ssh" {
 				splitPath := strings.Split(urlPath, "/")
@@ -110,35 +119,43 @@ func withEntry(c *cli.Context) (*MarkdownCommand, error) {
 			}
 		} else {
 			slog.Debug("try find out at git repo")
+
 			remote := c.String(constant.CliNameGitRemote)
+
 			gitRootFolder := c.String(constant.CliNameGitRootFolder)
 			if gitRootFolder == "" {
 				dir, err := os.Getwd()
 				if err != nil {
 					return nil, fmt.Errorf("can not get target foler err: %v", err)
 				}
+
 				gitRootFolder = dir
 			}
+
 			_, err := git_info.IsPathGitManagementRoot(gitRootFolder)
 			if err != nil {
 				return nil, err
 			}
+
 			fistRemoteInfo, err := git_info.RepositoryFistRemoteInfo(gitRootFolder, remote)
 			if err != nil {
 				return nil, err
 			}
+
 			user = fistRemoteInfo.User
 			slog.Debugf("find git repo user: %s", user)
+
 			repo = fistRemoteInfo.Repo
 			slog.Debugf("find git repo: %s", repo)
 		}
 	}
 
 	if user == "" {
-		return nil, fmt.Errorf("need set --user, or can not find git repo user")
+		return nil, errors.New("need set --user, or can not find git repo user")
 	}
+
 	if repo == "" {
-		return nil, fmt.Errorf("need set --repo, or can not find git repo")
+		return nil, errors.New("need set --repo, or can not find git repo")
 	}
 
 	return &MarkdownCommand{
@@ -152,16 +169,20 @@ func withEntry(c *cli.Context) (*MarkdownCommand, error) {
 
 func action(c *cli.Context) error {
 	slog.Debugf("SubCommand [ %s ] start", commandName)
+
 	entry, err := withEntry(c)
 	if err != nil {
 		return err
 	}
+
 	commandEntry = entry
+
 	return commandEntry.Exec()
 }
 
 func Command() []*cli.Command {
 	urfave_cli.UrfaveCliAppendCliFlag(command.GlobalFlag(), command.HideGlobalFlag())
+
 	return []*cli.Command{
 		{
 			Name:      commandName,

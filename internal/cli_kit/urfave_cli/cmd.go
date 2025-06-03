@@ -2,9 +2,7 @@ package urfave_cli
 
 import "github.com/urfave/cli/v2"
 
-// UrfaveCliAppendCliFlag
-// append cli.Flag
-func UrfaveCliAppendCliFlag(target []cli.Flag, elem []cli.Flag) []cli.Flag {
+func UrfaveCliAppendCliCommand(target []*cli.Command, elem []*cli.Command) []*cli.Command {
 	if len(elem) == 0 {
 		return target
 	}

@@ -1,12 +1,5 @@
 # dev
 
-## evn
-
-- minimum go version: go 1.19
-- change `go 1.19`, `^1.19`, `1.19.13` to new go version
-- change `golangci-lint@v1.53.3` from [golangci-lint version release](https://github.com/golangci/golangci-lint/releases) to new version
-    - more info see [golangci-lint local-installation](https://golangci-lint.run/usage/install/#local-installation)
-
 ### libs
 
 | lib                                       | version             |

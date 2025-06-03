@@ -1,20 +1,20 @@
 # This dockerfile uses extends image https://hub.docker.com/sinlov/gh-conventional-kit
 # VERSION 1
 # Author: sinlov
-# dockerfile offical document https://docs.docker.com/engine/reference/builder/
+# dockerfile official document https://docs.docker.com/engine/reference/builder/
 # https://hub.docker.com/_/golang
-FROM golang:1.19.13 as builder
+FROM golang:1.23.8 AS golang-builder
 
 ARG GO_ENV_PACKAGE_NAME=github.com/sinlov/gh-conventional-kit
 ARG GO_ENV_ROOT_BUILD_BIN_NAME=gh-conventional-kit
 ARG GO_ENV_ROOT_BUILD_BIN_PATH=build/${GO_ENV_ROOT_BUILD_BIN_NAME}
-ARG GO_ENV_ROOT_BUILD_ENTRANCE=cmd/gh-conventional-kit/main.go
+ARG GO_ENV_ROOT_BUILD_ENTRANCE="cmd/gh-conventional-kit/main.go"
 
-ARG GO_PATH_SOURCE_DIR=/go/src/
+ARG GO_PATH_SOURCE_DIR=/go/src
 WORKDIR ${GO_PATH_SOURCE_DIR}
 
 RUN mkdir -p ${GO_PATH_SOURCE_DIR}/${GO_ENV_PACKAGE_NAME}
-COPY $PWD ${GO_PATH_SOURCE_DIR}/${GO_ENV_PACKAGE_NAME}
+COPY . ${GO_PATH_SOURCE_DIR}/${GO_ENV_PACKAGE_NAME}
 
 RUN cd ${GO_PATH_SOURCE_DIR}/${GO_ENV_PACKAGE_NAME} && \
     go mod download -x
@@ -32,12 +32,12 @@ RUN  cd ${GO_PATH_SOURCE_DIR}/${GO_ENV_PACKAGE_NAME} && \
 # https://hub.docker.com/_/alpine
 FROM alpine:3.17
 
-ARG DOCKER_CLI_VERSION=${DOCKER_CLI_VERSION}
+# ARG DOCKER_CLI_VERSION=${DOCKER_CLI_VERSION}
 ARG GO_ENV_PACKAGE_NAME=github.com/sinlov/gh-conventional-kit
 ARG GO_ENV_ROOT_BUILD_BIN_NAME=gh-conventional-kit
 ARG GO_ENV_ROOT_BUILD_BIN_PATH=build/${GO_ENV_ROOT_BUILD_BIN_NAME}
 
-ARG GO_PATH_SOURCE_DIR=/go/src/
+ARG GO_PATH_SOURCE_DIR=/go/src
 
 #RUN apk --no-cache add \
 #  ca-certificates mailcap curl \
@@ -46,6 +46,6 @@ ARG GO_PATH_SOURCE_DIR=/go/src/
 RUN mkdir /app
 WORKDIR /app
 
-COPY --from=builder ${GO_PATH_SOURCE_DIR}/${GO_ENV_PACKAGE_NAME}/${GO_ENV_ROOT_BUILD_BIN_PATH} .
+COPY --from=golang-builder ${GO_PATH_SOURCE_DIR}/${GO_ENV_PACKAGE_NAME}/${GO_ENV_ROOT_BUILD_BIN_PATH} .
 ENTRYPOINT [ "/app/gh-conventional-kit" ]
 # CMD ["/app/gh-conventional-kit", "--help"]

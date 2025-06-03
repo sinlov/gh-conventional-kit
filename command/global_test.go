@@ -9,7 +9,7 @@ import (
 func TestPanicGlobal_init_without_package_json(t *testing.T) {
 	// mock TestPanicGlobal_init_without_package_json
 
-	errString := "pkgJson must use InitPkgJsonContent(content), then use"
+	errString := "pkg_kit must use InitPkgJsonContent(content), then use"
 
 	if !assert.PanicsWithError(t, errString, func() {
 		// do TestPanicGlobal_init_without_package_json
