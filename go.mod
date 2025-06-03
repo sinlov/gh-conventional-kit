@@ -7,7 +7,7 @@ toolchain go1.23.8
 require (
 	github.com/Masterminds/sprig/v3 v3.3.0
 	github.com/aymerick/raymond v2.0.2+incompatible
-	github.com/bar-counter/slog v1.4.0
+	github.com/bar-counter/slog v1.4.1
 	github.com/chainguard-dev/git-urls v1.0.2
 	github.com/gookit/color v1.5.4
 	github.com/sebdah/goldie/v2 v2.5.5
