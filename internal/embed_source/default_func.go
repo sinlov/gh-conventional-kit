@@ -72,6 +72,7 @@ func isFailure(conditional bool, options *raymond.Options) string {
 	}
 }
 
+// nolint: predeclared
 func truncate(s string, len int) string {
 	if utf8.RuneCountInString(s) <= int(math.Abs(float64(len))) {
 		return s

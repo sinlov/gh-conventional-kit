@@ -2,6 +2,10 @@ package subcommand_badge
 
 import (
 	"fmt"
+	"os"
+	"path/filepath"
+	"strings"
+
 	"github.com/bar-counter/slog"
 	"github.com/gookit/color"
 	"github.com/sinlov-go/go-common-lib/pkg/filepath_plus"
@@ -9,11 +13,8 @@ import (
 	"github.com/sinlov/gh-conventional-kit/command"
 	"github.com/sinlov/gh-conventional-kit/command/common_subcommand"
 	"github.com/sinlov/gh-conventional-kit/constant"
-	"github.com/sinlov/gh-conventional-kit/internal/urfave_cli"
+	"github.com/sinlov/gh-conventional-kit/internal/cli_kit/urfave_cli"
 	"github.com/urfave/cli/v2"
-	"os"
-	"path/filepath"
-	"strings"
 )
 
 const commandName = "badge"
@@ -33,9 +34,9 @@ type BadgeCommand struct {
 }
 
 func (n *BadgeCommand) Exec() error {
-
 	if command.CmdGlobalEntry().DryRun {
 		color.Bluef("-> dry run, not add to file: %s\n\n", n.TargetFile)
+
 		if n.NoMarkdown {
 			err := common_subcommand.PrintBadgeByConfig(
 				n.BadgeConfig,
@@ -46,6 +47,7 @@ func (n *BadgeCommand) Exec() error {
 			if err != nil {
 				return err
 			}
+
 			return nil
 		}
 
@@ -58,10 +60,15 @@ func (n *BadgeCommand) Exec() error {
 		if err != nil {
 			return err
 		}
+
 		return nil
 	}
+
 	var sb strings.Builder
+
+	// nolint:wastedassign
 	targetAppendHeadBadge := ""
+
 	if n.NoMarkdown {
 		targetAppendHead, errBadge := common_subcommand.BadgeByConfig(
 			n.BadgeConfig,
@@ -72,6 +79,7 @@ func (n *BadgeCommand) Exec() error {
 		if errBadge != nil {
 			return errBadge
 		}
+
 		targetAppendHeadBadge = targetAppendHead
 	} else {
 		targetAppendHead, errBadge := common_subcommand.BadgeByConfigWithMarkdown(
@@ -83,6 +91,7 @@ func (n *BadgeCommand) Exec() error {
 		if errBadge != nil {
 			return errBadge
 		}
+
 		targetAppendHeadBadge = targetAppendHead
 	}
 
@@ -96,6 +105,7 @@ func (n *BadgeCommand) Exec() error {
 	if err != nil {
 		return err
 	}
+
 	slog.Infof("-> finish append file head at: %s", n.TargetFile)
 
 	return nil
@@ -129,22 +139,27 @@ func withEntry(c *cli.Context) (*BadgeCommand, error) {
 	globalEntry := command.CmdGlobalEntry()
 
 	remote := c.String(constant.CliNameGitRemote)
+
 	gitRootFolder := c.String(constant.CliNameGitRootFolder)
 	if gitRootFolder == "" {
 		dir, err := os.Getwd()
 		if err != nil {
 			return nil, fmt.Errorf("can not get target foler err: %v", err)
 		}
+
 		gitRootFolder = dir
 	}
+
 	_, err := git_info.IsPathGitManagementRoot(gitRootFolder)
 	if err != nil {
 		return nil, err
 	}
+
 	fistRemoteInfo, err := git_info.RepositoryFistRemoteInfo(gitRootFolder, remote)
 	if err != nil {
 		return nil, err
 	}
+
 	branchByPath, err := git_info.RepositoryNowBranchByPath(gitRootFolder)
 	if err != nil {
 		return nil, err
@@ -168,16 +183,20 @@ func withEntry(c *cli.Context) (*BadgeCommand, error) {
 
 func action(c *cli.Context) error {
 	slog.Debugf("SubCommand [ %s ] start", commandName)
+
 	entry, err := withEntry(c)
 	if err != nil {
 		return err
 	}
+
 	commandEntry = entry
+
 	return commandEntry.Exec()
 }
 
 func Command() []*cli.Command {
 	urfave_cli.UrfaveCliAppendCliFlag(command.GlobalFlag(), command.HideGlobalFlag())
+
 	return []*cli.Command{
 		{
 			Name:   commandName,

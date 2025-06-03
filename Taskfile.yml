@@ -1,0 +1,85 @@
+version: "3"
+silent: true
+
+env:
+  GO111MODULE: on
+
+vars:
+  # dist env
+  ENV_DIST_PATH: dist
+
+tasks:
+  default:
+    desc: "default task show environment"
+    dir: '{{.TASKFILE_DIR}}'
+    cmds:
+      - goreleaser --version
+
+  clean:
+    dir: '{{.TASKFILE_DIR}}'
+    desc: clean dist
+    cmds:
+      - '{{if eq OS "windows"}}powershell Remove-Item -Recurse -Force -path {{.ENV_DIST_PATH}} \| Out-Null{{else}}rm -rf {{.ENV_DIST_PATH}}{{end}}'
+      - 'echo {{if eq OS "windows"}}"clean at windows path: {{.ENV_DIST_PATH}}"{{else}}"clean not at windows path: {{.ENV_DIST_PATH}}"{{end}}'
+
+  build:
+    dir: '{{.TASKFILE_DIR}}'
+    desc: Build the binary
+    sources:
+      - ./**/*.go
+    generates:
+      - goreleaser
+    cmds:
+      - go build
+
+  goreleaser-prepare:
+    desc: Prepare the GoReleaser generated cli
+    dir: '{{.TASKFILE_DIR}}'
+    cmds:
+      - go install github.com/goreleaser/goreleaser/v2@v2.7.0
+      - goreleaser --version
+      - goreleaser check
+
+  goreleaser-healthcheck:
+    desc: check GoReleaser generated before
+    dir: '{{.TASKFILE_DIR}}'
+    internal: true
+    cmds:
+      - goreleaser --version
+      - goreleaser healthcheck
+
+  goreleaser-build-snapshot:
+    desc: Build the GoReleaser binary local snapshot
+    deps:
+      - build
+      - goreleaser-healthcheck
+    dir: '{{.TASKFILE_DIR}}'
+    cmds:
+      - goreleaser build --clean --timeout 60m --snapshot
+
+  goreleaser-release-snapshot:
+    desc: Run GoReleaser either in snapshot mode
+    deps:
+      - build
+      - goreleaser-healthcheck
+    dir: '{{.TASKFILE_DIR}}'
+    cmds:
+      - goreleaser release --clean --timeout 60m --snapshot
+
+  goreleaser-build:
+    desc: Build the GoReleaser binary local
+    deps:
+      - build
+      - goreleaser-healthcheck
+    dir: '{{.TASKFILE_DIR}}'
+    cmds:
+      - goreleaser build --clean --timeout 60m --auto-snapshot
+
+  goreleaser-release:
+    desc: Run GoReleaser either in snapshot or release mode
+    deps:
+      - build
+      - goreleaser-healthcheck
+    dir: '{{.TASKFILE_DIR}}'
+    cmds:
+      - goreleaser release --clean --timeout 60m --auto-snapshot

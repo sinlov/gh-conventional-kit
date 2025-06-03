@@ -1,15 +1,16 @@
 package command
 
 import (
-	"fmt"
+	"errors"
+	"os"
+
 	"github.com/bar-counter/slog"
 	ghconventionalkit "github.com/sinlov/gh-conventional-kit"
 	"github.com/sinlov/gh-conventional-kit/constant"
+	"github.com/sinlov/gh-conventional-kit/internal/cli_kit/pkg_kit"
+	"github.com/sinlov/gh-conventional-kit/internal/cli_kit/urfave_cli/cli_exit_urfave"
 	"github.com/sinlov/gh-conventional-kit/internal/log"
-	"github.com/sinlov/gh-conventional-kit/internal/pkgJson"
-	"github.com/sinlov/gh-conventional-kit/internal/urfave_cli/cli_exit_urfave"
 	"github.com/urfave/cli/v2"
-	"os"
 )
 
 type GlobalConfig struct {
@@ -30,9 +31,7 @@ type (
 	}
 )
 
-var (
-	cmdGlobalEntry *GlobalCommand
-)
+var cmdGlobalEntry *GlobalCommand
 
 // CmdGlobalEntry
 //
@@ -45,17 +44,18 @@ func CmdGlobalEntry() *GlobalCommand {
 // do command Action flag.
 func GlobalAction(c *cli.Context) error {
 	if cmdGlobalEntry == nil {
-		panic(fmt.Errorf("not init GlobalBeforeAction success to new cmdGlobalEntry"))
+		panic(errors.New("not init GlobalBeforeAction success to new cmdGlobalEntry"))
 	}
+
 	err := cmdGlobalEntry.globalExec()
 	if err != nil {
 		return err
 	}
+
 	return nil
 }
 
 func (c *GlobalCommand) globalExec() error {
-
 	return nil
 }
 
@@ -63,21 +63,26 @@ func (c *GlobalCommand) globalExec() error {
 // do command Action before flag global.
 func GlobalBeforeAction(c *cli.Context) error {
 	isVerbose := c.Bool("verbose")
+
 	err := log.InitLog(isVerbose, !isVerbose)
 	if err != nil {
 		panic(err)
 	}
-	cliVersion := pkgJson.GetPackageJsonVersionGoStyle(false)
+
+	cliVersion := pkg_kit.GetPackageJsonVersionGoStyle(false)
 	if isVerbose {
 		slog.Warnf("-> open verbose, and now command version is: %s", cliVersion)
 	}
-	appName := pkgJson.GetPackageJsonName()
+
+	appName := pkg_kit.GetPackageJsonName()
+
 	cmdGlobal, errFlag := withGlobalFlag(c, cliVersion, appName)
 	if errFlag != nil {
-		return cli_exit_urfave.ErrMsg(errFlag, "init global flag")
+		return errFlag
 	}
 
 	cmdGlobalEntry = cmdGlobal
+
 	return nil
 }
 
@@ -89,25 +94,35 @@ func GlobalBeforeAction(c *cli.Context) error {
 func GlobalAfterAction(c *cli.Context) error {
 	isVerbose := c.Bool("verbose")
 	if isVerbose {
-		slog.Infof("-> finish run command: %s, version %s", cmdGlobalEntry.Name, cmdGlobalEntry.Version)
+		slog.Infof(
+			"-> finish run command: %s, version %s",
+			cmdGlobalEntry.Name,
+			cmdGlobalEntry.Version,
+		)
 	}
+
 	return nil
 }
 
 func withGlobalFlag(c *cli.Context, cliVersion, cliName string) (*GlobalCommand, error) {
 	isVerbose := c.Bool(constant.NameCliVerbose)
+
 	cliRunRootPath := c.String(constant.NameCliRunPath)
 	if len(cliRunRootPath) == 0 {
 		rootDir, err := os.Getwd()
 		if err != nil {
 			slog.Errorf(err, "get rooted path name corresponding to the current directory path err")
+
 			return nil, cli_exit_urfave.Err(err)
 		}
+
 		cliRunRootPath = rootDir
 	}
+
 	err := ghconventionalkit.CheckAllResource(cliRunRootPath)
 	if err != nil {
 		slog.Errorf(err, "check all resource err")
+
 		return nil, cli_exit_urfave.Err(err)
 	}
 
@@ -124,5 +139,6 @@ func withGlobalFlag(c *cli.Context, cliVersion, cliName string) (*GlobalCommand,
 		DryRun:  c.Bool(constant.NameCliDryRun),
 		RootCfg: config,
 	}
+
 	return &p, nil
 }

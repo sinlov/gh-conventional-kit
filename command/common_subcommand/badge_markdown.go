@@ -13,6 +13,7 @@ import (
 	"strings"
 )
 
+// nolint: gocyclo
 func BadgeByConfigWithMarkdown(
 	badgeConfig *constant.BadgeConfig,
 	userName, repoName string,

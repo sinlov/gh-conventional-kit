@@ -2,10 +2,12 @@ package cli_exit_urfave
 
 import (
 	"fmt"
+
 	"github.com/urfave/cli/v2"
 )
 
-const exitCodeDefault = 127
+// exitCodeDefault SIGUSR1 as 10.
+const exitCodeDefault = 10
 
 var exitCode = exitCodeDefault
 
@@ -29,10 +31,18 @@ func ErrCode(code int, err error) cli.ExitCoder {
 	return cli.Exit(err.Error(), code)
 }
 
-func ErrMsg(err error, msg string) cli.ExitCoder {
-	return cli.Exit(fmt.Sprintf("%s err: %s", msg, err), exitCode)
+func ErrMsg(msg string) cli.ExitCoder {
+	return Err(fmt.Errorf("err: %s", msg))
 }
 
-func ErrMsgCode(code int, err error, msg string) cli.ExitCoder {
-	return cli.Exit(fmt.Sprintf("%s err: %s", msg, err), code)
+func ErrMsgf(format string, a ...any) cli.ExitCoder {
+	return Err(fmt.Errorf(format, a...))
+}
+
+func ErrMsgCode(code int, msg string) cli.ExitCoder {
+	return ErrCode(code, fmt.Errorf("err: %s", msg))
+}
+
+func ErrMsgCodef(code int, format string, a ...any) cli.ExitCoder {
+	return ErrCode(code, fmt.Errorf(format, a...))
 }

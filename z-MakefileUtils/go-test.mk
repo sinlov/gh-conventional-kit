@@ -46,6 +46,15 @@ else
 	@go test -test.v ${ENV_ROOT_TEST_LIST}
 endif
 
+.PHONY: test.go.update
+test.go.update:
+	@echo "=> run test start"
+ifeq ($(OS),Windows_NT)
+	-@go test -test.v ${ENV_ROOT_TEST_LIST} -v -update
+else
+	-@go test -test.v ${ENV_ROOT_TEST_LIST} -v -update
+endif
+
 .PHONY: test.go.fail
 test.go.fail:
 	@echo "=> run test timeout ${ENV_ROOT_TEST_MAX_TIME}, if not find FAIL, will exit 1"
@@ -125,8 +134,9 @@ test.go.coverage.atomic.browser: test.go.coverage.atomic
 
 .PHONY: help.test.go
 help.test.go:
-	@echo "#=> MakeGoTest.mk tools for golang test task"
+	@echo "Help: go-test.mk"
 	@echo ""
+	@echo "#=> tools for golang test task"
 	@echo "sample of golang test task cover"
 	@echo "cover script set"
 	@echo "go test -cover -coverprofile ${ENV_GO_TEST_COVERAGE_PROFILE} -covermode set -coverpkg ./... -v ${ENV_ROOT_TEST_LIST}"
