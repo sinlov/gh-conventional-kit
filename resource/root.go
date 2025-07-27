@@ -10,6 +10,11 @@ const (
 	KeyPullRequestTemplate = "pull_request_template.md"
 	KeyDependabotConfig    = "dependabot.yml"
 
+	DirCopilot              = "copilot"
+	GroupCopilot            = "resource/copilot"
+	KeyCopilotInstructionMd = "copilot-instructions.md"
+	KeyGitCommitInstruction = "git-commit-instructions.md"
+
 	DirNameContributingDoc     = "contributing_doc"
 	KeyConventionalReadmeTitle = "conventional_title.md"
 	KeyConventionalReadmeI18n  = "conventional_readme.md"

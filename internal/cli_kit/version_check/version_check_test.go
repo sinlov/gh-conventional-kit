@@ -39,7 +39,7 @@ func TestSemverVersionMinimumSupport(t *testing.T) {
 				version:     "Semantic Versioning",
 				lessVersion: "1.0.0",
 			},
-			wantErr: fmt.Errorf("can not parse target version: Semantic Versioning err: Invalid Semantic Version"),
+			wantErr: fmt.Errorf("can not parse target version: Semantic Versioning err: invalid semantic version"),
 		},
 		{
 			name: "not support less version",
@@ -133,7 +133,7 @@ func TestSemverVersionConstraint(t *testing.T) {
 				minimumVersion: "1.0.0",
 				maximumVersion: "2.0.0",
 			},
-			wantErr: fmt.Errorf("can not parse target version: Semantic Versioning err: Invalid Semantic Version"),
+			wantErr: fmt.Errorf("can not parse target version: Semantic Versioning err: invalid semantic version"),
 		},
 		{
 			name: "not support minimumVersion",

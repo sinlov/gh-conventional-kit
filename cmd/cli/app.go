@@ -4,6 +4,7 @@ import (
 	"github.com/sinlov/gh-conventional-kit/command"
 	"github.com/sinlov/gh-conventional-kit/command/subcommand_action"
 	"github.com/sinlov/gh-conventional-kit/command/subcommand_badge"
+	"github.com/sinlov/gh-conventional-kit/command/subcommand_copilot"
 	"github.com/sinlov/gh-conventional-kit/command/subcommand_markdown"
 	"github.com/sinlov/gh-conventional-kit/command/subcommand_template"
 	"github.com/sinlov/gh-conventional-kit/internal/cli_kit/pkg_kit"
@@ -40,10 +41,12 @@ func NewCliApp(bdInfo pkg_kit.BuildInfo) *cli.App {
 	app.After = command.GlobalAfterAction
 
 	var appCommands []*cli.Command
+
 	appCommands = urfave_cli.UrfaveCliAppendCliCommand(appCommands, subcommand_badge.Command())
 	appCommands = urfave_cli.UrfaveCliAppendCliCommand(appCommands, subcommand_markdown.Command())
 	appCommands = urfave_cli.UrfaveCliAppendCliCommand(appCommands, subcommand_template.Command())
 	appCommands = urfave_cli.UrfaveCliAppendCliCommand(appCommands, subcommand_action.Command())
+	appCommands = urfave_cli.UrfaveCliAppendCliCommand(appCommands, subcommand_copilot.Command())
 
 	app.Commands = appCommands
 
