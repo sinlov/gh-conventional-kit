@@ -19,8 +19,9 @@
 - [X] `markdown` subcommand generate markdown badge by program language or framework, this
   subcommand `only output into stdout`
     - markdown can use git url or http url to get git info (only support github now)
-      - if not set `--user` or `--repo` can input git url like `https//...` or `git@...` (v1.11.+)
-      - with empty `--user` or `--repo` and empty `arg0` will try to find out git info from current git project (v1.12.+)
+        - if not set `--user` or `--repo` can input git url like `https//...` or `git@...` (v1.11.+)
+        - with empty `--user` or `--repo` and empty `arg0` will try to find out git info from current git project (
+          v1.12.+)
     - can cover by `arg0` to fast get badge output, event not in git managed project
     - `--no-common-badges` no badges common subcommand for this repo (default: false)
     - `--golang` add golang badges for github project
@@ -39,6 +40,8 @@
     - conventional contributing support `--language`
         - `en-US`
         - `zh-CN`
+- [x] `copilot` add github copilot config (1.18.+)
+    - `--init-commit` init commit message config, default: false
 - [x] add `--html-img` add html img badge (1.16.+)
 - [X] `action` fast add github action workflow (1.10.+), must set `--ci-*` to effective
     - `--coverage-folder-file` coverage folder or file under targetFolder, does not affect files that are not in the
@@ -102,6 +105,15 @@ $ gh-conventional-kit --dry-run badge --rust --npm
 # docker badges
 $ gh-conventional-kit --dry-run badge --rust --docker-user [user] --docker-repo [repo]
 
+## copilot tools help (1.18.+)
+$ gh-conventional-kit copilot --help
+# try add copilot git commit message config
+$ gh-conventional-kit copilot --init-commit
+# coverage folder file is exist
+$ gh-conventional-kit copilot --coverage-folder-file --init-commit
+# init copilot git commit message config with language default en-US
+$ gh-conventional-kit copilot --init-commit --language zh-CN
+
 ## template tools help
 $ gh-conventional-kit template --help
 # try add template at .github and try add badge at README.md
@@ -110,7 +122,7 @@ $ gh-conventional-kit --dry-run template --language en-US,zh-CN
 $ gh-conventional-kit --dry-run template --language en-US,zh-CN --golang
 # this project is rust
 $ gh-conventional-kit --dry-run template --language en-US,zh-CN --rust
-#  crates name not same as repo name
+# crates name not same as repo name
 $ gh-conventional-kit --dry-run template --language en-US,zh-CN --rust --rust-crates some-rs
 # this project is node
 $ gh-conventional-kit --dry-run template --language en-US,zh-CN --node
