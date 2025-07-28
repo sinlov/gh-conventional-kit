@@ -74,6 +74,7 @@ func (n *CopilotCommand) initCommitConfig() error {
 
 		// to remove language set from path
 		replacePath := path.Join(resource.GroupResource, resource.DirCopilot, langSet)
+
 		errMaintainResourceWrite := embed_operator.WriteFileByEmbedResource(
 			maintainResEmbedItem,
 			n.GitRootPath, n.CoverageTargetFolderFile,
