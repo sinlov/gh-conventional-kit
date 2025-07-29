@@ -3,40 +3,71 @@ package gh_conventional_kit
 import (
 	"embed"
 	_ "embed"
+	"path"
+
 	"github.com/sinlov/gh-conventional-kit/constant"
 	"github.com/sinlov/gh-conventional-kit/internal/embed_source"
 	"github.com/sinlov/gh-conventional-kit/resource"
-	"path"
 )
 
 //go:embed package.json
 var PackageJson string
 
 func CheckAllResource(root string) error {
-
 	embed_source.SettingResourceRootPath(root)
 
-	err := embed_source.InitResourceByDir(resource.GroupResource, embedResourceFiles, embedDotGithubList)
+	err := embed_source.InitResourceByDir(
+		resource.GroupResource,
+		embedResourceFiles,
+		embedDotGithubList,
+	)
 	if err != nil {
 		return err
 	}
 
 	for _, resActionItem := range embedResourceActionList {
-		err = embed_source.InitResourceGroupByLanguage(resource.GroupResourceAction, embedResourceActionFiles, resActionItem, constant.SupportLanguage())
+		err = embed_source.InitResourceGroupByLanguage(
+			resource.GroupResourceAction,
+			embedResourceActionFiles,
+			resActionItem,
+			constant.SupportLanguage(),
+		)
 		if err != nil {
 			return err
 		}
 	}
 
 	for _, resPathItem := range embedResourceCCDocPathList {
-		err = embed_source.InitResourceGroupByLanguage(resource.GroupResource, embedResourceContributingDocFiles, resPathItem, constant.SupportLanguage())
+		err = embed_source.InitResourceGroupByLanguage(
+			resource.GroupResource,
+			embedResourceContributingDocFiles,
+			resPathItem,
+			constant.SupportLanguage(),
+		)
 		if err != nil {
 			return err
 		}
 	}
 
 	for _, resPathItem := range embedResourceActionWorkflowsDeployTagsList {
-		err = embed_source.InitResourceGroupByLanguage(resource.GroupResourceActionWorkflowsDeployTags, embedResourceActionWorkflowsFiles, resPathItem, constant.SupportLanguage())
+		err = embed_source.InitResourceGroupByLanguage(
+			resource.GroupResourceActionWorkflowsDeployTags,
+			embedResourceActionWorkflowsFiles,
+			resPathItem,
+			constant.SupportLanguage(),
+		)
+		if err != nil {
+			return err
+		}
+	}
+
+	for _, resActionItem := range embedResourceCopilotList {
+		err = embed_source.InitResourceGroupByLanguage(
+			resource.GroupCopilot,
+			embedResourceCopilotFiles,
+			resActionItem,
+			constant.SupportLanguage(),
+		)
 		if err != nil {
 			return err
 		}
@@ -77,5 +108,12 @@ var (
 		resource.KeyGithubActionVersionYml,
 		resource.KeyGithubActionDeployTagsYml,
 		resource.KeyGithubActionCIYml,
+	}
+
+	//go:embed resource/copilot
+	embedResourceCopilotFiles embed.FS
+	embedResourceCopilotList  = []string{
+		resource.KeyCopilotInstructionMd,
+		resource.KeyGitCommitInstruction,
 	}
 )
