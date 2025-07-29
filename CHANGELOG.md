@@ -2,6 +2,40 @@
 
 All notable changes to this project will be documented in this file. See [convention-change-log](https://github.com/convention-change/convention-change-log) for commit guidelines.
 
+## [1.18.0](https://github.com/sinlov/gh-conventional-kit/compare/v1.17.1...v1.18.0) (2025-07-30)
+
+### ✨ Features
+
+* add support for IDE constants ([8263ddfd](https://github.com/sinlov/gh-conventional-kit/commit/8263ddfd931edee651d092ac69f85a9e5b9de29a))
+
+* add GitHub Copilot configuration instructions ([73ff2ce1](https://github.com/sinlov/gh-conventional-kit/commit/73ff2ce18465a980af6f303ae43c28aa6439b4da))
+
+* add instructions for GitHub Copilot configuration ([d92af999](https://github.com/sinlov/gh-conventional-kit/commit/d92af9998cd9f15affaecd1b235e4c732518841e))
+
+### ♻ Refactor
+
+* remove unnecessary blank line in subCmdCopilot.go ([a914e3ae](https://github.com/sinlov/gh-conventional-kit/commit/a914e3ae60f35d5cb0403cb24a4239c9cc7643bb))
+
+### 👷‍ Build System
+
+* bump github.com/Masterminds/semver/v3 from 3.3.1 to 3.4.0 ([05156da8](https://github.com/sinlov/gh-conventional-kit/commit/05156da8879216a6e3229b83218abb61f60ea05b))
+
+* bump github.com/bar-counter/slog from 1.4.0 to 1.4.1 ([1157d072](https://github.com/sinlov/gh-conventional-kit/commit/1157d072b9e4301444166714e2940a9b1407a30c))
+
+* update Go version and workflows ([368ff7e5](https://github.com/sinlov/gh-conventional-kit/commit/368ff7e59a533f3deb1f4e018160d265d85c15c7))
+
+* bump codecov/codecov-action from 5.4.2 to 5.4.3 ([3c7c54c8](https://github.com/sinlov/gh-conventional-kit/commit/3c7c54c83040998354301b41fa2b43d7b7e3e4a2))
+
+* bump codecov/codecov-action from 5.4.0 to 5.4.2 ([f611445d](https://github.com/sinlov/gh-conventional-kit/commit/f611445de5535c7dbb7a348632568016281ab34d))
+
+* bump codecov/codecov-action from 5.3.1 to 5.4.0 ([f61de5aa](https://github.com/sinlov/gh-conventional-kit/commit/f61de5aa2d2490bd1ab4141e19fbd982649b4cad))
+
+* bump codecov/codecov-action from 5.1.2 to 5.3.1 ([9793da1b](https://github.com/sinlov/gh-conventional-kit/commit/9793da1b625306fec6796a4c0a33c6c4808ffea7))
+
+* bump codecov/codecov-action from 5.0.7 to 5.1.2 ([05afe470](https://github.com/sinlov/gh-conventional-kit/commit/05afe470b8f723200e6cd7be893028527542849e))
+
+* bump codecov/codecov-action from 4.6.0 to 5.0.7 ([32270e83](https://github.com/sinlov/gh-conventional-kit/commit/32270e832ec60be1a8bed285bee529a49ec2f440))
+
 ## [1.17.1](https://github.com/sinlov/gh-conventional-kit/compare/1.17.0...v1.17.1) (2024-11-25)
 
 ### 🐛 Bug Fixes
