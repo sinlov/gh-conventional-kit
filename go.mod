@@ -13,7 +13,7 @@ require (
 	github.com/sebdah/goldie/v2 v2.7.1
 	github.com/sinlov-go/badges v1.4.0
 	github.com/sinlov-go/go-git-tools v1.14.0
-	github.com/stretchr/testify v1.10.0
+	github.com/stretchr/testify v1.11.1
 	github.com/urfave/cli/v2 v2.27.6
 )
 
