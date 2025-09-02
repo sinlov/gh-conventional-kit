@@ -9,7 +9,7 @@ require (
 	github.com/aymerick/raymond v2.0.2+incompatible
 	github.com/bar-counter/slog v1.4.1
 	github.com/chainguard-dev/git-urls v1.0.2
-	github.com/gookit/color v1.5.4
+	github.com/gookit/color v1.6.0
 	github.com/sebdah/goldie/v2 v2.7.1
 	github.com/sinlov-go/badges v1.4.0
 	github.com/sinlov-go/go-git-tools v1.14.0
