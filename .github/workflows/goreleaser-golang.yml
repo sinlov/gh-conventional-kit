@@ -78,7 +78,7 @@ jobs:
           echo "inputs.go_build_id: ${{ inputs.go_build_id }}"
           echo "inputs.goreleaser-build-timeout-minutes: ${{ inputs.goreleaser-build-timeout-minutes }}"
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set up Go SDK
         uses: actions/setup-go@v5
         with:
