@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [convention-change-log](https://github.com/convention-change/convention-change-log) for commit guidelines.
 
+## [1.18.1](https://github.com/sinlov/gh-conventional-kit/compare/v1.18.0...v1.18.1) (2025-10-31)
+
+### 📝 Documentation
+
+* update commit message formatting instructions ([1f72fa2e](https://github.com/sinlov/gh-conventional-kit/commit/1f72fa2e3e89b1d1d53e7c6a05d77f524ff046ae))
+
+### 👷‍ Build System
+
+* bump codecov/codecov-action from 5.5.0 to 5.5.1 ([8708c50f](https://github.com/sinlov/gh-conventional-kit/commit/8708c50f1a3c21fe4f32d9ab9f60fbae81dea2cb))
+
+* bump github.com/stretchr/testify from 1.10.0 to 1.11.1 ([42566021](https://github.com/sinlov/gh-conventional-kit/commit/425660210558c43677d9fa799cab0a171e4fbe11))
+
+* bump github.com/gookit/color from 1.5.4 to 1.6.0 ([a554427c](https://github.com/sinlov/gh-conventional-kit/commit/a554427cd576fad1eb4144eda026f4ee5e554bd4))
+
+* bump codecov/codecov-action from 5.4.3 to 5.5.0 ([90ae91ef](https://github.com/sinlov/gh-conventional-kit/commit/90ae91ef3546018b6b0b910978f96dc4d1a82516))
+
+* bump github.com/sebdah/goldie/v2 from 2.5.5 to 2.7.1 ([ae32780d](https://github.com/sinlov/gh-conventional-kit/commit/ae32780dbf2c84397ad1ceaae7757ad70fb56c7f))
+
 ## [1.18.0](https://github.com/sinlov/gh-conventional-kit/compare/v1.17.1...v1.18.0) (2025-07-30)
 
 ### ✨ Features
