@@ -8,14 +8,14 @@ Each commit message should have at least two bullet points:
 3. Explain the reason for each file change.
 4. Standard commit message format: <type>(<scope>): <description>
 5. The type can be one of the following: feat, fix, docs, style, refactor, test, chore, perf, build, revert, ci, deps.
-6. feat – for adding a new feature;
-7. fix – for fixing a bug;
-8. docs – for documentation changes;
-9. style – for code style changes (formatting, missing semicolons, etc.);
-10. refactor – for code refactoring without changing functionality;
-11. test – for adding or updating tests;
-12. chore – for maintenance tasks (updating build scripts, etc.);
-13. perf – for performance improvements.
+6. feat - for adding a new feature;
+7. fix - for fixing a bug;
+8. docs - for documentation changes;
+9. style - for code style changes (formatting, missing semicolons, etc.);
+10. refactor - for code refactoring without changing functionality;
+11. test - for adding or updating tests;
+12. chore - for maintenance tasks (updating build scripts, etc.);
+13. perf - for performance improvements.
 14. If possible, explain the details about the changes in commit body.
 15. The commit message should be a brief summary of the changes followed by a blank line and a more detailed explanation.
 16. The detailed explanation should be presented in the form of paragraphs or multiple paragraphs, and use `-` as the beginning before the paragraph.
