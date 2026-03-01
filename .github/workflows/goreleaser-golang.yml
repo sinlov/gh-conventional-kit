@@ -172,7 +172,7 @@ jobs:
           # GORELEASER_KEY: ${{ secrets.GORELEASER_KEY }}
 
       - name: upload-artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: ${{ inputs.upload_artifact_name != null || ! inputs.dry_run }}
         with:
           name: ${{ inputs.upload_artifact_name }}-${{ inputs.version_name }}-${{ github.run_id }}-${{ github.run_attempt }}
