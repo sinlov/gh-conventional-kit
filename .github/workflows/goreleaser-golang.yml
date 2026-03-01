@@ -87,7 +87,7 @@ jobs:
 
       -
         name: version GoReleaser
-        uses: goreleaser/goreleaser-action@v6
+        uses: goreleaser/goreleaser-action@v7
         with:
           # either 'goreleaser' (default) or 'goreleaser-pro'
           distribution: goreleaser
@@ -97,7 +97,7 @@ jobs:
 
       -
         name: healthcheck GoReleaser
-        uses: goreleaser/goreleaser-action@v6
+        uses: goreleaser/goreleaser-action@v7
         with:
           # either 'goreleaser' (default) or 'goreleaser-pro'
           distribution: goreleaser
@@ -107,7 +107,7 @@ jobs:
 
       -
         name: check GoReleaser
-        uses: goreleaser/goreleaser-action@v6
+        uses: goreleaser/goreleaser-action@v7
         with:
           # either 'goreleaser' (default) or 'goreleaser-pro'
           distribution: goreleaser
@@ -117,7 +117,7 @@ jobs:
 
       -
         name: DryRun build GoReleaser
-        uses: goreleaser/goreleaser-action@v6
+        uses: goreleaser/goreleaser-action@v7
         if: ${{ inputs.dry_run }}
         with:
           # either 'goreleaser' (default) or 'goreleaser-pro'
@@ -128,7 +128,7 @@ jobs:
 
       -
         name: DryRun release GoReleaser
-        uses: goreleaser/goreleaser-action@v6
+        uses: goreleaser/goreleaser-action@v7
         if: ${{ inputs.dry_run }}
         with:
           # either 'goreleaser' (default) or 'goreleaser-pro'
@@ -143,7 +143,7 @@ jobs:
 
       -
         name: build GoReleaser
-        uses: goreleaser/goreleaser-action@v6
+        uses: goreleaser/goreleaser-action@v7
         if: ${{ ! inputs.dry_run }}
         with:
           # either 'goreleaser' (default) or 'goreleaser-pro'
@@ -158,7 +158,7 @@ jobs:
 
       -
         name: release GoReleaser
-        uses: goreleaser/goreleaser-action@v6
+        uses: goreleaser/goreleaser-action@v7
         if: ${{ ! inputs.dry_run }}
         with:
           # either 'goreleaser' (default) or 'goreleaser-pro'
