@@ -2,8 +2,9 @@ package version_check
 
 import (
 	"fmt"
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestSemverVersionMinimumSupport(t *testing.T) {
@@ -47,7 +48,7 @@ func TestSemverVersionMinimumSupport(t *testing.T) {
 				version:     "1.0.0",
 				lessVersion: "Semantic Versioning",
 			},
-			wantErr: fmt.Errorf("can not parse less version: Semantic Versioning err: improper constraint: >= Semantic Versioning"),
+			wantErr: fmt.Errorf("can not parse less version: Semantic Versioning err: improper constraint: \">= Semantic Versioning\""),
 		},
 		{
 			name: "less",
@@ -55,7 +56,7 @@ func TestSemverVersionMinimumSupport(t *testing.T) {
 				version:     "1.0.0",
 				lessVersion: "2.0.0",
 			},
-			wantErr: fmt.Errorf("semver version: 1.0.0 not support, err: [1.0.0 is less than 2.0.0]"),
+			wantErr: fmt.Errorf("semver version: 1.0.0 not support, err: [\"1.0.0\" is less than \"2.0.0\"]"),
 		},
 		{
 			name: "equal",
@@ -142,7 +143,7 @@ func TestSemverVersionConstraint(t *testing.T) {
 				minimumVersion: "Semantic Versioning",
 				maximumVersion: "2.0.0",
 			},
-			wantErr: fmt.Errorf("can not parse constraint: <= 2.0.0, >= Semantic Versioning err: improper constraint: <= 2.0.0, >= Semantic Versioning"),
+			wantErr: fmt.Errorf("can not parse constraint: <= 2.0.0, >= Semantic Versioning err: improper constraint: \"<= 2.0.0, >= Semantic Versioning\""),
 		},
 		{
 			name: "not support maximumVersion",
@@ -151,7 +152,7 @@ func TestSemverVersionConstraint(t *testing.T) {
 				minimumVersion: "1.0.0",
 				maximumVersion: "Semantic Versioning",
 			},
-			wantErr: fmt.Errorf("can not parse constraint: <= Semantic Versioning, >= 1.0.0 err: improper constraint: <= Semantic Versioning, >= 1.0.0"),
+			wantErr: fmt.Errorf("can not parse constraint: <= Semantic Versioning, >= 1.0.0 err: improper constraint: \"<= Semantic Versioning, >= 1.0.0\""),
 		},
 		{
 			name: "less",
@@ -160,7 +161,7 @@ func TestSemverVersionConstraint(t *testing.T) {
 				minimumVersion: "2.0.0",
 				maximumVersion: "3.0.0",
 			},
-			wantErr: fmt.Errorf("semver version: 1.0.0 not support, err: [1.0.0 is less than 2.0.0]"),
+			wantErr: fmt.Errorf("semver version: 1.0.0 not support, err: [\"1.0.0\" is less than \"2.0.0\"]"),
 		},
 		{
 			name: "constraint",
@@ -177,7 +178,7 @@ func TestSemverVersionConstraint(t *testing.T) {
 				minimumVersion: "1.0.0",
 				maximumVersion: "2.0.0",
 			},
-			wantErr: fmt.Errorf("semver version: 2.1.1 not support, err: [2.1.1 is greater than 2.0.0]"),
+			wantErr: fmt.Errorf("semver version: 2.1.1 not support, err: [\"2.1.1\" is greater than \"2.0.0\"]"),
 		},
 	}
 	for _, tc := range tests {
