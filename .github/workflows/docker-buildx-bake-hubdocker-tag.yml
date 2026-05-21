@@ -190,17 +190,7 @@ jobs:
       - name: Extract container image digest from bake output
         id: bake-output-container-image-digest
         run: |
-          jq '
-            def scrub:
-              if type == "object" then
-                with_entries(select(.key != "buildx.build.provenance") | .value |= scrub)
-              elif type == "array" then
-                map(scrub)
-              else
-                .
-              end;
-            scrub
-          ' "${{ steps.meta.outputs.bake-file }}" | jq -cr '.["${{ inputs.docker_bake_targets }}"]["containerimage.digest"]')" >>$GITHUB_OUTPUT
+          jq '.' "${{ runner.temp }}/${{ inputs.docker_bake_targets }}/bake-meta.json" | jq -cr '.["${{ inputs.docker_bake_targets }}"]["containerimage.digest"]' >>$GITHUB_OUTPUT
 
       -
         name: Export digest
